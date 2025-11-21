@@ -5,9 +5,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Lightbulb, Book, Star, AlertCircle, TrendingUp } from "lucide-react";
-import greyHeronImage from "@assets/generated_images/grey_heron_species_photo.png";
-import paintedStorkImage from "@assets/generated_images/painted_stork_species_photo.png";
-import pelican from "@assets/generated_images/spot-billed_pelican_species_photo.png";
+import greyHeronImage from "@assets/generated_images/grey_heron_standing_by_water.png";
+import paintedStorkImage from "@assets/generated_images/painted_stork_with_distinctive_plumage.png";
+import pelican from "@assets/generated_images/spot-billed_pelican_with_distinctive_bill.png";
+import ibisImage from "@assets/generated_images/black-headed_ibis_in_natural_habitat.png";
 
 const birdEducation = [
   {
@@ -98,6 +99,36 @@ const birdEducation = [
       "Watch for their synchronized diving behavior",
       "Often seen resting on rocks and sand banks",
       "Early morning is best for photography",
+    ],
+  },
+  {
+    id: 4,
+    name: "Black-headed Ibis",
+    image: ibisImage,
+    basicInfo: {
+      size: "65-76 cm",
+      weight: "1.5 kg",
+      lifespan: "15-20 years",
+      diet: "Fish, frogs, snails",
+    },
+    facts: [
+      "Most observed species at Vedanthangal Bird Sanctuary with 80 sightings",
+      "Distinctive black head and white body plumage makes them easily recognizable",
+      "Use their long curved bills to probe shallow water for food",
+      "Often seen in flocks, especially during migration season",
+    ],
+    astonishingFacts: [
+      "They are specialist hunters - their curved bills are perfectly designed for specific prey",
+      "Can fly up to 50 km in a single day during migration",
+      "Their black head coloration gets darker and more vibrant during breeding season",
+      "They perform synchronized feeding dances to find food in murky water",
+    ],
+    conservation: "Least Concern - But declining in some regions",
+    birdwatchingTips: [
+      "Best spotted from October to March during migration season",
+      "Look for them in shallow wetlands and marshes at Vedanthangal",
+      "Watch for their feeding behavior - they often feed in groups",
+      "Listen for their soft croaking calls during breeding season",
     ],
   },
 ];
