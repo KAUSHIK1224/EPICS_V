@@ -59,85 +59,71 @@ export default function Explore() {
   }, []);
 
   const fetchNearbyBirds = async (lat: number, lon: number) => {
+    // Demo data as fallback
+    const demoData: NearbyBird[] = [
+      {
+        id: "1",
+        commonName: "Grey Heron",
+        scientificName: "Ardea cinerea",
+        location: "North Wetland",
+        distance: 1.2,
+        temperature: 28,
+        humidity: 65,
+        weatherCondition: "Partly Cloudy",
+        date: new Date().toLocaleDateString(),
+      },
+      {
+        id: "2",
+        commonName: "Painted Stork",
+        scientificName: "Mycteria leucocephala",
+        location: "Central Sanctuary",
+        distance: 2.5,
+        temperature: 29,
+        humidity: 70,
+        weatherCondition: "Sunny",
+        date: new Date().toLocaleDateString(),
+      },
+      {
+        id: "3",
+        commonName: "Spot-billed Pelican",
+        scientificName: "Pelecanus philippensis",
+        location: "South Lake",
+        distance: 3.1,
+        temperature: 27,
+        humidity: 72,
+        weatherCondition: "Clear",
+        date: new Date().toLocaleDateString(),
+      },
+    ];
+
     try {
-      // First try to fetch existing sightings
+      // Try to fetch existing sightings
       const response = await fetch(
         `/api/sightings?latitude=${lat}&longitude=${lon}&radius=5`
       );
       const data = await response.json();
       
-      let birds = (data || []).map((sighting: any) => ({
-        id: sighting.id,
-        commonName: sighting.identifiedSpecies || "Unknown Bird",
-        scientificName: sighting.notes || "",
-        location: sighting.location || "Nearby",
-        distance: (Math.random() * 5 + 0.1).toFixed(2),
-        temperature: sighting.temperature || Math.floor(Math.random() * 10 + 25),
-        humidity: sighting.humidity || Math.floor(Math.random() * 30 + 60),
-        weatherCondition: sighting.weatherCondition || ["Sunny", "Partly Cloudy", "Clear"][Math.floor(Math.random() * 3)],
-        date: new Date(sighting.date).toLocaleDateString(),
-      }));
-
-      // If no sightings found, seed demo data
-      if (birds.length === 0) {
-        await fetch("/api/seed-demo", { method: "POST" });
-        // Fetch again after seeding
-        const retryResponse = await fetch(
-          `/api/sightings?latitude=${lat}&longitude=${lon}&radius=5`
-        );
-        const retryData = await retryResponse.json();
-        birds = (retryData || []).map((sighting: any) => ({
+      // If we got data from API, use it; otherwise use demo data
+      if (data && Array.isArray(data) && data.length > 0) {
+        const birds = data.map((sighting: any) => ({
           id: sighting.id,
           commonName: sighting.identifiedSpecies || "Unknown Bird",
           scientificName: sighting.notes || "",
           location: sighting.location || "Nearby",
-          distance: (Math.random() * 5 + 0.1).toFixed(2),
+          distance: (Math.random() * 5 + 0.1).toFixed(2) as unknown as number,
           temperature: sighting.temperature || 28,
           humidity: sighting.humidity || 68,
           weatherCondition: sighting.weatherCondition || "Sunny",
           date: new Date(sighting.date).toLocaleDateString(),
         }));
+        setNearbyBirds(birds.slice(0, 10));
+      } else {
+        // Show demo data when API returns empty
+        setNearbyBirds(demoData);
       }
-
-      setNearbyBirds(birds.slice(0, 10));
     } catch (err) {
       console.error("Failed to fetch nearby birds:", err);
       // Show demo data as fallback
-      const demoData: NearbyBird[] = [
-        {
-          id: "1",
-          commonName: "Grey Heron",
-          scientificName: "Ardea cinerea",
-          location: "North Wetland",
-          distance: 1.2,
-          temperature: 28,
-          humidity: 65,
-          weatherCondition: "Partly Cloudy",
-          date: new Date().toLocaleDateString(),
-        },
-        {
-          id: "2",
-          commonName: "Painted Stork",
-          scientificName: "Mycteria leucocephala",
-          location: "Central Sanctuary",
-          distance: 2.5,
-          temperature: 29,
-          humidity: 70,
-          weatherCondition: "Sunny",
-          date: new Date().toLocaleDateString(),
-        },
-        {
-          id: "3",
-          commonName: "Spot-billed Pelican",
-          scientificName: "Pelecanus philippensis",
-          location: "South Lake",
-          distance: 3.1,
-          temperature: 27,
-          humidity: 72,
-          weatherCondition: "Clear",
-          date: new Date().toLocaleDateString(),
-        },
-      ];
       setNearbyBirds(demoData);
     }
   };
