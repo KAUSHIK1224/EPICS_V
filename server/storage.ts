@@ -289,28 +289,41 @@ export class DbStorage implements IStorage {
   // Observations (Geo-location based)
   async getNearbyObservations(latitude: number, longitude: number, radiusKm: number): Promise<Sighting[]> {
     const radiusInDegrees = radiusKm / 111;
-    return await db
-      .select()
-      .from(sightings)
-      .where(
-        and(
-          gte(sightings.latitude, latitude - radiusInDegrees),
-          lte(sightings.latitude, latitude + radiusInDegrees),
-          gte(sightings.longitude, longitude - radiusInDegrees),
-          lte(sightings.longitude, longitude + radiusInDegrees)
+    try {
+      const result = await db
+        .select()
+        .from(sightings)
+        .where(
+          and(
+            gte(sightings.latitude, latitude - radiusInDegrees),
+            lte(sightings.latitude, latitude + radiusInDegrees),
+            gte(sightings.longitude, longitude - radiusInDegrees),
+            lte(sightings.longitude, longitude + radiusInDegrees)
+          )
         )
-      )
-      .orderBy(sql`${sightings.date} DESC`);
+        .limit(100);
+      return result || [];
+    } catch (error) {
+      console.error("Error fetching nearby observations:", error);
+      return [];
+    }
   }
 
   // Search
   async searchSpecies(query: string): Promise<Species[]> {
-    return await db
-      .select()
-      .from(species)
-      .where(
-        sql`${species.commonName} ILIKE ${'%' + query + '%'} OR ${species.scientificName} ILIKE ${'%' + query + '%'} OR ${species.tamilName} ILIKE ${'%' + query + '%'}`
+    try {
+      const lowerQuery = query.toLowerCase();
+      const result = await db.select().from(species).limit(50);
+      return result.filter(
+        (s) =>
+          s.commonName?.toLowerCase().includes(lowerQuery) ||
+          s.scientificName?.toLowerCase().includes(lowerQuery) ||
+          s.tamilName?.toLowerCase().includes(lowerQuery)
       );
+    } catch (error) {
+      console.error("Error searching species:", error);
+      return [];
+    }
   }
 }
 

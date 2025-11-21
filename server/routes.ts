@@ -36,24 +36,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // ========== SIGHTINGS API ==========
   app.get("/api/sightings", async (req, res) => {
-    const { userId, latitude, longitude, radius } = req.query;
-    
-    if (userId) {
-      const sightings = await storage.getSightingsByUser(userId as string);
-      return res.json(sightings);
-    }
-
-    if (latitude && longitude && radius) {
-      const lat = parseFloat(latitude as string);
-      const lon = parseFloat(longitude as string);
-      const radiusKm = parseFloat(radius as string);
+    try {
+      const { userId, latitude, longitude, radius } = req.query;
       
-      const nearBySightings = await storage.getNearbyObservations(lat, lon, radiusKm);
-      return res.json(nearBySightings);
-    }
+      if (userId) {
+        const sightings = await storage.getSightingsByUser(userId as string);
+        return res.json(sightings || []);
+      }
 
-    const allSightings = await storage.getAllSightings();
-    res.json(allSightings);
+      if (latitude && longitude && radius) {
+        const lat = parseFloat(latitude as string);
+        const lon = parseFloat(longitude as string);
+        const radiusKm = parseFloat(radius as string);
+        
+        if (isNaN(lat) || isNaN(lon) || isNaN(radiusKm)) {
+          return res.status(400).json({ error: "Invalid coordinates" });
+        }
+        
+        const nearBySightings = await storage.getNearbyObservations(lat, lon, radiusKm);
+        return res.json(nearBySightings || []);
+      }
+
+      const allSightings = await storage.getAllSightings();
+      res.json(allSightings || []);
+    } catch (error) {
+      console.error("Error fetching sightings:", error);
+      res.status(500).json({ error: "Failed to fetch sightings", data: [] });
+    }
   });
 
   app.get("/api/sightings/:id", async (req, res) => {
