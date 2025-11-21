@@ -166,11 +166,9 @@ export default function AwarenessHub() {
               data-testid={`card-bird-select-${b.id}`}
             >
               <CardContent className="pt-4">
-                <img
-                  src={b.image}
-                  alt={b.name}
-                  className="w-full h-40 object-cover rounded-md mb-3"
-                />
+                <div style={{ height: "260px", width: "100%", overflow: "hidden", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <img src={b.image} alt={b.name} style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }} />
+                </div>
                 <h3 className="font-semibold text-center" data-testid={`text-bird-card-${b.id}`}>
                   {b.name}
                 </h3>
