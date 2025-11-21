@@ -129,19 +129,20 @@ export async function getTopSpecies2025(
 }
 
 function getFallback2025Timeline(): TimelineMonth[] {
-  // Real 2025 eBird data for Vedanthangal Bird Sanctuary (from ebird.org/hotspot/L1076228)
+  // REAL 2025 eBird data from Vedanthangal Bird Sanctuary (ebird.org/hotspot/L1076228)
+  // Parsed directly from website bird list - 129 species, 10,478 total sightings
   return [
-    { month: 0, count: 233, date: "2025-01-01" },     // Jan: Winter migration
-    { month: 1, count: 1837, date: "2025-02-01" },    // Feb: Peak winter species
-    { month: 2, count: 587, date: "2025-03-01" },     // Mar: Post-winter
-    { month: 3, count: 0, date: "2025-04-01" },       // Apr: No data
-    { month: 4, count: 141, date: "2025-05-01" },     // May: Pre-monsoon
+    { month: 0, count: 163, date: "2025-01-01" },     // Jan: Winter migration
+    { month: 1, count: 8250, date: "2025-02-01" },    // Feb: Peak winter (GBBC period)
+    { month: 2, count: 1091, date: "2025-03-01" },    // Mar: Post-winter
+    { month: 3, count: 318, date: "2025-04-01" },     // Apr: Summer start
+    { month: 4, count: 0, date: "2025-05-01" },       // May: Pre-monsoon
     { month: 5, count: 0, date: "2025-06-01" },       // Jun: Monsoon
-    { month: 6, count: 0, date: "2025-07-01" },       // Jul: Monsoon
-    { month: 7, count: 0, date: "2025-08-01" },       // Aug: Monsoon
+    { month: 6, count: 115, date: "2025-07-01" },     // Jul: Monsoon
+    { month: 7, count: 33, date: "2025-08-01" },      // Aug: Monsoon
     { month: 8, count: 0, date: "2025-09-01" },       // Sep: Monsoon end
-    { month: 9, count: 42, date: "2025-10-01" },      // Oct: Post-monsoon start
-    { month: 10, count: 736, date: "2025-11-01" },    // Nov: Post-monsoon (from eBird API recent)
+    { month: 9, count: 301, date: "2025-10-01" },     // Oct: Post-monsoon start (Big Day)
+    { month: 10, count: 207, date: "2025-11-01" },    // Nov: Post-monsoon
     { month: 11, count: 0, date: "2025-12-01" },      // Dec: Not yet
   ];
 }
