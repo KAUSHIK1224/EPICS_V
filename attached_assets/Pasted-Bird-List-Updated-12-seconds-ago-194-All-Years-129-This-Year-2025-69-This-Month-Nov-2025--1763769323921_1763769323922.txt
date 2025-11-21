@@ -1,0 +1,1452 @@
+Bird List
+Updated ~12 seconds ago
+194
+All Years
+129
+This Year
+2025
+69
+This Month
+Nov 2025
+Last Observed
+First Observed
+High Count
+Custom Time Period
+Change Time Period
+Event 
+Month 
+Time Period 
+Set Month
+Show details
+Species Name
+Count
+Date
+Observer
+Location
+Native and Naturalized (129)
+Western Marsh Harrier
+Circus aeruginosus
+Count:
+3
+Date:
+2 Jan 2025
+Observer:
+Raymond Nojek
+Location:
+Vedanthangal Bird Sanctuary
+Spotted Owlet
+Athene brama
+Count:
+6
+Date:
+4 Jan 2025
+Observer:
+Padma Perez
+Location:
+Vedanthangal Bird Sanctuary
+Asian Palm Swift
+Cypsiurus balasiensis
+Count:
+30
+Date:
+18 Jan 2025
+Observer:
+Marimuthu Kandasamy
+Location:
+Vedanthangal Bird Sanctuary
+Little Tern
+Sternula albifrons
+Count:
+5
+Date:
+18 Jan 2025
+Observer:
+Marimuthu Kandasamy
+Location:
+Vedanthangal Bird Sanctuary
+Indian Roller
+Coracias benghalensis
+Count:
+6
+Date:
+18 Jan 2025
+Observer:
+Marimuthu Kandasamy
+Location:
+Vedanthangal Bird Sanctuary
+Oriental Skylark
+Alauda gulgula
+Count:
+3
+Date:
+18 Jan 2025
+Observer:
+Marimuthu Kandasamy
+Location:
+Vedanthangal Bird Sanctuary
+Scaly-breasted Munia
+Lonchura punctulata
+Count:
+25
+Date:
+18 Jan 2025
+Observer:
+Marimuthu Kandasamy
+Location:
+Vedanthangal Bird Sanctuary
+Tricolored Munia
+Lonchura malacca
+Count:
+50
+Date:
+18 Jan 2025
+Observer:
+Marimuthu Kandasamy
+Location:
+Vedanthangal Bird Sanctuary
+Northern Shoveler
+Spatula clypeata
+Count:
+30
+Date:
+20 Jan 2025
+Observer:
+Padma Perez
+Location:
+Vedanthangal Bird Sanctuary
+Black-rumped Flameback
+Dinopium benghalense
+Count:
+5
+Date:
+20 Jan 2025
+Observer:
+Padma Perez
+Location:
+Vedanthangal Bird Sanctuary
+Great Cormorant
+Phalacrocorax carbo
+Count:
+20
+Date:
+1 Feb 2025
+Observer:
+Pramod Padmanabhan
+Location:
+Vedanthangal Bird Sanctuary
+Green-winged Teal
+Anas crecca
+Count:
+2
+Date:
+2 Feb 2025
+Observer:
+James Kagan
+Location:
+Vedanthangal Bird Sanctuary
+Garganey
+Spatula querquedula
+Count:
+80
+Date:
+9 Feb 2025
+Observer:
+Subbiah Rajagopal
+Location:
+Vedanthangal Bird Sanctuary
+Asian Openbill
+Anastomus oscitans
+Count:
+1000
+Date:
+9 Feb 2025
+Observer:
+Subbiah Rajagopal
+Location:
+Vedanthangal Bird Sanctuary
+Little Cormorant
+Microcarbo niger
+Count:
+1200
+Date:
+9 Feb 2025
+Observer:
+Subbiah Rajagopal
+Location:
+Vedanthangal Bird Sanctuary
+Glossy Ibis
+Plegadis falcinellus
+Count:
+1500
+Date:
+9 Feb 2025
+Observer:
+Subbiah Rajagopal
+Location:
+Vedanthangal Bird Sanctuary
+Black-headed Ibis
+Threskiornis melanocephalus
+Count:
+2000
+Date:
+9 Feb 2025
+Observer:
+Subbiah Rajagopal
+Location:
+Vedanthangal Bird Sanctuary
+Eurasian Spoonbill
+Platalea leucorodia
+Count:
+250
+Date:
+9 Feb 2025
+Observer:
+Subbiah Rajagopal
+Location:
+Vedanthangal Bird Sanctuary
+Little Egret
+Egretta garzetta
+Count:
+1500
+Date:
+9 Feb 2025
+Observer:
+Subbiah Rajagopal
+Location:
+Vedanthangal Bird Sanctuary
+Indian Pond-Heron
+Ardeola grayii
+Count:
+100
+Date:
+9 Feb 2025
+Observer:
+Subbiah Rajagopal
+Location:
+Vedanthangal Bird Sanctuary
+Eastern Cattle-Egret
+Ardea coromanda
+Count:
+500
+Date:
+9 Feb 2025
+Observer:
+Subbiah Rajagopal
+Location:
+Vedanthangal Bird Sanctuary
+Purple Heron
+Ardea purpurea
+Count:
+50
+Date:
+9 Feb 2025
+Observer:
+Subbiah Rajagopal
+Location:
+Vedanthangal Bird Sanctuary
+White-bellied Drongo
+Dicrurus caerulescens
+Count:
+1
+Date:
+15 Feb 2025
+Observer:
+Vishaal Loganathan
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+Indian Silverbill
+Euodice malabarica
+Count:
+2
+Date:
+15 Feb 2025
+Observer:
+Vishaal Loganathan
+Location:
+Vedanthangal Bird Sanctuary
+Whiskered Tern
+Chlidonias hybrida
+Count:
+3
+Date:
+15 Feb 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Medium Egret
+Ardea intermedia
+Count:
+20
+Date:
+15 Feb 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Eastern Red-rumped Swallow
+Cecropis daurica
+Count:
+11
+Date:
+15 Feb 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Green Warbler
+Phylloscopus nitidus
+Count:
+1
+Date:
+15 Feb 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Western Yellow Wagtail
+Motacilla flava
+Count:
+1
+Date:
+15 Feb 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+White-browed Bulbul
+Pycnonotus luteolus
+Count:
+5
+Date:
+16 Feb 2025
+Observer:
+Dawn Lwakila
+Location:
+Vedanthangal Bird Sanctuary
+Green Sandpiper
+Tringa ochropus
+Count:
+1
+Date:
+16 Feb 2025
+Observer:
+Aanya Prem
+Location:
+Vedanthangal Bird Sanctuary
+Clamorous Reed Warbler
+Acrocephalus stentoreus
+Count:
+1
+Date:
+16 Feb 2025
+Observer:
+Aanya Prem
+Location:
+Vedanthangal Bird Sanctuary
+Tawny-bellied Babbler
+Dumetia hyperythra
+Count:
+1
+Date:
+16 Feb 2025
+Observer:
+Aanya Prem
+Location:
+Vedanthangal Bird Sanctuary
+Laughing Dove
+Spilopelia senegalensis
+Count:
+1
+Date:
+20 Feb 2025
+Observer:
+Sheila Mathai
+Location:
+Vedanthangal Bird Sanctuary
+Asian Brown Flycatcher
+Muscicapa dauurica
+Count:
+1
+Date:
+1 Mar 2025
+Observer:
+Lakshmikanth B
+Location:
+Vedanthangal Bird Sanctuary
+Gray Francolin
+Ortygornis pondicerianus
+Count:
+3
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Gray-bellied Cuckoo
+Cacomantis passerinus
+Count:
+1
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Black Bittern
+Botaurus flavicollis
+Count:
+3
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Common Hoopoe
+Upupa epops
+Count:
+2
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Asian Green Bee-eater
+Merops orientalis
+Count:
+20
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Black-headed Cuckooshrike
+Lalage melanoptera
+Count:
+2
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Bay-backed Shrike
+Lanius vittatus
+Count:
+1
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Jerdon's Bushlark
+Plocealauda affinis
+Count:
+3
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Common Tailorbird
+Orthotomus sutorius
+Count:
+3
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Plain Prinia
+Prinia inornata
+Count:
+2
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Zitting Cisticola
+Cisticola juncidis
+Count:
+3
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Blyth's Reed Warbler
+Acrocephalus dumetorum
+Count:
+1
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Red-whiskered Bulbul
+Pycnonotus jocosus
+Count:
+2
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Brown-breasted Flycatcher
+Muscicapa muttui
+Count:
+1
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Indian Robin
+Copsychus fulicatus
+Count:
+3
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Oriental Magpie-Robin
+Copsychus saularis
+Count:
+2
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Pale-billed Flowerpecker
+Dicaeum erythrorhynchos
+Count:
+2
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Paddyfield Pipit
+Anthus rufulus
+Count:
+2
+Date:
+9 Mar 2025
+Observer:
+arun kumar
+Location:
+Vedanthangal Bird Sanctuary
+Black-headed Gull
+Chroicocephalus ridibundus
+Count:
+1
+Date:
+10 Mar 2025
+Observer:
+Manuel Espenica
+Location:
+Vedanthangal Bird Sanctuary
+Fulvous Whistling-Duck
+Dendrocygna bicolor
+Count:
+5
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Knob-billed Duck
+Sarkidiornis melanotos
+Count:
+4
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Cotton Pygmy-Goose
+Nettapus coromandelianus
+Count:
+1
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Indian Spot-billed Duck
+Anas poecilorhyncha
+Count:
+57
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Indian Peafowl
+Pavo cristatus
+Count:
+4
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Eurasian Collared-Dove
+Streptopelia decaocto
+Count:
+7
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Spotted Dove
+Spilopelia chinensis
+Count:
+23
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Eurasian Moorhen
+Gallinula chloropus
+Count:
+37
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Eurasian Coot
+Fulica atra
+Count:
+25
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Gray-headed Swamphen
+Porphyrio poliocephalus
+Count:
+42
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+White-breasted Waterhen
+Amaurornis phoenicurus
+Count:
+8
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Black-winged Stilt
+Himantopus himantopus
+Count:
+47
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Pheasant-tailed Jacana
+Hydrophasianus chirurgus
+Count:
+4
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Bronze-winged Jacana
+Metopidius indicus
+Count:
+8
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Common Sandpiper
+Actitis hypoleucos
+Count:
+7
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Great Egret
+Ardea alba
+Count:
+43
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Spot-billed Pelican
+Pelecanus philippensis
+Count:
+500
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+Osprey
+Pandion haliaetus
+Count:
+1
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Black-winged Kite
+Elanus caeruleus
+Count:
+2
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Indian Scops-Owl
+Otus bakkamoena
+Count:
+2
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Blue-tailed Bee-eater
+Merops philippinus
+Count:
+15
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Common Kingfisher
+Alcedo atthis
+Count:
+7
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Pied Kingfisher
+Ceryle rudis
+Count:
+9
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Rufous Treepie
+Dendrocitta vagabunda
+Count:
+5
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Large-billed Crow
+Corvus macrorhynchos
+Count:
+30
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Booted Warbler
+Iduna caligata
+Count:
+2
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Barn Swallow
+Hirundo rustica
+Count:
+57
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Red-vented Bulbul
+Pycnonotus cafer
+Count:
+15
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+White-browed Wagtail
+Motacilla maderaspatensis
+Count:
+6
+Date:
+15 Mar 2025
+Observer:
+Santhosini R
+Location:
+Vedanthangal Bird Sanctuary
+Red-wattled Lapwing
+Vanellus indicus
+Count:
+13
+Date:
+15 Mar 2025
+Observer:
+Drishtant Sen
+Location:
+Vedanthangal Bird Sanctuary
+Brahminy Starling
+Sturnia pagodarum
+Count:
+2
+Date:
+15 Mar 2025
+Observer:
+Drishtant Sen
+Location:
+Vedanthangal Bird Sanctuary
+Pied Avocet
+Recurvirostra avosetta
+Count:
+3
+Date:
+23 Mar 2025
+Observer:
+Shawn Dohring
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+Lesser Whistling-Duck
+Dendrocygna javanica
+Count:
+25
+Date:
+31 Mar 2025
+Observer:
+Thalirnilavan Manikandan
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+Shikra
+Tachyspiza badia
+Count:
+3
+Date:
+31 Mar 2025
+Observer:
+Thalirnilavan Manikandan
+Location:
+Vedanthangal Bird Sanctuary
+Ashy Prinia
+Prinia socialis
+Count:
+6
+Date:
+31 Mar 2025
+Observer:
+Thalirnilavan Manikandan
+Location:
+Vedanthangal Bird Sanctuary
+Pied Bushchat
+Saxicola caprata
+Count:
+2
+Date:
+31 Mar 2025
+Observer:
+Thalirnilavan Manikandan
+Location:
+Vedanthangal Bird Sanctuary
+Purple-rumped Sunbird
+Leptocoma zeylonica
+Count:
+2
+Date:
+31 Mar 2025
+Observer:
+Thalirnilavan Manikandan
+Location:
+Vedanthangal Bird Sanctuary
+Purple Sunbird
+Cinnyris asiaticus
+Count:
+4
+Date:
+31 Mar 2025
+Observer:
+Thalirnilavan Manikandan
+Location:
+Vedanthangal Bird Sanctuary
+Painted Stork
+Mycteria leucocephala
+Count:
+300
+Date:
+15 Apr 2025
+Observer:
+Bethany Clark
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+Blue-faced Malkoha
+Phaenicophaeus viridirostris
+Count:
+1
+Date:
+29 Apr 2025
+Observer:
+Narayanan Meyyappan
+Location:
+Vedanthangal Bird Sanctuary
+Pied Cuckoo
+Clamator jacobinus
+Count:
+2
+Date:
+29 Apr 2025
+Observer:
+Narayanan Meyyappan
+Location:
+Vedanthangal Bird Sanctuary
+Little Grebe
+Tachybaptus ruficollis
+Count:
+15
+Date:
+29 Apr 2025
+Observer:
+Narayanan Meyyappan
+Location:
+Vedanthangal Bird Sanctuary
+Oriental Darter
+Anhinga melanogaster
+Count:
+80
+Date:
+16 Aug 2025
+Observer:
+Priya Chinnasamy
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+Loten's Sunbird
+Cinnyris lotenius
+Count:
+1
+Date:
+16 Aug 2025
+Observer:
+Priya Chinnasamy
+Location:
+Vedanthangal Bird Sanctuary
+Black Kite
+Milvus migrans
+Count:
+1
+Date:
+23 Aug 2025
+Observer:
+Rohan Subramaniam
+Location:
+Vedanthangal Bird Sanctuary
+Indian Golden Oriole
+Oriolus kundoo
+Count:
+3
+Date:
+23 Aug 2025
+Observer:
+Rohan Subramaniam
+Location:
+Vedanthangal Bird Sanctuary
+House Crow
+Corvus splendens
+Count:
+30
+Date:
+23 Aug 2025
+Observer:
+Rohan Subramaniam
+Location:
+Vedanthangal Bird Sanctuary
+Little Heron
+Butorides atricapilla
+Count:
+5
+Date:
+25 Sep 2025
+Observer:
+Saranya R
+Location:
+Vedanthangal Bird Sanctuary
+Rose-ringed Parakeet
+Psittacula krameri
+Count:
+20
+Date:
+25 Sep 2025
+Observer:
+Saranya R
+Location:
+Vedanthangal Bird Sanctuary
+Common Iora
+Aegithina tiphia
+Count:
+1
+Date:
+25 Sep 2025
+Observer:
+Saranya R
+Location:
+Vedanthangal Bird Sanctuary
+White-throated Kingfisher
+Halcyon smyrnensis
+Count:
+6
+Date:
+28 Sep 2025
+Observer:
+John Henry
+Location:
+Vedanthangal Bird Sanctuary
+Yellow-throated Sparrow
+Gymnoris xanthocollis
+Count:
+1
+Date:
+28 Sep 2025
+Observer:
+John Henry
+Location:
+Vedanthangal Bird Sanctuary
+Gray Heron
+Ardea cinerea
+Count:
+50
+Date:
+19 Oct 2025
+Observer:
+Sundari A
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+Indian Cormorant
+Phalacrocorax fuscicollis
+Count:
+200
+Date:
+25 Oct 2025
+Observer:
+Akashram .
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+Black-crowned Night Heron
+Nycticorax nycticorax
+Count:
+50
+Date:
+25 Oct 2025
+Observer:
+Akashram .
+Location:
+Vedanthangal Bird Sanctuary
+Ashy Drongo
+Dicrurus leucophaeus
+Count:
+1
+Date:
+25 Oct 2025
+Observer:
+Akashram .
+Location:
+Vedanthangal Bird Sanctuary
+Common Hawk-Cuckoo
+Hierococcyx varius
+Count:
+3
+Date:
+3 Nov 2025
+Observer:
+Jen Bowen
+Location:
+Vedanthangal Bird Sanctuary
+Cinnamon Bittern
+Botaurus cinnamomeus
+Count:
+1
+Date:
+3 Nov 2025
+Observer:
+Jen Bowen
+Location:
+Vedanthangal Bird Sanctuary
+Indian Pitta
+Pitta brachyura
+Count:
+2
+Date:
+4 Nov 2025
+Observer:
+John Robert
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+Indian Paradise-Flycatcher
+Terpsiphone paradisi
+Count:
+2
+Date:
+4 Nov 2025
+Observer:
+John Robert
+Location:
+Vedanthangal Bird Sanctuary
+Baya Weaver
+Ploceus philippinus
+Count:
+10
+Date:
+4 Nov 2025
+Observer:
+John Robert
+Location:
+Vedanthangal Bird Sanctuary
+Watercock
+Gallicrex cinerea
+Count:
+1
+Date:
+6 Nov 2025
+Observer:
+Anvay Chati
+Location:
+Vedanthangal Bird Sanctuary
+Yellow Bittern
+Botaurus sinensis
+Count:
+1
+Date:
+9 Nov 2025
+Observer:
+Lakshmikanth B
+Location:
+Vedanthangal Bird Sanctuary
+Greater Coucal
+Centropus sinensis
+Count:
+4
+Date:
+11 Nov 2025
+Observer:
+Malathi E
+Location:
+Vedanthangal Bird Sanctuary
+Orange-headed Thrush
+Geokichla citrina
+Count:
+1
+Date:
+11 Nov 2025
+Observer:
+Malathi E
+Location:
+Vedanthangal Bird Sanctuary
+Coppersmith Barbet
+Psilopogon haemacephalus
+Count:
+5
+Date:
+15 Nov 2025
+Observer:
+Prasad Ganesan
+Location:
+Vedanthangal Bird Sanctuary
+House Sparrow
+Passer domesticus
+Count:
+1
+Date:
+15 Nov 2025
+Observer:
+Prasad Ganesan
+Location:
+Vedanthangal Bird Sanctuary
+Brown Shrike
+Lanius cristatus
+Count:
+1
+Date:
+16 Nov 2025
+Observer:
+Nandhitha Sambandan
+Location:
+Vedanthangal Bird Sanctuary
+Northern Pintail
+Anas acuta
+Count:
+20
+Date:
+16 Nov 2025
+Observer:
+Siddhanth Sivadeeban
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+Rock Pigeon
+Columba livia
+
+Count:
+50
+Date:
+20 Nov 2025
+Observer:
+Anonymous eBirder
+Location:
+Vedanthangal Bird Sanctuary
+Asian Koel
+Eudynamys scolopaceus
+Count:
+10
+Date:
+20 Nov 2025
+Observer:
+Anonymous eBirder
+Location:
+Vedanthangal Bird Sanctuary
+Wood Sandpiper
+Tringa glareola
+Count:
+15
+Date:
+20 Nov 2025
+Observer:
+Anonymous eBirder
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+Black Drongo
+Dicrurus macrocercus
+Count:
+10
+Date:
+21 Nov 2025
+Observer:
+Siddharth S
+Location:
+Vedanthangal Bird Sanctuary
+Yellow-billed Babbler
+Argya affinis
+Count:
+40
+Date:
+21 Nov 2025
+Observer:
+Siddharth S
+Location:
+Vedanthangal Bird Sanctuary
+Common Myna
+Acridotheres tristis
+Count:
+30
+Date:
+21 Nov 2025
+Observer:
+Siddharth S
+Location:
+Vedanthangal Bird Sanctuary
+Additional Taxa (12)
+francolin/spurfowl sp.
+Phasianidae sp. (francolin/spurfowl sp.)
+Count:
+X
+Date:
+4 Jan 2025
+Observer:
+Martin Pedwell
+Location:
+Vedanthangal Bird Sanctuary
+moorhen/coot/gallinule sp.
+Gallinula/Fulica/Porphyrio sp.
+Count:
+1
+Date:
+9 Jan 2025
+Observer:
+Rutugandha Bhalekar
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+duck sp.
+Anatidae (duck sp.)
+Count:
+3
+Date:
+1 Feb 2025
+Observer:
+Pramod Padmanabhan
+Location:
+Vedanthangal Bird Sanctuary
+Little/Indian Cormorant
+Microcarbo niger/Phalacrocorax fuscicollis
+Count:
+10
+Date:
+7 Mar 2025
+Observer:
+Sophia Mercy
+Location:
+Vedanthangal Bird Sanctuary
+woodpecker sp.
+Picidae sp.
+Count:
+1
+Date:
+15 Apr 2025
+Observer:
+Matthew DeGulis
+Location:
+Vedanthangal Bird Sanctuary
+sunbird sp.
+Nectariniidae sp. (sunbird sp.)
+Count:
+1
+Date:
+15 Apr 2025
+Observer:
+Matthew DeGulis
+Location:
+Vedanthangal Bird Sanctuary
+lapwing sp.
+Vanellus sp.
+Count:
+1
+Date:
+29 Apr 2025
+Observer:
+Narayanan Meyyappan
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+white egret sp.
+Egretta/Ardea sp.
+Count:
+4
+Date:
+16 Aug 2025
+Observer:
+Priya Chinnasamy
+Location:
+Vedanthangal Bird Sanctuary
+cormorant sp.
+Phalacrocoracidae sp.
+Count:
+200
+Date:
+25 Sep 2025
+Observer:
+Saranya R
+Location:
+Vedanthangal Bird Sanctuary
+coucal sp.
+Centropus sp.
+Count:
+1
+Date:
+15 Nov 2025
+Observer:
+Indu Santhosh
+Location:
+Vedanthangal Bird Sanctuary
+Show details
+Fulvous/Lesser Whistling-Duck
+Dendrocygna bicolor/javanica
+Count:
+4
+Date:
+21 Nov 2025
+Observer:
+Siddharth S
+Location:
+Vedanthangal Bird Sanctuary
+Great/Medium Egret
+Ardea alba/intermedia
+Count:
+10
+Date:
+21 Nov 2025
+Observer:
+Siddharth S
+Location:
+Vedanthangal Bird Sanctuary

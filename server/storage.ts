@@ -364,7 +364,20 @@ export class DbStorage implements IStorage {
           { name: "Little Cormorant", count: 1200, conservationStatus: 'Least Concern', lastObserved: "2025-02-09" },
           { name: "Asian Openbill", count: 1000, conservationStatus: 'Least Concern', lastObserved: "2025-02-09" },
         ],
-        rareSpecies: [],
+        rareSpecies: [
+          { name: "Painted Stork", count: 300, conservationStatus: 'Vulnerable', status: 'Rare', lastObserved: "2025-04-15" },
+          { name: "Black Bittern", count: 3, conservationStatus: 'Least Concern', status: 'Rare', lastObserved: "2025-03-09" },
+          { name: "Pied Avocet", count: 3, conservationStatus: 'Least Concern', status: 'Rare', lastObserved: "2025-03-23" },
+          { name: "Booted Warbler", count: 2, conservationStatus: 'Least Concern', status: 'Migratory', lastObserved: "2025-03-15" },
+          { name: "Osprey", count: 1, conservationStatus: 'Least Concern', status: 'Migratory', lastObserved: "2025-03-15" },
+        ],
+        rareSpecies: [
+          { name: "Painted Stork", count: 300, conservationStatus: 'Vulnerable', status: 'Rare', lastObserved: "2025-04-15" },
+          { name: "Black Bittern", count: 3, conservationStatus: 'Least Concern', status: 'Rare', lastObserved: "2025-03-09" },
+          { name: "Pied Avocet", count: 3, conservationStatus: 'Least Concern', status: 'Rare', lastObserved: "2025-03-23" },
+          { name: "Booted Warbler", count: 2, conservationStatus: 'Least Concern', status: 'Migratory', lastObserved: "2025-03-15" },
+          { name: "Osprey", count: 1, conservationStatus: 'Least Concern', status: 'Migratory', lastObserved: "2025-03-15" },
+        ],
         migrationData,
         migrationData2025: migrationData,
         seasonalData: [
