@@ -1,23 +1,6 @@
+import { eq, and } from "drizzle-orm";
 import { db } from "./db";
-import { eq, and, sql, lt, gt, lte, gte } from "drizzle-orm";
-import { get2025Timeline, getTopSpecies2025, calculateTotal2025 } from "./ebird";
-import * as bcrypt from "bcryptjs";
 import {
-  type User,
-  type InsertUser,
-  type Species,
-  type InsertSpecies,
-  type Sighting,
-  type InsertSighting,
-  type Achievement,
-  type InsertAchievement,
-  type LearningModule,
-  type InsertLearningModule,
-  type UserProgress,
-  type CommunityPost,
-  type InsertCommunityPost,
-  type SanctuaryHotspot,
-  type InsertHotspot,
   users,
   species,
   sightings,
@@ -25,18 +8,30 @@ import {
   userAchievements,
   learningModules,
   userProgress,
-  communityPosts,
-  sanctuaryHotspots,
 } from "@shared/schema";
+import type {
+  User,
+  InsertUser,
+  Species,
+  InsertSpecies,
+  Sighting,
+  InsertSighting,
+  Achievement,
+  InsertAchievement,
+  LearningModule,
+  InsertLearningModule,
+  UserProgress,
+} from "@shared/schema";
+import bcrypt from "bcryptjs";
+import { get2025Timeline, getTopSpecies2025, calculateTotal2025 } from "./ebird";
 
-export interface IStorage {
-  // Users
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
+interface IStorage {
+  // Auth
+  createUser(userData: InsertUser): Promise<User>;
   getUserByEmail(email: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
-  updateUserPoints(userId: string, points: number): Promise<void>;
-  verifyPassword(plainPassword: string, hashedPassword: string): Promise<boolean>;
+  getUserById(id: string): Promise<User | undefined>;
+  updateUser(id: string, updates: Partial<User>): Promise<User | undefined>;
+  comparePassword(plainPassword: string, hashedPassword: string): Promise<boolean>;
 
   // Species
   getAllSpecies(): Promise<Species[]>;
@@ -51,66 +46,21 @@ export interface IStorage {
   getSighting(id: string): Promise<Sighting | undefined>;
   createSighting(sightingData: InsertSighting): Promise<Sighting>;
   updateSighting(id: string, updates: Partial<Sighting>): Promise<Sighting | undefined>;
-  
-  // Achievements
-  getAllAchievements(): Promise<Achievement[]>;
-  getUserAchievements(userId: string): Promise<Achievement[]>;
-  createAchievement(achievementData: InsertAchievement): Promise<Achievement>;
-  awardAchievement(userId: string, achievementId: string): Promise<void>;
-  
-  // Learning Modules
-  getAllLearningModules(): Promise<LearningModule[]>;
-  getLearningModule(id: string): Promise<LearningModule | undefined>;
-  createLearningModule(moduleData: InsertLearningModule): Promise<LearningModule>;
-  getUserProgress(userId: string): Promise<UserProgress[]>;
-  updateUserProgress(userId: string, moduleId: string, completed: boolean): Promise<void>;
 
-  // Community Features
-  getAllCommunityPosts(): Promise<CommunityPost[]>;
-  getUserPosts(userId: string): Promise<CommunityPost[]>;
-  getCommunityPost(id: string): Promise<CommunityPost | undefined>;
-  createCommunityPost(postData: InsertCommunityPost): Promise<CommunityPost>;
-  likePost(postId: string): Promise<void>;
-
-  // Hotspots
-  getAllHotspots(): Promise<SanctuaryHotspot[]>;
-  
   // Analytics
-  getAnalytics(): Promise<{
-    totalSpecies: number;
-    totalSightings: number;
-    topSpecies: Array<{ name: string; count: number; conservationStatus: string }>;
-    rareSpecies?: Array<{ name: string; count: number; conservationStatus: string; status?: string }>;
-    migrationData: Array<{ month: string; count: number }>;
-    migrationData2025: Array<{ month: string; count: number }>;
-    seasonalData: Array<{ season: string; count: number }>;
-    statusDistribution?: Array<{ name: string; value: number }>;
-  }>;
-  getTimelineByYear(year: number): Promise<{
-    year: number;
-    monthly: number[];
-    total: number;
-  }>;
-  getNearbyHotspots(latitude: number, longitude: number, radiusKm: number): Promise<SanctuaryHotspot[]>;
-  createHotspot(hotspotData: InsertHotspot): Promise<SanctuaryHotspot>;
-
-  // Observations (Geo-location based)
-  getNearbyObservations(latitude: number, longitude: number, radiusKm: number): Promise<Sighting[]>;
-
-  // Search
+  getAnalytics(): Promise<any>;
+  getTimelineByYear(year: number): Promise<any>;
   searchSpecies(query: string): Promise<Species[]>;
 }
 
 export class DbStorage implements IStorage {
-  // Users
-  async getUser(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user;
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user;
+  // Auth
+  async createUser(userData: InsertUser): Promise<User> {
+    if (userData.password) {
+      userData.password = await bcrypt.hash(userData.password, 10);
+    }
+    const [newUser] = await db.insert(users).values(userData).returning();
+    return newUser;
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
@@ -118,20 +68,20 @@ export class DbStorage implements IStorage {
     return user;
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const hashedPassword = await bcrypt.hash(insertUser.password, 10);
-    const [user] = await db
-      .insert(users)
-      .values({ ...insertUser, password: hashedPassword })
-      .returning();
+  async getUserById(id: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
   }
 
-  async updateUserPoints(userId: string, points: number): Promise<void> {
-    await db.update(users).set({ points }).where(eq(users.id, userId));
+  async updateUser(id: string, updates: Partial<User>): Promise<User | undefined> {
+    if (updates.password) {
+      updates.password = await bcrypt.hash(updates.password, 10);
+    }
+    const [updated] = await db.update(users).set(updates).where(eq(users.id, id)).returning();
+    return updated;
   }
 
-  async verifyPassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
+  async comparePassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
     return await bcrypt.compare(plainPassword, hashedPassword);
   }
 
@@ -232,106 +182,11 @@ export class DbStorage implements IStorage {
     return await db.select().from(userProgress).where(eq(userProgress.userId, userId));
   }
 
-  async updateUserProgress(userId: string, moduleId: string, completed: boolean): Promise<void> {
-    const [existing] = await db
-      .select()
-      .from(userProgress)
-      .where(and(eq(userProgress.userId, userId), eq(userProgress.moduleId, moduleId)));
-
-    if (existing) {
-      await db
-        .update(userProgress)
-        .set({ completed, completedAt: completed ? new Date() : null })
-        .where(eq(userProgress.id, existing.id));
-    } else {
-      await db.insert(userProgress).values({
-        userId,
-        moduleId,
-        completed,
-        completedAt: completed ? new Date() : null,
-      });
-    }
-  }
-
-  // Community Features
-  async getAllCommunityPosts(): Promise<CommunityPost[]> {
-    return await db.select().from(communityPosts).orderBy(sql`${communityPosts.createdAt} DESC`);
-  }
-
-  async getUserPosts(userId: string): Promise<CommunityPost[]> {
-    return await db.select().from(communityPosts).where(eq(communityPosts.userId, userId)).orderBy(sql`${communityPosts.createdAt} DESC`);
-  }
-
-  async getCommunityPost(id: string): Promise<CommunityPost | undefined> {
-    const [post] = await db.select().from(communityPosts).where(eq(communityPosts.id, id));
-    return post;
-  }
-
-  async createCommunityPost(postData: InsertCommunityPost): Promise<CommunityPost> {
-    const [newPost] = await db.insert(communityPosts).values(postData).returning();
-    return newPost;
-  }
-
-  async likePost(postId: string): Promise<void> {
-    const [post] = await db.select().from(communityPosts).where(eq(communityPosts.id, postId));
-    if (post) {
-      await db.update(communityPosts).set({ likes: post.likes + 1 }).where(eq(communityPosts.id, postId));
-    }
-  }
-
-  // Hotspots
-  async getAllHotspots(): Promise<SanctuaryHotspot[]> {
-    return await db.select().from(sanctuaryHotspots);
-  }
-
-  async getNearbyHotspots(latitude: number, longitude: number, radiusKm: number): Promise<SanctuaryHotspot[]> {
-    const radiusInDegrees = radiusKm / 111;
-    return await db
-      .select()
-      .from(sanctuaryHotspots)
-      .where(
-        and(
-          gte(sanctuaryHotspots.latitude, latitude - radiusInDegrees),
-          lte(sanctuaryHotspots.latitude, latitude + radiusInDegrees),
-          gte(sanctuaryHotspots.longitude, longitude - radiusInDegrees),
-          lte(sanctuaryHotspots.longitude, longitude + radiusInDegrees)
-        )
-      );
-  }
-
-  async createHotspot(hotspotData: InsertHotspot): Promise<SanctuaryHotspot> {
-    const [newHotspot] = await db.insert(sanctuaryHotspots).values(hotspotData).returning();
-    return newHotspot;
-  }
-
-  // Observations (Geo-location based)
-  async getNearbyObservations(latitude: number, longitude: number, radiusKm: number): Promise<Sighting[]> {
-    const radiusInDegrees = radiusKm / 111;
-    try {
-      const result = await db
-        .select()
-        .from(sightings)
-        .where(
-          and(
-            gte(sightings.latitude, latitude - radiusInDegrees),
-            lte(sightings.latitude, latitude + radiusInDegrees),
-            gte(sightings.longitude, longitude - radiusInDegrees),
-            lte(sightings.longitude, longitude + radiusInDegrees)
-          )
-        )
-        .limit(100);
-      return result || [];
-    } catch (error) {
-      console.error("Error fetching nearby observations:", error);
-      return [];
-    }
-  }
-
   // Search
   async searchSpecies(query: string): Promise<Species[]> {
     try {
+      const result = await this.getAllSpecies();
       const lowerQuery = query.toLowerCase();
-      const result = await db.select().from(species).limit(50);
       return result.filter(
         (s) =>
           s.commonName?.toLowerCase().includes(lowerQuery) ||
@@ -344,7 +199,7 @@ export class DbStorage implements IStorage {
     }
   }
 
-  // Timeline by Year - fetch from database for complete year view
+  // Timeline by Year - fetch from eBird API or use fallback
   async getTimelineByYear(year: number): Promise<{
     year: number;
     monthly: number[];
@@ -490,6 +345,3 @@ export class DbStorage implements IStorage {
 }
 
 export const storage = new DbStorage();
-/*
-      if (s.speciesId) {
-          speciesSightingsMap.set(s.speciesId, (speciesSightingsMap.get(s.speciesId) || 0) + 1);
