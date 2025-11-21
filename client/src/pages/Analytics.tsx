@@ -174,7 +174,7 @@ export default function AnalyticsDashboard() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {analytics.topSpecies.map((species, idx) => (
+                {analytics.topSpecies && analytics.topSpecies.length > 0 ? analytics.topSpecies.map((species, idx) => (
                   <div
                     key={idx}
                     className="flex items-center justify-between p-3 bg-muted rounded-lg"
@@ -192,7 +192,7 @@ export default function AnalyticsDashboard() {
                     </div>
                     <Badge className="bg-blue-500">{species.count} sightings</Badge>
                   </div>
-                ))}
+                )) : <p className="text-muted-foreground">No species data available</p>}
               </div>
             </CardContent>
           </Card>
@@ -208,7 +208,7 @@ export default function AnalyticsDashboard() {
             <CardContent>
               {analytics.rareSpecies && analytics.rareSpecies.length > 0 ? (
                 <div className="space-y-3">
-                  {analytics.rareSpecies.map((species, idx) => (
+                  {analytics.rareSpecies && analytics.rareSpecies.map((species, idx) => (
                     <div
                       key={idx}
                       className="flex items-center justify-between p-3 bg-muted rounded-lg"
@@ -372,6 +372,7 @@ export default function AnalyticsDashboard() {
         )}
 
         {/* Species Bar Chart */}
+        {analytics.topSpecies && analytics.topSpecies.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle>Species Sighting Comparison</CardTitle>
@@ -411,6 +412,7 @@ export default function AnalyticsDashboard() {
             </ResponsiveContainer>
           </CardContent>
         </Card>
+        )}
 
         {/* Migration Insights */}
         <Card className="mt-8 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-950 dark:to-blue-950">

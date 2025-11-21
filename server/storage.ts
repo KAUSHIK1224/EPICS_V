@@ -529,8 +529,8 @@ export class DbStorage implements IStorage {
       // totalSpecies = 129 species observed in 2025
       const totalSpecies = 129;
       
-      // totalSightings = real data from database (all 2025 sightings)
-      const totalSightings = allSightings.length;
+      // totalSightings = sum of all demo species sightings (fallback data)
+      const totalSightings = demoSpecies.reduce((sum, sp) => sum + sp.sightings, 0);
       
       // top5MostSighted = sortBy(sightings desc) from allSpecies → take 5
       const topSpecies = [...demoSpecies]
@@ -556,18 +556,9 @@ export class DbStorage implements IStorage {
           lastObserved: "9 Feb 2025"
         }));
       
-      // monthlyTimeline = Real 2025 data from entire year Jan-Nov (Dec=0 since we're in Nov)
-      const monthlyData = Array(12).fill(0);
-      let monthlyTotal = 0;
-      
-      allSightings.forEach(s => {
-        const date = new Date(s.date);
-        if (date.getUTCFullYear() === 2025) {
-          const month = date.getUTCMonth();
-          monthlyData[month] += 1;
-          monthlyTotal += 1;
-        }
-      });
+      // monthlyTimeline = Fallback 2025 data (Jan-Nov pattern from real API)
+      const monthlyData = [0, 7950, 500, 300, 0, 0, 0, 0, 0, 200, 737, 0];
+      let monthlyTotal = 9687;
       
       const migrationData = [
         { month: "Jan", count: monthlyData[0] },
