@@ -344,48 +344,29 @@ export class DbStorage implements IStorage {
     } catch (error) {
       console.error("Error fetching analytics:", error);
       
-      // Fallback: Full year 2025 data with realistic migration patterns for Vedanthangal
-      const fullYear2025 = [
-        { month: 0, count: 120 },   // Jan: Winter migration peak
-        { month: 1, count: 100 },   // Feb: Winter species
-        { month: 2, count: 80 },    // Mar: Post-winter migrants
-        { month: 3, count: 50 },    // Apr: Summer start
-        { month: 4, count: 40 },    // May: Hot season
-        { month: 5, count: 30 },    // Jun: Monsoon
-        { month: 6, count: 35 },    // Jul: Monsoon
-        { month: 7, count: 40 },    // Aug: Monsoon
-        { month: 8, count: 45 },    // Sep: Monsoon end
-        { month: 9, count: 150 },   // Oct: Post-monsoon start
-        { month: 10, count: 180 },  // Nov: Post-monsoon peak
-        { month: 11, count: 0 },    // Dec: Not yet
-      ];
-      
-      const totalSightings2025 = fullYear2025.reduce((sum, m) => sum + m.count, 0);
+      // Fallback: Real eBird API data (past 30 days only - November 2025)
+      const ebirdTimeline = await get2025Timeline();
+      const ebirdTopSpecies = await getTopSpecies2025(5);
+      const totalSightings = calculateTotal2025(ebirdTimeline);
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       
-      const migrationData = fullYear2025.map((m, idx) => ({
-        month: months[idx],
+      const migrationData = ebirdTimeline.map(m => ({
+        month: months[m.month],
         count: m.count
       }));
       
       return {
-        totalSpecies: 5,
-        totalSightings: totalSightings2025,
-        topSpecies: [
-          { name: "Spot-billed Pelican", count: 120, conservationStatus: 'Least Concern', lastObserved: new Date().toLocaleDateString() },
-          { name: "Black-headed Ibis", count: 110, conservationStatus: 'Least Concern', lastObserved: new Date().toLocaleDateString() },
-          { name: "Asian Openbill", count: 95, conservationStatus: 'Least Concern', lastObserved: new Date().toLocaleDateString() },
-          { name: "Little Cormorant", count: 85, conservationStatus: 'Least Concern', lastObserved: new Date().toLocaleDateString() },
-          { name: "Oriental Darter", count: 80, conservationStatus: 'Least Concern', lastObserved: new Date().toLocaleDateString() },
-        ],
+        totalSpecies: ebirdTopSpecies.length,
+        totalSightings,
+        topSpecies: ebirdTopSpecies.map(sp => ({ name: sp.name, count: sp.count, conservationStatus: 'Least Concern', lastObserved: new Date().toLocaleDateString() })),
         rareSpecies: [],
         migrationData,
         migrationData2025: migrationData,
         seasonalData: [
-          { season: "Winter (Jan-Feb)", count: fullYear2025[0].count + fullYear2025[1].count },
-          { season: "Summer (Mar-May)", count: fullYear2025[2].count + fullYear2025[3].count + fullYear2025[4].count },
-          { season: "Monsoon (Jun-Sep)", count: fullYear2025[5].count + fullYear2025[6].count + fullYear2025[7].count + fullYear2025[8].count },
-          { season: "Post-monsoon (Oct-Nov)", count: fullYear2025[9].count + fullYear2025[10].count },
+          { season: "Winter (Jan-Feb)", count: (ebirdTimeline[0]?.count || 0) + (ebirdTimeline[1]?.count || 0) },
+          { season: "Summer (Mar-May)", count: (ebirdTimeline[2]?.count || 0) + (ebirdTimeline[3]?.count || 0) + (ebirdTimeline[4]?.count || 0) },
+          { season: "Monsoon (Jun-Sep)", count: (ebirdTimeline[5]?.count || 0) + (ebirdTimeline[6]?.count || 0) + (ebirdTimeline[7]?.count || 0) + (ebirdTimeline[8]?.count || 0) },
+          { season: "Post-monsoon (Oct-Nov)", count: (ebirdTimeline[9]?.count || 0) + (ebirdTimeline[10]?.count || 0) },
         ]
       };
     }
