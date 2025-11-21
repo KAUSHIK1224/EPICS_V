@@ -185,6 +185,66 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(safeUser);
   });
 
+  // ========== SEED DATA (for demo) ==========
+  app.post("/api/seed-demo", async (req, res) => {
+    try {
+      // Create demo sightings with weather data
+      const demoSightings = [
+        {
+          userId: "demo-user-1",
+          location: "North Wetland",
+          latitude: 12.5201,
+          longitude: 79.8828,
+          date: new Date(),
+          notes: "Spotted near water",
+          imageUrl: "https://example.com/bird1.jpg",
+          temperature: 28,
+          humidity: 65,
+          weatherCondition: "Partly Cloudy",
+          identifiedSpecies: "Grey Heron",
+          confidence: 0.92,
+        },
+        {
+          userId: "demo-user-2",
+          location: "Central Sanctuary",
+          latitude: 12.5205,
+          longitude: 79.8835,
+          date: new Date(),
+          notes: "In breeding season",
+          imageUrl: "https://example.com/bird2.jpg",
+          temperature: 29,
+          humidity: 70,
+          weatherCondition: "Sunny",
+          identifiedSpecies: "Painted Stork",
+          confidence: 0.95,
+        },
+        {
+          userId: "demo-user-3",
+          location: "South Lake",
+          latitude: 12.5195,
+          longitude: 79.8820,
+          date: new Date(),
+          notes: "Feeding activity",
+          imageUrl: "https://example.com/bird3.jpg",
+          temperature: 27,
+          humidity: 72,
+          weatherCondition: "Clear",
+          identifiedSpecies: "Spot-billed Pelican",
+          confidence: 0.88,
+        },
+      ];
+
+      for (const sighting of demoSightings) {
+        await storage.createSighting(sighting);
+      }
+
+      res.json({ message: "Demo data seeded successfully", count: demoSightings.length });
+    } catch (error) {
+      console.error("Error seeding demo data:", error);
+      res.status(500).json({ error: "Failed to seed data" });
+    }
+  });
+
   // ========== HEALTH CHECK ==========
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
