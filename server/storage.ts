@@ -367,6 +367,93 @@ export class DbStorage implements IStorage {
       };
     }
   }
+
+  // Seed 2025 data for full year analytics
+  async seedFullYear2025() {
+    try {
+      // Get or create system user
+      let systemUser = await this.getUserByUsername("system_admin");
+      if (!systemUser) {
+        const insertedUser = await this.createUser({
+          username: "system_admin",
+          password: "system",
+          email: "system@vedanthangal.org"
+        });
+        systemUser = insertedUser;
+      }
+
+      // Get all species
+      const allSpecies = await this.getAllSpecies();
+      if (allSpecies.length === 0) {
+        console.log("No species found, skipping seed");
+        return { success: false, message: "No species in database" };
+      }
+
+      // Define realistic sighting counts for each month (migration patterns)
+      const monthCounts = [
+        { month: 0, count: 120 },   // Jan: Winter
+        { month: 1, count: 100 },   // Feb: Winter peak
+        { month: 2, count: 80 },    // Mar: Post-winter
+        { month: 3, count: 50 },    // Apr: Summer start
+        { month: 4, count: 40 },    // May: Summer
+        { month: 5, count: 30 },    // Jun: Monsoon
+        { month: 6, count: 35 },    // Jul: Monsoon
+        { month: 7, count: 40 },    // Aug: Monsoon
+        { month: 8, count: 45 },    // Sep: Monsoon end
+        { month: 9, count: 150 },   // Oct: Post-monsoon
+        { month: 10, count: 180 },  // Nov: Post-monsoon peak
+      ];
+
+      // Insert sightings for each month
+      for (const { month, count } of monthCounts) {
+        for (let i = 0; i < count; i++) {
+          const day = Math.floor(Math.random() * 28) + 1;
+          const hour = Math.floor(Math.random() * 24);
+          const min = Math.floor(Math.random() * 60);
+          const date = new Date(2025, month, day, hour, min, 0);
+          
+          const randomSpecies = allSpecies[Math.floor(Math.random() * allSpecies.length)];
+          
+          try {
+            await this.createSighting({
+              userId: systemUser.id,
+              speciesId: randomSpecies.id,
+              location: "Vedanthangal Bird Sanctuary",
+              latitude: 12.5457666,
+              longitude: 79.8555422,
+              date,
+              notes: `${randomSpecies.commonName} sighted during ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][month]}`,
+              isPublic: true,
+              rare: Math.random() < 0.05 // 5% rare
+            });
+          } catch (e) {
+            // Continue if sighting creation fails (might be duplicate)
+          }
+        }
+      }
+
+      const finalData = await this.getTimelineByYear(2025);
+      console.log(`Seeded 2025 data: ${finalData.total} sightings across ${monthCounts.length} months`);
+      return { success: true, data: finalData };
+    } catch (error) {
+      console.error("Error seeding 2025 data:", error);
+      return { success: false, error: error };
+    }
+  }
+
+  async getUserByUsername(username: string): Promise<any> {
+    try {
+      const result = await this.db
+        .select()
+        .from(usersTable)
+        .where(sql`${usersTable.username} = ${username}`)
+        .limit(1);
+      return result[0] || null;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return null;
+    }
+  }
 }
 
 export const storage = new DbStorage();

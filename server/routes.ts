@@ -185,6 +185,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(safeUser);
   });
 
+  // ========== SEED API ==========
+  app.post("/api/seed", async (req, res) => {
+    try {
+      const result = await storage.seedFullYear2025();
+      res.json(result);
+    } catch (error) {
+      console.error("Error seeding data:", error);
+      res.status(500).json({ error: "Failed to seed data" });
+    }
+  });
+
   // ========== ANALYTICS API ==========
   app.get("/api/analytics", async (req, res) => {
     try {
