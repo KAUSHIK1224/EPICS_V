@@ -6,12 +6,12 @@ import ARViewModal from "@/components/ARViewModal";
 import BirdDetailModal from "@/components/BirdDetailModal";
 import { Button } from "@/components/ui/button";
 
-import greyHeronImage from "@assets/generated_images/grey_heron_species_photo.png";
-import paintedStorkImage from "@assets/generated_images/painted_stork_species_photo.png";
-import pelican from "@assets/generated_images/spot-billed_pelican_species_photo.png";
-import ibisImage from "@assets/generated_images/black-headed_ibis_species_photo.png";
-import openbillImage from "@assets/generated_images/asian_openbill_species_photo.png";
-import cormorantImage from "@assets/generated_images/little_cormorant_species_photo.png";
+import greyHeronImage from "@assets/generated_images/grey_heron_standing_by_water.png";
+import paintedStorkImage from "@assets/generated_images/painted_stork_with_distinctive_plumage.png";
+import pelican from "@assets/generated_images/spot-billed_pelican_with_distinctive_bill.png";
+import ibisImage from "@assets/generated_images/black-headed_ibis_in_natural_habitat.png";
+import openbillImage from "@assets/generated_images/asian_openbill_with_distinctive_bill.png";
+import cormorantImage from "@assets/generated_images/little_cormorant_in_water.png";
 
 const mockBirds: BirdCardProps[] = [
   {
@@ -65,11 +65,12 @@ const mockBirds: BirdCardProps[] = [
     scientificName: "Threskiornis melanocephalus",
     tamilName: "கரும்பட்டை இருவாச்சி",
     image: ibisImage,
-    status: "Rare",
+    status: "Most Observed",
     size: "65-76 cm",
     weight: "1.5 kg",
-    habitat: "Fish, Frogs",
-    season: "Nov-Feb",
+    habitat: "Fish, Frogs, Snails",
+    season: "Oct-Mar",
+    arModelUrl: "https://example.com/ar/ibis.glb",
     onARView: () => {},
     onDetails: () => {},
   },
