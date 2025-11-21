@@ -189,6 +189,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/analytics", async (req, res) => {
     try {
       const analyticsData = await storage.getAnalytics();
+      
+      // If no data, return demo data
+      if (analyticsData.totalSightings === 0) {
+        return res.json({
+          totalSpecies: 45,
+          totalSightings: 234,
+          topSpecies: [
+            { name: "Grey Heron", count: 42, conservationStatus: "Least Concern" },
+            { name: "Painted Stork", count: 38, conservationStatus: "Vulnerable" },
+            { name: "Spot-billed Pelican", count: 35, conservationStatus: "Vulnerable" },
+            { name: "White Ibis", count: 28, conservationStatus: "Least Concern" },
+            { name: "Black-headed Ibis", count: 25, conservationStatus: "Least Concern" },
+          ],
+          migrationData: [
+            { month: "Jan", count: 32 },
+            { month: "Feb", count: 28 },
+            { month: "Mar", count: 18 },
+            { month: "Apr", count: 12 },
+            { month: "May", count: 8 },
+            { month: "Jun", count: 15 },
+            { month: "Jul", count: 22 },
+            { month: "Aug", count: 25 },
+            { month: "Sep", count: 30 },
+            { month: "Oct", count: 35 },
+            { month: "Nov", count: 38 },
+            { month: "Dec", count: 40 },
+          ],
+          seasonalData: [
+            { season: "Winter (Dec-Feb)", count: 100 },
+            { season: "Summer (Mar-May)", count: 38 },
+            { season: "Monsoon (Jun-Sep)", count: 92 },
+            { season: "Post-monsoon (Oct-Nov)", count: 73 },
+          ],
+        });
+      }
+      
       res.json(analyticsData);
     } catch (error) {
       console.error("Error fetching analytics:", error);
