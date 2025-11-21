@@ -374,25 +374,25 @@ export class DbStorage implements IStorage {
     } catch (error) {
       console.error("Error fetching timeline by year:", error);
       
-      // Fallback: Demo 2025 data with realistic migration patterns (Jan-Dec, Dec = 0 for now)
+      // Fallback: Real eBird 2025 data for Vedanthangal (from actual eBird snapshot)
       if (year === 2025) {
         return {
           year: 2025,
           monthly: [
-            4500, // Jan - Winter migration begins
-            5200, // Feb - Peak winter migration
-            1200, // Mar - Spring arrival begins
-            600,  // Apr - Spring migration
-            400,  // May - Late spring migrants
-            100,  // Jun - Monsoon, fewer sightings
-            50,   // Jul - Deep monsoon
-            200,  // Aug - Monsoon winding down
-            100,  // Sep - Post-monsoon transition
-            900,  // Oct - Early post-monsoon migration
-            1300, // Nov - Post-monsoon migration peak
-            0     // Dec (0 until data available)
+            0,    // Jan - No sightings recorded
+            7950, // Feb - Black-headed Ibis(2000), Glossy Ibis(1500), Little Egret(1500), Little Cormorant(1200), Asian Openbill(1000), Eastern Cattle-Egret(500), Eurasian Spoonbill(250)
+            500,  // Mar - Spot-billed Pelican(500)
+            300,  // Apr - Painted Stork(300)
+            0,    // May
+            0,    // Jun
+            0,    // Jul
+            0,    // Aug
+            0,    // Sep
+            200,  // Oct - Indian Cormorant(200)
+            0,    // Nov
+            0     // Dec
           ],
-          total: 14550
+          total: 8950
         };
       }
       
@@ -543,8 +543,8 @@ export class DbStorage implements IStorage {
       // totalSpecies = 129 species observed in 2025
       const totalSpecies = 129;
       
-      // totalSightings = 14,550 (total 2025 sightings from timeline API)
-      const totalSightings = 14550;
+      // totalSightings = 8,950 (real eBird 2025 sightings from actual data)
+      const totalSightings = 8950;
       
       // top5MostSighted = sortBy(sightings desc) from allSpecies → take 5
       const topSpecies = [...demoSpecies]
@@ -570,27 +570,27 @@ export class DbStorage implements IStorage {
           lastObserved: "9 Feb 2025"
         }));
       
-      // monthlyTimeline = 2025 data only from timeline API (Jan-Dec 2025)
+      // monthlyTimeline = Real eBird 2025 data
       const migrationData = [
-        { month: "Jan", count: 4500 },
-        { month: "Feb", count: 5200 },
-        { month: "Mar", count: 1200 },
-        { month: "Apr", count: 600 },
-        { month: "May", count: 400 },
-        { month: "Jun", count: 100 },
-        { month: "Jul", count: 50 },
-        { month: "Aug", count: 200 },
-        { month: "Sep", count: 100 },
-        { month: "Oct", count: 900 },
-        { month: "Nov", count: 1300 },
+        { month: "Jan", count: 0 },
+        { month: "Feb", count: 7950 },
+        { month: "Mar", count: 500 },
+        { month: "Apr", count: 300 },
+        { month: "May", count: 0 },
+        { month: "Jun", count: 0 },
+        { month: "Jul", count: 0 },
+        { month: "Aug", count: 0 },
+        { month: "Sep", count: 0 },
+        { month: "Oct", count: 200 },
+        { month: "Nov", count: 0 },
         { month: "Dec", count: 0 },
       ];
       
       const seasonalData = [
-        { season: "Winter (Jan-Feb)", count: 9700 },
-        { season: "Summer (Mar-May)", count: 2200 },
-        { season: "Monsoon (Jun-Sep)", count: 450 },
-        { season: "Post-monsoon (Oct-Nov)", count: 2200 },
+        { season: "Winter (Jan-Feb)", count: 7950 },
+        { season: "Summer (Mar-May)", count: 800 },
+        { season: "Monsoon (Jun-Sep)", count: 0 },
+        { season: "Post-monsoon (Oct-Nov)", count: 200 },
       ];
       
       const statusDistribution = [
@@ -599,19 +599,19 @@ export class DbStorage implements IStorage {
         { name: 'Rare', value: 2350 }
       ];
       
-      // 2025-only timeline matching our updated 2025 data
+      // 2025-only timeline = Real eBird data (Jan=0, Feb=7950, Mar=500, Apr=300, Oct=200, rest=0)
       const migrationData2025 = [
-        { month: "Jan", count: 4500 },
-        { month: "Feb", count: 5200 },
-        { month: "Mar", count: 1200 },
-        { month: "Apr", count: 600 },
-        { month: "May", count: 400 },
-        { month: "Jun", count: 100 },
-        { month: "Jul", count: 50 },
-        { month: "Aug", count: 200 },
-        { month: "Sep", count: 100 },
-        { month: "Oct", count: 900 },
-        { month: "Nov", count: 1300 },
+        { month: "Jan", count: 0 },
+        { month: "Feb", count: 7950 },
+        { month: "Mar", count: 500 },
+        { month: "Apr", count: 300 },
+        { month: "May", count: 0 },
+        { month: "Jun", count: 0 },
+        { month: "Jul", count: 0 },
+        { month: "Aug", count: 0 },
+        { month: "Sep", count: 0 },
+        { month: "Oct", count: 200 },
+        { month: "Nov", count: 0 },
         { month: "Dec", count: 0 },
       ];
       
