@@ -51,12 +51,19 @@ export default function AnalyticsDashboard() {
           fetch("/api/analytics"),
           fetch("/api/analytics/timeline?year=2025")
         ]);
+        
+        if (!analyticsRes.ok || !timelineRes.ok) {
+          throw new Error(`API error: ${analyticsRes.status}, ${timelineRes.status}`);
+        }
+        
         const analyticsData = await analyticsRes.json();
         const timelineData = await timelineRes.json();
+        
         setAnalytics(analyticsData);
         setTimeline(timelineData);
       } catch (error) {
         console.error("Failed to fetch analytics:", error);
+        setLoading(false);
       } finally {
         setLoading(false);
       }
