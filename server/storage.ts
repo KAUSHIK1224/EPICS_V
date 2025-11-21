@@ -30,6 +30,7 @@ interface IStorage {
   createUser(userData: InsertUser): Promise<User>;
   getUserByEmail(email: string): Promise<User | undefined>;
   getUserById(id: string): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
   updateUser(id: string, updates: Partial<User>): Promise<User | undefined>;
   comparePassword(plainPassword: string, hashedPassword: string): Promise<boolean>;
 
@@ -51,6 +52,7 @@ interface IStorage {
   getAnalytics(): Promise<any>;
   getTimelineByYear(year: number): Promise<any>;
   searchSpecies(query: string): Promise<Species[]>;
+  seedFullYear2025(): Promise<any>;
 }
 
 export class DbStorage implements IStorage {
