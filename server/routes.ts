@@ -190,37 +190,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const analyticsData = await storage.getAnalytics();
       
-      // If no data, return eBird observed data for Vedanthangal Bird Sanctuary
+      // If no data, return eBird 2025 observed data for Vedanthangal Bird Sanctuary
       if (analyticsData.totalSightings === 0) {
         return res.json({
-          totalSpecies: 194,
-          totalSightings: 1240,
+          totalSpecies: 129,
+          totalSightings: 620,
           topSpecies: [
-            { name: "Black-headed Ibis", count: 80, conservationStatus: "Least Concern" },
-            { name: "Oriental Darter", count: 50, conservationStatus: "Least Concern" },
-            { name: "Little Cormorant", count: 50, conservationStatus: "Least Concern" },
-            { name: "Gray Heron", count: 40, conservationStatus: "Least Concern" },
-            { name: "White-throated Kingfisher", count: 4, conservationStatus: "Least Concern" },
+            { name: "Black-headed Ibis", count: 38, conservationStatus: "Least Concern" },
+            { name: "Oriental Darter", count: 28, conservationStatus: "Least Concern" },
+            { name: "Little Cormorant", count: 26, conservationStatus: "Least Concern" },
+            { name: "Gray Heron", count: 22, conservationStatus: "Least Concern" },
+            { name: "Painted Stork", count: 18, conservationStatus: "Vulnerable" },
           ],
           migrationData: [
-            { month: "Jan", count: 185 },
-            { month: "Feb", count: 168 },
-            { month: "Mar", count: 92 },
-            { month: "Apr", count: 48 },
-            { month: "May", count: 32 },
-            { month: "Jun", count: 55 },
-            { month: "Jul", count: 78 },
-            { month: "Aug", count: 95 },
-            { month: "Sep", count: 124 },
-            { month: "Oct", count: 152 },
-            { month: "Nov", count: 194 },
-            { month: "Dec", count: 185 },
+            { month: "Jan", count: 95 },
+            { month: "Feb", count: 85 },
+            { month: "Mar", count: 48 },
+            { month: "Apr", count: 28 },
+            { month: "May", count: 18 },
+            { month: "Jun", count: 32 },
+            { month: "Jul", count: 42 },
+            { month: "Aug", count: 52 },
+            { month: "Sep", count: 68 },
+            { month: "Oct", count: 82 },
+            { month: "Nov", count: 69 },
+            { month: "Dec", count: 0 },
           ],
           seasonalData: [
-            { season: "Winter (Dec-Feb)", count: 453 },
-            { season: "Summer (Mar-May)", count: 172 },
-            { season: "Monsoon (Jun-Sep)", count: 352 },
-            { season: "Post-monsoon (Oct-Nov)", count: 346 },
+            { season: "Winter (Dec-Feb)", count: 180 },
+            { season: "Summer (Mar-May)", count: 94 },
+            { season: "Monsoon (Jun-Sep)", count: 194 },
+            { season: "Post-monsoon (Oct-Nov)", count: 151 },
           ],
         });
       }
