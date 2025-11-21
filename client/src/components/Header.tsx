@@ -14,10 +14,10 @@ export default function Header() {
   const navItems = [
     { label: "Home", path: "/" },
     { label: "Species", path: "/species" },
+    { label: "Awareness", path: "/awareness" },
     { label: "Explore", path: "/explore" },
     { label: "Gallery", path: "/gallery" },
     { label: "Visit Info", path: "/visit" },
-    { label: "Location", path: "/location" },
   ];
 
   return (
