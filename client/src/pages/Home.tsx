@@ -125,6 +125,59 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Header />
       <Hero />
+
+      <section id="stats-section" className="py-16 px-4 bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-950 dark:to-green-950">
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div>
+              <h3 className="text-5xl font-bold text-primary mb-2" data-testid="text-total-species-count">129</h3>
+              <p className="text-muted-foreground font-semibold">Total Species</p>
+              <p className="text-sm text-muted-foreground mt-1">Recorded in 2025</p>
+            </div>
+            <div>
+              <h3 className="text-5xl font-bold text-blue-600 dark:text-blue-400 mb-2" data-testid="text-migratory-count">42</h3>
+              <p className="text-muted-foreground font-semibold">Migratory Species</p>
+              <p className="text-sm text-muted-foreground mt-1">Winter visitors</p>
+            </div>
+            <div>
+              <h3 className="text-5xl font-bold text-green-600 dark:text-green-400 mb-2" data-testid="text-resident-count">87</h3>
+              <p className="text-muted-foreground font-semibold">Resident Species</p>
+              <p className="text-sm text-muted-foreground mt-1">Year-round present</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="migratory-section" className="py-16 px-4">
+        <div className="container mx-auto max-w-7xl">
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-migratory-title">
+              Top Migratory Birds
+            </h2>
+            <p className="text-muted-foreground max-w-2xl" data-testid="text-migratory-subtitle">
+              These birds migrate seasonally to Vedanthangal, primarily during winter months (Oct-Mar)
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {[
+              { name: "Garganey", count: 80, date: "Feb 2025", habitat: "Shallow wetlands" },
+              { name: "Barn Swallow", count: 57, date: "Mar 2025", habitat: "Open areas" },
+              { name: "Northern Shoveler", count: 30, date: "Jan 2025", habitat: "Deep water" },
+              { name: "Lesser Whistling-Duck", count: 25, date: "Mar 2025", habitat: "Shallow ponds" },
+              { name: "Great Cormorant", count: 20, date: "Feb 2025", habitat: "Deep water" },
+              { name: "Blue-tailed Bee-eater", count: 15, date: "Mar 2025", habitat: "Open areas" },
+            ].map((bird, idx) => (
+              <div key={idx} className="border rounded-lg p-4 hover:bg-muted transition-colors" data-testid={`card-migratory-${idx}`}>
+                <h3 className="font-semibold text-lg mb-2">{bird.name}</h3>
+                <p className="text-sm text-muted-foreground mb-1">Sightings: <span className="font-bold">{bird.count}</span></p>
+                <p className="text-sm text-muted-foreground mb-1">Peak: {bird.date}</p>
+                <p className="text-sm text-muted-foreground">Habitat: {bird.habitat}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       
       <section id="species-section" className="py-16 px-4">
         <div className="container mx-auto max-w-7xl">
