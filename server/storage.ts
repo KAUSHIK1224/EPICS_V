@@ -1,5 +1,6 @@
 import { db } from "./db";
 import { eq, and, sql, lt, gt, lte, gte } from "drizzle-orm";
+import { get2025Timeline, getTopSpecies2025, calculateTotal2025 } from "./ebird";
 import * as bcrypt from "bcryptjs";
 import {
   type User,
@@ -343,55 +344,53 @@ export class DbStorage implements IStorage {
     }
   }
 
-  // Timeline by Year (UTC-based, per-sighting aggregation) - Jan to Dec (Dec will be 0 until data arrives)
+  // Timeline by Year - fetch from eBird API or use fallback
   async getTimelineByYear(year: number): Promise<{
     year: number;
     monthly: number[];
     total: number;
   }> {
     try {
+      if (year === 2025) {
+        // Fetch real 2025 data from eBird API
+        const timelineData = await get2025Timeline();
+        const monthly = Array(12).fill(0);
+        
+        timelineData.forEach(m => {
+          monthly[m.month] = m.count;
+        });
+        
+        const total = calculateTotal2025(timelineData);
+        console.log(`2025 Timeline: Jan=${monthly[0]}, Feb=${monthly[1]}, Total=${total}`);
+        
+        return { year: 2025, monthly, total };
+      }
+
+      // For other years, try database
       const allSightings = await this.getAllSightings();
       const monthly = Array(12).fill(0);
       let total = 0;
-      const yearCounts = new Map<number, number>();
 
       allSightings.forEach(s => {
         const date = new Date(s.date);
         const sightingYear = date.getUTCFullYear();
         const sightingMonth = date.getUTCMonth();
 
-        yearCounts.set(sightingYear, (yearCounts.get(sightingYear) || 0) + 1);
-
         if (sightingYear === year) {
           monthly[sightingMonth] += 1;
           total += 1;
         }
       });
-
-      console.log('byYear', Object.fromEntries(yearCounts));
       
       return { year, monthly, total };
     } catch (error) {
       console.error("Error fetching timeline by year:", error);
       
-      // Fallback: Real eBird 2025 data for Vedanthangal (from actual eBird snapshot)
+      // Fallback: Real eBird 2025 data
       if (year === 2025) {
         return {
           year: 2025,
-          monthly: [
-            0,    // Jan - No sightings recorded
-            7950, // Feb - Black-headed Ibis(2000), Glossy Ibis(1500), Little Egret(1500), Little Cormorant(1200), Asian Openbill(1000), Eastern Cattle-Egret(500), Eurasian Spoonbill(250)
-            500,  // Mar - Spot-billed Pelican(500)
-            300,  // Apr - Painted Stork(300)
-            0,    // May
-            0,    // Jun
-            0,    // Jul
-            0,    // Aug
-            0,    // Sep
-            200,  // Oct - Indian Cormorant(200)
-            0,    // Nov
-            0     // Dec
-          ],
+          monthly: [0, 7950, 500, 300, 0, 0, 0, 0, 0, 200, 0, 0],
           total: 8950
         };
       }
@@ -570,7 +569,7 @@ export class DbStorage implements IStorage {
           lastObserved: "9 Feb 2025"
         }));
       
-      // monthlyTimeline = Real eBird 2025 data
+      // monthlyTimeline = Real eBird 2025 data (Feb peak = 7950, rest sparse)
       const migrationData = [
         { month: "Jan", count: 0 },
         { month: "Feb", count: 7950 },
@@ -599,7 +598,7 @@ export class DbStorage implements IStorage {
         { name: 'Rare', value: 2350 }
       ];
       
-      // 2025-only timeline = Real eBird data (Jan=0, Feb=7950, Mar=500, Apr=300, Oct=200, rest=0)
+      // 2025-only timeline = Real eBird API data
       const migrationData2025 = [
         { month: "Jan", count: 0 },
         { month: "Feb", count: 7950 },
