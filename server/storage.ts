@@ -85,6 +85,11 @@ export interface IStorage {
     seasonalData: Array<{ season: string; count: number }>;
     statusDistribution?: Array<{ name: string; value: number }>;
   }>;
+  getTimelineByYear(year: number): Promise<{
+    year: number;
+    monthly: number[];
+    total: number;
+  }>;
   getNearbyHotspots(latitude: number, longitude: number, radiusKm: number): Promise<SanctuaryHotspot[]>;
   createHotspot(hotspotData: InsertHotspot): Promise<SanctuaryHotspot>;
 

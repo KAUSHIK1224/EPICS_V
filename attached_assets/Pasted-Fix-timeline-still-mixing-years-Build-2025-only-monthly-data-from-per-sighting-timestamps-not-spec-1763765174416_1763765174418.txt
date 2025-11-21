@@ -1,0 +1,73 @@
+Fix timeline still mixing years. Build 2025-only monthly data from per-sighting timestamps, not species counts. Remove all fallbacks.
+
+Changes (backend first):
+
+Create/modify endpoint GET /api/analytics/timeline?year=2025 that:
+
+Reads from the sightings/observations collection only (each doc has observedAt ISO/Timestamp).
+
+Filters by UTC year: new Date(observedAt).getUTCFullYear() === year.
+
+Aggregates into 12 buckets using UTC month: getUTCMonth() (0–11).
+
+Zero-fills months and returns:
+
+{ "year": 2025, "monthly": [m0..m11], "total": 8410 }
+
+
+Do NOT derive timeline from species records (sightings count × lastObservedAt). Delete/disable that path.
+
+If there are no per-sighting docs yet, return 12 zeros (don’t approximate).
+
+Add server-side unit log (temporary) to verify:
+
+Distinct years present in raw data.
+
+Count per year for debug:
+
+console.log('byYear', Object.fromEntries(groupByYearCounts));
+
+
+Remove after test.
+
+Frontend:
+3) In client/src/pages/Analytics.tsx, fetch only the new route for the timeline:
+
+const { monthly, year } = await api.get('/api/analytics/timeline?year=2025')
+
+Bind to the line chart; labels = Jan..Dec; subtitle text = Year: ${year}.
+
+If monthly length ≠ 12, pad to 12 with zeros.
+
+Remove any code that constructs timeline from species arrays (the fallback that pushes N copies of the same date).
+
+Seasonal pie (“Winter/Monsoon/etc.”) must use the same 2025 monthly array:
+
+Map months → seasons and sum from monthly. Don’t recompute from all-time data.
+
+Time & TZ correctness:
+5) Use UTC everywhere for analytics:
+
+Backend filter: getUTCFullYear(), getUTCMonth()
+
+Avoid local time skew that can push late-night entries into the next month.
+
+Acceptance checks (must pass):
+
+Timeline shows 12 points (Jan–Dec), built only from /api/analytics/timeline?year=2025.
+
+No species-based fallback in code; if no sightings exist, chart shows all zeros.
+
+Seasonal pie == grouped sum of the same 2025 monthly data (numbers add up).
+
+A server debug log byYear prints only { "2025": N } for this endpoint when tested.
+
+KPIs and Top-5 lists remain as before (all-time), with captions intact.
+
+Please:
+
+List files changed.
+
+Paste the exact line(s) where the species-fallback timeline was removed.
+
+Paste the byYear debug output after a test call.
