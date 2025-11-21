@@ -1,0 +1,139 @@
+Fix and implement push notifications & alerts for this Vedanthangal AR bird platform project. Use Firebase Cloud Messaging (FCM) for delivery and Firestore for storing tokens and preferences. Do not change core project structure or business logic — only add the notification system and the minimal UI/settings required.
+
+PROJECT REFERENCE: /mnt/data/Hidden Havens_removed (2).pdf
+
+TASKS (do them in order, commit changes, and tell me file paths and exact lines changed):
+
+Backend: add Firebase admin and endpoints
+
+Add firebase-admin (Node) to backend (or use existing Cloud Functions). Initialize with service account or application-default credentials.
+
+Create file: server/notifications.js (or functions/index.js if using Cloud Functions) exporting:
+
+saveDeviceToken(uid, token, platform) — writes to users/{uid}/tokens/{token} or users/{uid} deviceTokens array.
+
+sendToTokens(tokens, payload) — wrapper around admin.messaging().sendToDevice.
+
+broadcastNotification(payload, options) — sends to a list of tokens (for admin broadcast).
+
+sendNearbySightingNotification(sightingDoc) — logic to query users within radius (using lastKnownLocation stored in users/{uid}/location) and call sendToTokens.
+
+Implement Firestore trigger (Cloud Function) on sightings/{sid} onCreate:
+
+If sighting.rare === true or sighting.notifyNearby === true, call sendNearbySightingNotification.
+
+For rare === true also optionally send a targeted broadcast to users who subscribed to rare alerts.
+
+Database schema changes (Firestore)
+
+Add users/{uid} fields:
+
+deviceTokens: [ { token, platform, createdAt } ]
+
+notificationPreferences: { rare: true, nearby: true, events: true, weather: true, radiusMeters: 500 }
+
+lastKnownLocation: { lat, lon, timestamp }
+
+Add notifications/{nid} optional collection to record sent alerts (title, body, data, recipients, createdAt).
+
+Client (Web — React) changes
+
+Add Firebase Messaging dependency (firebase/messaging) and VAPID key config.
+
+Create service worker file public/firebase-messaging-sw.js to handle background messages and show notifications. Use FCM recommended snippet and show notification with payload.
+
+In main app (e.g., src/firebaseMessaging.js):
+
+Request Notification permission on first app load or when user enables in settings.
+
+Call getToken(messaging, { vapidKey }) and POST token to backend endpoint /api/save-token with UID and platform='web'.
+
+Implement handler for onMessage to display in-app banners when app is foreground.
+
+Add Settings UI (simple toggle page or modal) under profile: allow toggles for rare, nearby, events, weather, and input for radiusMeters. Save to users/{uid}.notificationPreferences.
+
+Save user's location periodically (on app active) to users/{uid}.lastKnownLocation (respect privacy: ask permission, do only if user opted-in for location).
+
+Client (Mobile — Flutter or React Native) changes
+
+If mobile uses Flutter: add firebase_messaging integration. Request permissions, call getToken() and send to backend /api/save-token with platform='android' or 'ios'. Configure background handlers and onMessage to route user on tap to AR/sighting view.
+
+If app is Web + PWA only, skip mobile.
+
+Admin UI: Broadcast & Rare-alert button
+
+Add a protected admin page (reuse existing admin auth) with a simple form:
+
+Title, body, type (rare/nearby/event/custom), optional data (sightingId, lat, lon)
+
+If type=nearby, accept center lat/lon and radiusMeters for targeted send.
+
+On submit call backend endpoint /api/broadcast which uses broadcastNotification to send tokens filtered by preferences.
+
+Notification payload format & deep linking
+
+Standard payload:
+
+notification: { title, body }
+
+data: { type: 'rare_sighting'|'nearby_sighting'|'event'|'weather', sightingId, lat, lon }
+
+On client tap:
+
+If data.type === 'rare_sighting' open species detail or AR view for sightingId.
+
+If nearby_sighting open map with marker and "Open AR" CTA.
+
+If event open booking/details.
+
+Nearby user query logic (efficient)
+
+For Firestore, store lastKnownLocation with simple lat/lon. Implement approximate radius query by:
+
+Using geohash library (geofirex/ geofirestore ) OR compute bounding box (minLat, maxLat, minLon, maxLon) and query users whose lat/lon fall in that box, then filter by exact distance Haversine.
+
+Use Cloud Function with this query to gather tokens and send.
+
+Weather & safety alerts integration
+
+When admin posts a weather alert (or when you detect harsh conditions from integrated weather API), write a notifications doc and call broadcastNotification to users with notificationPreferences.weather === true.
+
+Optional: if you already fetch weather per sighting, trigger alerts when condition meets threshold (e.g., windSpeed > 15 m/s).
+
+Rate limiting & deduplication
+
+Implement simple dedupe: maintain notifications/{hash} with short TTL to avoid re-sending identical messages in a short time window.
+
+Ensure Cloud Function checks for token invalidation responses and remove invalid tokens from users/{uid}.deviceTokens.
+
+Testing plan (must pass)
+
+Unit test sendToTokens with mocked admin.messaging (or run in staging).
+
+Manual test:
+
+Grant web push permission; verify token saved to Firestore.
+
+Create a test sighting in Firestore (use notifyNearby=true) — verify Cloud Function runs, finds test user, and client receives notification in background and foreground.
+
+Admin broadcast: verify recipients get message, and tapping deep-links to correct screen.
+
+Simulate invalid token and ensure server removes it on FCM error.
+
+Documentation & deliverables
+
+Commit changes with clear messages.
+
+Provide a short README server/README-notifications.md describing endpoints:
+
+POST /api/save-token { uid, token, platform }
+
+POST /api/broadcast { title, body, type, data } (admin-only)
+
+Provide sample curl commands to test endpoints and sample payloads.
+
+Provide steps for adding VAPID key and Firebase service account to project secrets (do not commit keys).
+
+Add a short privacy note in app settings mentioning location & push usage.
+
+When done, respond with:

@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, timestamp, boolean, real, index } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, timestamp, boolean, real, index, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -11,6 +11,9 @@ export const users = pgTable("users", {
   role: text("role").notNull().default("user"),
   points: integer("points").notNull().default(0),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+  deviceTokens: jsonb("device_tokens").default(sql`'[]'::jsonb`),
+  notificationPreferences: jsonb("notification_preferences").default(sql`'{"rare":true,"nearby":true,"events":true,"weather":true,"radiusMeters":500}'::jsonb`),
+  lastKnownLocation: jsonb("last_known_location"),
 });
 
 export const species = pgTable("species", {
@@ -52,6 +55,8 @@ export const sightings = pgTable("sightings", {
   windSpeed: real("wind_speed"),
   isPublic: boolean("is_public").notNull().default(true),
   likes: integer("likes").notNull().default(0),
+  rare: boolean("rare").default(false),
+  notifyNearby: boolean("notify_nearby").default(false),
 }, (table) => ({
   userIdx: index("sightings_user_idx").on(table.userId),
   locationIdx: index("sightings_location_idx").on(table.latitude, table.longitude),
@@ -124,11 +129,24 @@ export const sanctuaryHotspots = pgTable("sanctuary_hotspots", {
   locationIdx: index("hotspots_location_idx").on(table.latitude, table.longitude),
 }));
 
+export const notifications = pgTable("notifications", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  body: text("body").notNull(),
+  type: text("type").notNull(),
+  data: jsonb("data"),
+  recipientCount: integer("recipient_count").default(0),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   role: true,
   points: true,
   createdAt: true,
+  deviceTokens: true,
+  notificationPreferences: true,
+  lastKnownLocation: true,
 });
 
 export const insertSpeciesSchema = createInsertSchema(species).omit({
@@ -169,6 +187,7 @@ export type UserProgress = typeof userProgress.$inferSelect;
 
 export type CommunityPost = typeof communityPosts.$inferSelect;
 export type SanctuaryHotspot = typeof sanctuaryHotspots.$inferSelect;
+export type Notification = typeof notifications.$inferSelect;
 
 export const insertCommunityPostSchema = createInsertSchema(communityPosts).omit({
   id: true,
