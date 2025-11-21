@@ -360,9 +360,9 @@ export class DbStorage implements IStorage {
         topSpecies: [
           { name: "Black-headed Ibis", count: 2000, conservationStatus: 'Least Concern', lastObserved: "2025-02-09" },
           { name: "Glossy Ibis", count: 1500, conservationStatus: 'Least Concern', lastObserved: "2025-02-09" },
+          { name: "Little Egret", count: 1500, conservationStatus: 'Least Concern', lastObserved: "2025-02-09" },
           { name: "Little Cormorant", count: 1200, conservationStatus: 'Least Concern', lastObserved: "2025-02-09" },
           { name: "Asian Openbill", count: 1000, conservationStatus: 'Least Concern', lastObserved: "2025-02-09" },
-          { name: "Spot-billed Pelican", count: 500, conservationStatus: 'Least Concern', lastObserved: "2025-03-15" },
         ],
         rareSpecies: [],
         migrationData,
