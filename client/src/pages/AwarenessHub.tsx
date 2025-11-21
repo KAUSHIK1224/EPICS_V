@@ -5,10 +5,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Lightbulb, Book, Star, AlertCircle, TrendingUp } from "lucide-react";
-import greyHeronImage from "@assets/generated_images/grey_heron_standing_by_water.png";
-import paintedStorkImage from "@assets/generated_images/painted_stork_with_distinctive_plumage.png";
-import pelican from "@assets/generated_images/spot-billed_pelican_with_distinctive_bill.png";
-import ibisImage from "@assets/generated_images/black-headed_ibis_in_natural_habitat.png";
+import greyHeronImage from "@assets/generated_images/grey_heron_face_close-up_portrait.png";
+import paintedStorkImage from "@assets/generated_images/painted_stork_head_portrait.png";
+import pelican from "@assets/generated_images/spot-billed_pelican_head_portrait.png";
+import ibisImage from "@assets/generated_images/black-headed_ibis_face_close-up.png";
 
 const birdEducation = [
   {

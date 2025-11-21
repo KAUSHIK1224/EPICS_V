@@ -6,10 +6,10 @@ import ARViewModal from "@/components/ARViewModal";
 import BirdDetailModal from "@/components/BirdDetailModal";
 import { Button } from "@/components/ui/button";
 
-import greyHeronImage from "@assets/generated_images/grey_heron_standing_by_water.png";
-import paintedStorkImage from "@assets/generated_images/painted_stork_with_distinctive_plumage.png";
-import pelican from "@assets/generated_images/spot-billed_pelican_with_distinctive_bill.png";
-import ibisImage from "@assets/generated_images/black-headed_ibis_in_natural_habitat.png";
+import greyHeronImage from "@assets/generated_images/grey_heron_face_close-up_portrait.png";
+import paintedStorkImage from "@assets/generated_images/painted_stork_head_portrait.png";
+import pelican from "@assets/generated_images/spot-billed_pelican_head_portrait.png";
+import ibisImage from "@assets/generated_images/black-headed_ibis_face_close-up.png";
 import openbillImage from "@assets/generated_images/asian_openbill_with_distinctive_bill.png";
 import cormorantImage from "@assets/generated_images/little_cormorant_in_water.png";
 
