@@ -65,7 +65,7 @@ const mockBirds: BirdCardProps[] = [
     scientificName: "Threskiornis melanocephalus",
     tamilName: "கரும்பட்டை இருவாச்சி",
     image: ibisImage,
-    status: "Most Observed",
+    status: "Migratory",
     size: "65-76 cm",
     weight: "1.5 kg",
     habitat: "Fish, Frogs, Snails",
