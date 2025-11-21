@@ -341,29 +341,51 @@ export class DbStorage implements IStorage {
       const allSightings = await this.getAllSightings();
       const allSpecies = await this.getAllSpecies();
       
-      // Total species and sightings
-      const totalSpecies = allSpecies.length;
-      const totalSightings = allSightings.length;
-      
-      // Top species by sightings
-      const speciesMap = new Map<string, number>();
+      // Map species ID to sighting count
+      const speciesSightingsMap = new Map<string, number>();
       allSightings.forEach(s => {
-        const name = s.identifiedSpecies || 'Unknown';
-        speciesMap.set(name, (speciesMap.get(name) || 0) + 1);
+        if (s.speciesId) {
+          speciesSightingsMap.set(s.speciesId, (speciesSightingsMap.get(s.speciesId) || 0) + 1);
+        }
       });
       
-      const topSpecies = Array.from(speciesMap.entries())
-        .sort((a, b) => b[1] - a[1])
+      // Create array of species with sightings count
+      const speciesWithCounts = allSpecies.map(sp => ({
+        ...sp,
+        sightings: speciesSightingsMap.get(sp.id) || 0
+      }));
+      
+      // Calculate totals from ALL species
+      const totalSpecies = speciesWithCounts.length;
+      const totalSightings = speciesWithCounts.reduce((sum, sp) => sum + sp.sightings, 0);
+      
+      // Get top 5 most sighted
+      const topSpecies = [...speciesWithCounts]
+        .sort((a, b) => b.sightings - a.sightings)
         .slice(0, 5)
-        .map(([name, count]) => ({
-          name,
-          count,
-          conservationStatus: 'Least Concern'
+        .map(sp => ({
+          name: sp.commonName,
+          count: sp.sightings,
+          conservationStatus: sp.conservationStatus || 'Least Concern',
+          lastObserved: new Date().toLocaleDateString()
         }));
       
-      // Migration data by month
-      const monthMap = new Map<string, number>();
+      // Get top 5 rare & migratory birds
+      const rareSpecies = speciesWithCounts
+        .filter(sp => sp.status === 'Rare' || sp.status === 'Migratory')
+        .sort((a, b) => b.sightings - a.sightings)
+        .slice(0, 5)
+        .map(sp => ({
+          name: sp.commonName,
+          count: sp.sightings,
+          conservationStatus: sp.conservationStatus || 'Least Concern',
+          status: sp.status,
+          lastObserved: new Date().toLocaleDateString()
+        }));
+      
+      // Monthly timeline (zero-filled 12-month buckets)
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const monthMap = new Map<string, number>();
       months.forEach(m => monthMap.set(m, 0));
       
       allSightings.forEach(s => {
@@ -372,7 +394,10 @@ export class DbStorage implements IStorage {
         monthMap.set(month, (monthMap.get(month) || 0) + 1);
       });
       
-      const migrationData = Array.from(monthMap.entries()).map(([month, count]) => ({ month, count }));
+      const migrationData = months.map(month => ({
+        month,
+        count: monthMap.get(month) || 0
+      }));
       
       // Seasonal data
       const seasonalMap = new Map<string, number>([
@@ -397,6 +422,7 @@ export class DbStorage implements IStorage {
         totalSpecies,
         totalSightings,
         topSpecies,
+        rareSpecies,
         migrationData,
         seasonalData
       };
@@ -406,6 +432,7 @@ export class DbStorage implements IStorage {
         totalSpecies: 0,
         totalSightings: 0,
         topSpecies: [],
+        rareSpecies: [],
         migrationData: [],
         seasonalData: []
       };
