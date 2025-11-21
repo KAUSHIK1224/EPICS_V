@@ -196,6 +196,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/analytics/timeline", async (req, res) => {
+    try {
+      const year = parseInt(req.query.year as string) || 2025;
+      const timeline = await storage.getTimelineByYear(year);
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const monthly = timeline.monthly.map((count, idx) => ({ month: months[idx], count }));
+      res.json({ year: timeline.year, monthly, total: timeline.total });
+    } catch (error) {
+      console.error("Error fetching timeline:", error);
+      res.status(500).json({ error: "Failed to fetch timeline" });
+    }
+  });
+
   // ========== SEED DATA (for demo) ==========
   app.post("/api/seed-demo", async (req, res) => {
     try {

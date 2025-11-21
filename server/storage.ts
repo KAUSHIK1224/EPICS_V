@@ -343,6 +343,40 @@ export class DbStorage implements IStorage {
     }
   }
 
+  // Timeline by Year (UTC-based, per-sighting aggregation)
+  async getTimelineByYear(year: number): Promise<{
+    year: number;
+    monthly: number[];
+    total: number;
+  }> {
+    try {
+      const allSightings = await this.getAllSightings();
+      const monthly = Array(12).fill(0);
+      let total = 0;
+      const yearCounts = new Map<number, number>();
+
+      allSightings.forEach(s => {
+        const date = new Date(s.date);
+        const sightingYear = date.getUTCFullYear();
+        const sightingMonth = date.getUTCMonth();
+
+        yearCounts.set(sightingYear, (yearCounts.get(sightingYear) || 0) + 1);
+
+        if (sightingYear === year) {
+          monthly[sightingMonth] += 1;
+          total += 1;
+        }
+      });
+
+      console.log('byYear', Object.fromEntries(yearCounts));
+      
+      return { year, monthly, total };
+    } catch (error) {
+      console.error("Error fetching timeline by year:", error);
+      return { year, monthly: Array(12).fill(0), total: 0 };
+    }
+  }
+
   // Analytics
   async getAnalytics() {
     try {

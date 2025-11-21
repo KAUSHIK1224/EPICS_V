@@ -16,6 +16,12 @@ interface Analytics {
   statusDistribution?: Array<{ name: string; value: number }>;
 }
 
+interface TimelineData {
+  year: number;
+  monthly: Array<{ month: string; count: number }>;
+  total: number;
+}
+
 const COLORS = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6"];
 const STATUS_COLORS = ["#22c55e", "#f59e0b", "#ef4444"]; // green/orange/red for Resident/Migratory/Rare
 
@@ -35,14 +41,20 @@ const getStatusColor = (status?: string): string => {
 
 export default function AnalyticsDashboard() {
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
+  const [timeline, setTimeline] = useState<TimelineData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const response = await fetch("/api/analytics");
-        const data = await response.json();
-        setAnalytics(data);
+        const [analyticsRes, timelineRes] = await Promise.all([
+          fetch("/api/analytics"),
+          fetch("/api/analytics/timeline?year=2025")
+        ]);
+        const analyticsData = await analyticsRes.json();
+        const timelineData = await timelineRes.json();
+        setAnalytics(analyticsData);
+        setTimeline(timelineData);
       } catch (error) {
         console.error("Failed to fetch analytics:", error);
       } finally {
@@ -53,7 +65,7 @@ export default function AnalyticsDashboard() {
     fetchAnalytics();
   }, []);
 
-  if (loading || !analytics) {
+  if (loading || !analytics || !timeline) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
@@ -215,11 +227,11 @@ export default function AnalyticsDashboard() {
                 <Calendar className="h-5 w-5 text-primary" />
                 Migration Timeline (Monthly)
               </CardTitle>
-              <p className="text-sm text-muted-foreground mt-2">2025 (Jan–Dec)</p>
+              <p className="text-sm text-muted-foreground mt-2">Year: {timeline.year}</p>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={analytics.migrationData2025}>
+                <LineChart data={timeline.monthly}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
@@ -248,26 +260,34 @@ export default function AnalyticsDashboard() {
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie
-                    data={analytics.seasonalData}
+                    data={(() => {
+                      const months = timeline.monthly;
+                      return [
+                        { season: "Winter (Dec-Feb)", count: (months[11]?.count || 0) + (months[0]?.count || 0) + (months[1]?.count || 0) },
+                        { season: "Summer (Mar-May)", count: (months[2]?.count || 0) + (months[3]?.count || 0) + (months[4]?.count || 0) },
+                        { season: "Monsoon (Jun-Sep)", count: (months[5]?.count || 0) + (months[6]?.count || 0) + (months[7]?.count || 0) + (months[8]?.count || 0) },
+                        { season: "Post-monsoon (Oct-Nov)", count: (months[9]?.count || 0) + (months[10]?.count || 0) }
+                      ];
+                    })()}
                     dataKey="count"
                     nameKey="season"
                     cx="50%"
                     cy="50%"
                     outerRadius={80}
                     label={({ season, count }) => {
-                      const total = analytics.seasonalData.reduce((sum, s) => sum + s.count, 0);
-                      const percent = ((count / total) * 100).toFixed(1);
+                      const total = timeline.total;
+                      const percent = total > 0 ? ((count / total) * 100).toFixed(1) : 0;
                       return `${season}: ${percent}%`;
                     }}
                   >
-                    {analytics.seasonalData.map((_, index) => (
+                    {[0, 1, 2, 3].map((index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
                   <Tooltip formatter={(value: any) => {
                     const numValue = Number(value);
-                    const total = analytics.seasonalData.reduce((sum, s) => sum + s.count, 0);
-                    const percent = ((numValue / total) * 100).toFixed(1);
+                    const total = timeline.total;
+                    const percent = total > 0 ? ((numValue / total) * 100).toFixed(1) : 0;
                     return `${numValue} sightings (${percent}%)`;
                   }} />
                   <Legend />
