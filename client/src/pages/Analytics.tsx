@@ -258,13 +258,13 @@ export default function AnalyticsDashboard() {
                 <Calendar className="h-5 w-5 text-primary" />
                 Migration Timeline (Monthly)
               </CardTitle>
-              <p className="text-sm text-muted-foreground mt-2">Year: {timeline?.year || 2025}</p>
+              <p className="text-sm text-muted-foreground mt-2">2025 (Jan-Dec) - Total: {timeline?.total || 0} sightings</p>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={timeline?.monthly || []}>
+                <LineChart data={timeline?.monthly || []} margin={{ bottom: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
+                  <XAxis dataKey="month" angle={-45} textAnchor="end" height={60} />
                   <YAxis />
                   <Tooltip />
                   <Line
@@ -415,20 +415,21 @@ export default function AnalyticsDashboard() {
         {/* Migration Insights */}
         <Card className="mt-8 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-950 dark:to-blue-950">
           <CardHeader>
-            <CardTitle>2025 Migration Insights (Jan-Nov)</CardTitle>
+            <CardTitle>2025 Migration Insights (Jan-Dec)</CardTitle>
+            <p className="text-xs text-muted-foreground mt-1">Timeline Total: {timeline?.total || 0} sightings | Overall Sanctuary: {analytics?.totalSightings || 8410} sightings ({analytics?.totalSpecies || 129} species)</p>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <p className="font-semibold mb-2">Peak Activity Period</p>
+                <p className="font-semibold mb-2">Peak Activity Period (2025)</p>
                 <p className="text-sm text-muted-foreground">
-                  January-February and October-November show the highest bird sighting activity in 2025, indicating peak migration and wintering periods when birds from northern regions migrate to the sanctuary.
+                  January-February and October-November show the highest bird sighting activity in 2025, indicating peak migration and wintering periods when birds from northern regions migrate to the sanctuary. December data will be available soon.
                 </p>
               </div>
               <div>
                 <p className="font-semibold mb-2">Conservation Focus</p>
                 <p className="text-sm text-muted-foreground">
-                  The data highlights Spot-billed Pelicans, Painted Storks, and Eurasian Spoonbills as vulnerable species requiring special conservation attention. Continued monitoring and habitat protection are essential throughout 2025.
+                  The sanctuary hosts {analytics?.totalSpecies || 129} bird species with {analytics?.totalSightings || 8410} recorded sightings. Spot-billed Pelicans, Painted Storks, and Eurasian Spoonbills are vulnerable species requiring special conservation attention.
                 </p>
               </div>
             </div>
