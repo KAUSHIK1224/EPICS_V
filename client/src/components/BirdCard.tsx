@@ -41,13 +41,16 @@ export default function BirdCard({
 }: BirdCardProps) {
   return (
     <Card className="overflow-hidden hover-elevate group" data-testid={`card-bird-${commonName.toLowerCase().replace(/\s+/g, '-')}`}>
-      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-        <img
-          src={image}
-          alt={commonName}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-          data-testid={`img-bird-${commonName.toLowerCase().replace(/\s+/g, '-')}`}
-        />
+      <div className="relative bg-muted">
+        <div style={{ height: "260px", width: "100%", overflow: "hidden", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <img
+            src={image}
+            alt={commonName}
+            style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "cover" }}
+            className="transition-transform duration-300 group-hover:scale-105"
+            data-testid={`img-bird-${commonName.toLowerCase().replace(/\s+/g, '-')}`}
+          />
+        </div>
         <div className="absolute top-3 right-3">
           <Badge className={`${statusColors[status]} no-default-hover-elevate no-default-active-elevate`} data-testid={`badge-status-${status.toLowerCase()}`}>
             {status}
