@@ -212,57 +212,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // ========== SEED DATA (for demo) ==========
   app.post("/api/seed-demo", async (req, res) => {
     try {
-      // Create demo sightings with weather data
-      const demoSightings = [
-        {
-          userId: "demo-user-1",
-          location: "North Wetland",
-          latitude: 12.5201,
-          longitude: 79.8828,
-          date: new Date(),
-          notes: "Spotted near water",
-          imageUrl: "https://example.com/bird1.jpg",
-          temperature: 28,
-          humidity: 65,
-          weatherCondition: "Partly Cloudy",
-          identifiedSpecies: "Grey Heron",
-          confidence: 0.92,
-        },
-        {
-          userId: "demo-user-2",
-          location: "Central Sanctuary",
-          latitude: 12.5205,
-          longitude: 79.8835,
-          date: new Date(),
-          notes: "In breeding season",
-          imageUrl: "https://example.com/bird2.jpg",
-          temperature: 29,
-          humidity: 70,
-          weatherCondition: "Sunny",
-          identifiedSpecies: "Painted Stork",
-          confidence: 0.95,
-        },
-        {
-          userId: "demo-user-3",
-          location: "South Lake",
-          latitude: 12.5195,
-          longitude: 79.8820,
-          date: new Date(),
-          notes: "Feeding activity",
-          imageUrl: "https://example.com/bird3.jpg",
-          temperature: 27,
-          humidity: 72,
-          weatherCondition: "Clear",
-          identifiedSpecies: "Spot-billed Pelican",
-          confidence: 0.88,
-        },
+      // Create demo sightings with 2025 dates throughout the year
+      const demoSightings = [];
+      const months = [
+        { month: "January", date: new Date(2025, 0, 15) },
+        { month: "January", date: new Date(2025, 0, 20) },
+        { month: "February", date: new Date(2025, 1, 10) },
+        { month: "February", date: new Date(2025, 1, 25) },
+        { month: "March", date: new Date(2025, 2, 5) },
+        { month: "April", date: new Date(2025, 3, 15) },
+        { month: "May", date: new Date(2025, 4, 20) },
+        { month: "August", date: new Date(2025, 7, 10) },
+        { month: "October", date: new Date(2025, 9, 12) },
+        { month: "November", date: new Date(2025, 10, 8) },
       ];
+
+      const species = [
+        { name: "Black-headed Ibis", location: "North Wetland" },
+        { name: "Glossy Ibis", location: "Central Lake" },
+        { name: "Little Egret", location: "South Wetland" },
+        { name: "Painted Stork", location: "Central Sanctuary" },
+        { name: "Spot-billed Pelican", location: "Main Lake" },
+      ];
+
+      let count = 0;
+      for (const m of months) {
+        for (const sp of species) {
+          demoSightings.push({
+            userId: `demo-user-${Math.random()}`,
+            location: sp.location,
+            latitude: 12.5201 + Math.random() * 0.01,
+            longitude: 79.8828 + Math.random() * 0.01,
+            date: new Date(m.date.getTime() + Math.random() * 86400000),
+            notes: `Spotted ${sp.name} in ${m.month}`,
+            imageUrl: "https://example.com/bird.jpg",
+            temperature: 25 + Math.random() * 10,
+            humidity: 60 + Math.random() * 20,
+            weatherCondition: "Partly Cloudy",
+            identifiedSpecies: sp.name,
+            confidence: 0.85 + Math.random() * 0.15,
+          });
+          count++;
+        }
+      }
 
       for (const sighting of demoSightings) {
         await storage.createSighting(sighting);
       }
 
-      res.json({ message: "Demo data seeded successfully", count: demoSightings.length });
+      res.json({ message: "Demo 2025 data seeded successfully", count });
     } catch (error) {
       console.error("Error seeding demo data:", error);
       res.status(500).json({ error: "Failed to seed data" });
