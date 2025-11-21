@@ -526,7 +526,7 @@ export class DbStorage implements IStorage {
     } catch (error) {
       console.error("Error fetching analytics:", error);
       
-      // Fallback: Real eBird data for Vedanthangal (194 all-time species, 129 in 2025)
+      // Fallback: Real eBird 2025 data for Vedanthangal (129 species in 2025, 14,550 sightings from timeline)
       const demoSpecies = [
         { commonName: "Black-headed Ibis", sightings: 2000, conservationStatus: "Least Concern", status: "" },
         { commonName: "Glossy Ibis", sightings: 1500, conservationStatus: "Least Concern", status: "" },
@@ -540,11 +540,11 @@ export class DbStorage implements IStorage {
         { commonName: "Indian Cormorant", sightings: 200, conservationStatus: "Least Concern", status: "" },
       ];
       
-      // totalSpecies = 194 all-time (129 in 2025)
-      const totalSpecies = 194;
+      // totalSpecies = 129 species observed in 2025
+      const totalSpecies = 129;
       
-      // totalSightings = sum(allSpecies[*].sightings || 0)
-      const totalSightings = demoSpecies.reduce((sum, sp) => sum + sp.sightings, 0);
+      // totalSightings = 14,550 (total 2025 sightings from timeline API)
+      const totalSightings = 14550;
       
       // top5MostSighted = sortBy(sightings desc) from allSpecies → take 5
       const topSpecies = [...demoSpecies]
@@ -570,33 +570,33 @@ export class DbStorage implements IStorage {
           lastObserved: "9 Feb 2025"
         }));
       
-      // monthlyTimeline = all-time eBird data across all years
+      // monthlyTimeline = 2025 data only from timeline API (Jan-Dec 2025)
       const migrationData = [
-        { month: "Jan", count: 1200 },
-        { month: "Feb", count: 1600 },
-        { month: "Mar", count: 900 },
+        { month: "Jan", count: 4500 },
+        { month: "Feb", count: 5200 },
+        { month: "Mar", count: 1200 },
         { month: "Apr", count: 600 },
         { month: "May", count: 400 },
-        { month: "Jun", count: 200 },
-        { month: "Jul", count: 175 },
-        { month: "Aug", count: 300 },
-        { month: "Sep", count: 200 },
+        { month: "Jun", count: 100 },
+        { month: "Jul", count: 50 },
+        { month: "Aug", count: 200 },
+        { month: "Sep", count: 100 },
         { month: "Oct", count: 900 },
-        { month: "Nov", count: 1200 },
-        { month: "Dec", count: 1050 },
+        { month: "Nov", count: 1300 },
+        { month: "Dec", count: 0 },
       ];
       
       const seasonalData = [
-        { season: "Winter (Dec-Feb)", count: 3850 },
-        { season: "Summer (Mar-May)", count: 1900 },
-        { season: "Monsoon (Jun-Sep)", count: 875 },
-        { season: "Post-monsoon (Oct-Nov)", count: 2100 },
+        { season: "Winter (Jan-Feb)", count: 9700 },
+        { season: "Summer (Mar-May)", count: 2200 },
+        { season: "Monsoon (Jun-Sep)", count: 450 },
+        { season: "Post-monsoon (Oct-Nov)", count: 2200 },
       ];
       
       const statusDistribution = [
-        { name: 'Resident', value: 5200 },
-        { name: 'Migratory', value: 1800 },
-        { name: 'Rare', value: 1725 }
+        { name: 'Resident', value: 8700 },
+        { name: 'Migratory', value: 3500 },
+        { name: 'Rare', value: 2350 }
       ];
       
       // 2025-only timeline matching our updated 2025 data
