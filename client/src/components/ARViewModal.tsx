@@ -46,12 +46,18 @@ export default function ARViewModal({
                 <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
                   <Camera className="w-12 h-12 text-primary" />
                 </div>
-                <p className="text-muted-foreground mb-2" data-testid="text-ar-url">AR Model URL:</p>
-                <p className="text-sm font-mono bg-background px-4 py-2 rounded-md" data-testid="text-ar-model-url">
+                <p className="text-muted-foreground mb-2" data-testid="text-ar-url">Click below to open AR viewer:</p>
+                <a
+                  href={arModelUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block text-sm font-mono bg-background px-4 py-2 rounded-md hover:bg-accent text-primary underline hover-elevate transition-all"
+                  data-testid="link-ar-model"
+                >
                   {arModelUrl}
-                </p>
+                </a>
                 <p className="text-xs text-muted-foreground mt-4" data-testid="text-ar-instruction">
-                  This is where the AR viewer would be embedded
+                  Opens in a new window
                 </p>
               </div>
             </div>
