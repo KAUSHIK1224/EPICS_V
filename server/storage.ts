@@ -56,22 +56,24 @@ interface IStorage {
 }
 
 export class DbStorage implements IStorage {
+  private db = db;
+
   // Auth
   async createUser(userData: InsertUser): Promise<User> {
     if (userData.password) {
       userData.password = await bcrypt.hash(userData.password, 10);
     }
-    const [newUser] = await db.insert(users).values(userData).returning();
+    const [newUser] = await this.db.insert(usersTable).values(userData).returning();
     return newUser;
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.email, email));
+    const [user] = await this.db.select().from(usersTable).where(eq(usersTable.email, email));
     return user;
   }
 
   async getUserById(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
+    const [user] = await this.db.select().from(usersTable).where(eq(usersTable.id, id));
     return user;
   }
 
@@ -79,7 +81,7 @@ export class DbStorage implements IStorage {
     if (updates.password) {
       updates.password = await bcrypt.hash(updates.password, 10);
     }
-    const [updated] = await db.update(users).set(updates).where(eq(users.id, id)).returning();
+    const [updated] = await this.db.update(usersTable).set(updates).where(eq(usersTable.id, id)).returning();
     return updated;
   }
 
@@ -89,55 +91,55 @@ export class DbStorage implements IStorage {
 
   // Species
   async getAllSpecies(): Promise<Species[]> {
-    return await db.select().from(species);
+    return await this.db.select().from(species);
   }
 
   async getSpecies(id: string): Promise<Species | undefined> {
-    const [speciesData] = await db.select().from(species).where(eq(species.id, id));
+    const [speciesData] = await this.db.select().from(species).where(eq(species.id, id));
     return speciesData;
   }
 
   async createSpecies(speciesData: InsertSpecies): Promise<Species> {
-    const [newSpecies] = await db.insert(species).values(speciesData).returning();
+    const [newSpecies] = await this.db.insert(species).values(speciesData).returning();
     return newSpecies;
   }
 
   async updateSpecies(id: string, speciesData: Partial<InsertSpecies>): Promise<Species | undefined> {
-    const [updated] = await db.update(species).set(speciesData).where(eq(species.id, id)).returning();
+    const [updated] = await this.db.update(species).set(speciesData).where(eq(species.id, id)).returning();
     return updated;
   }
 
   async deleteSpecies(id: string): Promise<void> {
-    await db.delete(species).where(eq(species.id, id));
+    await this.db.delete(species).where(eq(species.id, id));
   }
 
   // Sightings
   async getAllSightings(): Promise<Sighting[]> {
-    return await db.select().from(sightings);
+    return await this.db.select().from(sightings);
   }
 
   async getSightingsByUser(userId: string): Promise<Sighting[]> {
-    return await db.select().from(sightings).where(eq(sightings.userId, userId));
+    return await this.db.select().from(sightings).where(eq(sightings.userId, userId));
   }
 
   async getSighting(id: string): Promise<Sighting | undefined> {
-    const [sighting] = await db.select().from(sightings).where(eq(sightings.id, id));
+    const [sighting] = await this.db.select().from(sightings).where(eq(sightings.id, id));
     return sighting;
   }
 
   async createSighting(sightingData: InsertSighting): Promise<Sighting> {
-    const [newSighting] = await db.insert(sightings).values(sightingData).returning();
+    const [newSighting] = await this.db.insert(sightings).values(sightingData).returning();
     return newSighting;
   }
 
   async updateSighting(id: string, updates: Partial<Sighting>): Promise<Sighting | undefined> {
-    const [updated] = await db.update(sightings).set(updates).where(eq(sightings.id, id)).returning();
+    const [updated] = await this.db.update(sightings).set(updates).where(eq(sightings.id, id)).returning();
     return updated;
   }
 
   // Achievements
   async getAllAchievements(): Promise<Achievement[]> {
-    return await db.select().from(achievements);
+    return await this.db.select().from(achievements);
   }
 
   async getUserAchievements(userId: string): Promise<Achievement[]> {
@@ -157,31 +159,31 @@ export class DbStorage implements IStorage {
   }
 
   async createAchievement(achievementData: InsertAchievement): Promise<Achievement> {
-    const [newAchievement] = await db.insert(achievements).values(achievementData).returning();
+    const [newAchievement] = await this.db.insert(achievements).values(achievementData).returning();
     return newAchievement;
   }
 
   async awardAchievement(userId: string, achievementId: string): Promise<void> {
-    await db.insert(userAchievements).values({ userId, achievementId });
+    await this.db.insert(userAchievements).values({ userId, achievementId });
   }
 
   // Learning Modules
   async getAllLearningModules(): Promise<LearningModule[]> {
-    return await db.select().from(learningModules);
+    return await this.db.select().from(learningModules);
   }
 
   async getLearningModule(id: string): Promise<LearningModule | undefined> {
-    const [module] = await db.select().from(learningModules).where(eq(learningModules.id, id));
+    const [module] = await this.db.select().from(learningModules).where(eq(learningModules.id, id));
     return module;
   }
 
   async createLearningModule(moduleData: InsertLearningModule): Promise<LearningModule> {
-    const [newModule] = await db.insert(learningModules).values(moduleData).returning();
+    const [newModule] = await this.db.insert(learningModules).values(moduleData).returning();
     return newModule;
   }
 
   async getUserProgress(userId: string): Promise<UserProgress[]> {
-    return await db.select().from(userProgress).where(eq(userProgress.userId, userId));
+    return await this.db.select().from(userProgress).where(eq(userProgress.userId, userId));
   }
 
   // Search
