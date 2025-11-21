@@ -209,10 +209,11 @@ export default function AnalyticsDashboard() {
                 <Calendar className="h-5 w-5 text-primary" />
                 Migration Timeline (Monthly)
               </CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">2025 (Jan–Dec)</p>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={analytics.migrationData}>
+                <LineChart data={analytics.migrationData2025}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
@@ -323,12 +324,12 @@ export default function AnalyticsDashboard() {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   dataKey="name"
-                  tick={({ x, y, payload }) => {
-                    const label = payload.value;
+                  tick={({ x, y, payload }: any) => {
+                    const label = payload.value as string;
                     const words = label.split(/\s+/);
                     return (
                       <g transform={`translate(${x},${y})`}>
-                        {words.map((word, i) => (
+                        {words.map((word: string, i: number) => (
                           <text 
                             key={i} 
                             x={0} 

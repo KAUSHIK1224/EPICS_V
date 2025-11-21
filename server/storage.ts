@@ -81,6 +81,7 @@ export interface IStorage {
     topSpecies: Array<{ name: string; count: number; conservationStatus: string }>;
     rareSpecies?: Array<{ name: string; count: number; conservationStatus: string; status?: string }>;
     migrationData: Array<{ month: string; count: number }>;
+    migrationData2025: Array<{ month: string; count: number }>;
     seasonalData: Array<{ season: string; count: number }>;
     statusDistribution?: Array<{ name: string; value: number }>;
   }>;
@@ -401,6 +402,23 @@ export class DbStorage implements IStorage {
         count: monthMap.get(month) || 0
       }));
       
+      // 2025-only migration timeline
+      const months2025Map = new Map<string, number>();
+      months.forEach(m => months2025Map.set(m, 0));
+      
+      allSightings.forEach(s => {
+        const date = new Date(s.date);
+        if (date.getFullYear() === 2025) {
+          const month = months[date.getMonth()];
+          months2025Map.set(month, (months2025Map.get(month) || 0) + 1);
+        }
+      });
+      
+      const migrationData2025 = months.map(month => ({
+        month,
+        count: months2025Map.get(month) || 0
+      }));
+      
       // Seasonal data
       const seasonalMap = new Map<string, number>([
         ['Winter (Dec-Feb)', 0],
@@ -439,6 +457,7 @@ export class DbStorage implements IStorage {
         topSpecies,
         rareSpecies,
         migrationData,
+        migrationData2025,
         seasonalData,
         statusDistribution
       };

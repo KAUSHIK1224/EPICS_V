@@ -1,0 +1,93 @@
+Fix the Analytics timeline to use ONLY 2025 data. Do not change API routes or imports. Only update analytics data derivation and chart config.
+
+File to edit (frontend): client/src/pages/Analytics.tsx (and any helper it calls for timeline aggregation).
+
+Goal
+
+The Migration Timeline (Monthly) must aggregate only 2025 sightings.
+
+Pie, Top-5 lists, KPIs can stay “All-time” (but add captions). Timeline label must show “2025 (Jan–Dec)”.
+
+Months with no data must render as 0 (12 points, Jan→Dec).
+
+Implementation
+
+After loading the full species/sightings dataset, derive a 2025-only array:
+
+const TARGET_YEAR = 2025;
+
+// Helper to safely get Date
+function toDate(d?: string | number | Date) {
+  const dt = d ? new Date(d) : undefined;
+  return dt && !Number.isNaN(dt.getTime()) ? dt : undefined;
+}
+
+// If your data model has a flat "sightings" array at app level, use that.
+// Otherwise, derive from species fields like lastObservedAt / createdAt or a per-species array.
+// This version works with either:
+//  - app-level `allSightings`, or
+//  - per-species `sp.sightingsCount` paired with `sp.lastObservedAt` as an approximation.
+const allSightings = (data?.sightings ?? []) as Array<{ observedAt: any }>;
+
+let sightings2025: Array<Date>;
+if (allSightings.length) {
+  sightings2025 = allSightings
+    .map(s => toDate(s.observedAt))
+    .filter((d): d is Date => !!d && d.getFullYear() === TARGET_YEAR);
+} else {
+  // Fallback: approximate from species records (count allocated to the month of lastObservedAt/createdAt)
+  sightings2025 = [];
+  for (const sp of (data ?? [])) {
+    const when = toDate(sp.lastObservedAt ?? sp.createdAt);
+    const count = Number(sp.sightings ?? 0);
+    if (when && when.getFullYear() === TARGET_YEAR && count > 0) {
+      // push `count` copies of the date to aggregate by month
+      for (let i = 0; i < count; i++) sightings2025.push(when);
+    }
+  }
+}
+
+
+Build a zero-filled 12-month array from sightings2025:
+
+const monthly2025 = Array.from({ length: 12 }, () => 0); // Jan..Dec
+for (const d of sightings2025) {
+  const m = d.getMonth(); // 0..11
+  monthly2025[m] += 1;
+}
+
+
+Bind the timeline chart to monthly2025 and update the title/subtitle:
+
+Title text: “Migration Timeline (Monthly)”
+
+Subtitle/caption under the chart: “Year: 2025” (or in the widget header)
+
+Labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+
+Do not mix years in the timeline. Remove/replace any previous month aggregator that ignored the year, e.g. code like:
+
+// WRONG: groups across all years
+const m = new Date(x.date).getMonth();
+timeline[m]++
+
+
+must be replaced by the year-filtered version above.
+
+Keep existing KPIs and other charts as they are, but add small captions:
+
+Under Total Species / Total Sightings: “All-time totals (current dataset)”
+
+Under Timeline: “2025 (Jan–Dec)”
+
+Acceptance criteria (must pass):
+
+Timeline shows 12 points (Jan→Dec) and only counts from 2025.
+
+Months with no data show 0 (no gaps / NaN).
+
+No values from 2024/earlier appear in the 2025 timeline.
+
+The rest of the dashboard remains unchanged (Top-5, pie, KPIs).
+
+Captions visible: KPIs = “All-time totals”; Timeline = “2025 (Jan–Dec)”.
