@@ -42,7 +42,7 @@ const allBirds: BirdCardProps[] = [
     weight: "2-3.5 kg",
     habitat: "Year-round",
     season: "Year-round",
-    arModelUrl: "https://mywebar.com/qr/812728",
+    arModelUrl: "https://mywebar.com/p/Project_0_nbs0242503",
     onARView: () => {},
     onDetails: () => {},
   },
