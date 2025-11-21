@@ -185,6 +185,49 @@ export default function Explore() {
           </Card>
         ) : location ? (
           <>
+            {/* Weather Summary Card - Always Visible */}
+            {nearbyBirds.length > 0 && (
+              <Card className="mb-8 bg-gradient-to-r from-orange-50 to-blue-50 dark:from-orange-950 dark:to-blue-950 border-orange-200 dark:border-orange-800">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Thermometer className="h-6 w-6 text-orange-500" />
+                    Current Weather Conditions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-3 gap-6">
+                    <div className="flex items-center gap-4 p-4 bg-white dark:bg-slate-900 rounded-lg">
+                      <Thermometer className="h-10 w-10 text-orange-500" />
+                      <div>
+                        <p className="text-sm text-muted-foreground mb-1">Temperature</p>
+                        <p className="text-3xl font-bold" data-testid="text-weather-temp-main">
+                          {nearbyBirds[0].temperature}°C
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 p-4 bg-white dark:bg-slate-900 rounded-lg">
+                      <Droplets className="h-10 w-10 text-blue-500" />
+                      <div>
+                        <p className="text-sm text-muted-foreground mb-1">Humidity</p>
+                        <p className="text-3xl font-bold" data-testid="text-weather-humidity-main">
+                          {nearbyBirds[0].humidity}%
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 p-4 bg-white dark:bg-slate-900 rounded-lg">
+                      <Wind className="h-10 w-10 text-blue-400" />
+                      <div>
+                        <p className="text-sm text-muted-foreground mb-1">Condition</p>
+                        <p className="text-lg font-bold" data-testid="text-weather-condition-main">
+                          {nearbyBirds[0].weatherCondition || "Clear"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="map">Your Location</TabsTrigger>
@@ -250,11 +293,11 @@ export default function Explore() {
                     </p>
                   </Card>
                 ) : (
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {nearbyBirds.map((bird) => (
-                      <Card key={bird.id} className="hover-elevate cursor-pointer" data-testid={`card-nearby-bird-${bird.id}`}>
+                      <Card key={bird.id} className="hover-elevate cursor-pointer overflow-hidden" data-testid={`card-nearby-bird-${bird.id}`}>
                         <CardContent className="pt-6">
-                          <div className="flex justify-between items-start mb-3">
+                          <div className="flex justify-between items-start mb-4">
                             <div className="flex-1">
                               <h3 className="font-semibold text-lg" data-testid={`text-bird-name-${bird.id}`}>
                                 {bird.commonName}
@@ -268,33 +311,40 @@ export default function Explore() {
                             </Badge>
                           </div>
 
-                          <div className="grid grid-cols-4 gap-2 mb-3">
-                            {bird.temperature !== undefined && (
-                              <div className="flex items-center gap-1 text-sm bg-muted p-2 rounded">
-                                <Thermometer className="h-4 w-4 text-orange-500" />
-                                <span data-testid={`text-temp-${bird.id}`}>
-                                  {bird.temperature}°
-                                </span>
+                          {/* Weather Data Section - More Prominent */}
+                          <div className="mb-4 p-4 bg-gradient-to-r from-orange-100 to-blue-100 dark:from-orange-900 dark:to-blue-900 rounded-lg border-l-4 border-orange-500">
+                            <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase">Weather at Sighting Location</p>
+                            <div className="grid grid-cols-3 gap-3">
+                              <div className="flex items-center gap-2">
+                                <Thermometer className="h-5 w-5 text-orange-500" />
+                                <div>
+                                  <p className="text-xs text-muted-foreground">Temp</p>
+                                  <p className="font-bold text-lg" data-testid={`text-temp-${bird.id}`}>
+                                    {bird.temperature}°C
+                                  </p>
+                                </div>
                               </div>
-                            )}
-                            {bird.humidity !== undefined && (
-                              <div className="flex items-center gap-1 text-sm bg-muted p-2 rounded">
-                                <Droplets className="h-4 w-4 text-blue-500" />
-                                <span data-testid={`text-humidity-${bird.id}`}>
-                                  {bird.humidity}%
-                                </span>
+                              <div className="flex items-center gap-2">
+                                <Droplets className="h-5 w-5 text-blue-500" />
+                                <div>
+                                  <p className="text-xs text-muted-foreground">Humidity</p>
+                                  <p className="font-bold text-lg" data-testid={`text-humidity-${bird.id}`}>
+                                    {bird.humidity}%
+                                  </p>
+                                </div>
                               </div>
-                            )}
-                            {bird.weatherCondition && (
-                              <div className="col-span-2 text-sm bg-muted p-2 rounded" data-testid={`text-weather-${bird.id}`}>
-                                {bird.weatherCondition}
+                              <div>
+                                <p className="text-xs text-muted-foreground">Condition</p>
+                                <p className="font-bold" data-testid={`text-weather-${bird.id}`}>
+                                  {bird.weatherCondition}
+                                </p>
                               </div>
-                            )}
+                            </div>
                           </div>
 
                           <div className="flex justify-between items-center text-sm text-muted-foreground">
                             <span data-testid={`text-location-${bird.id}`}>
-                              {bird.location}
+                              📍 {bird.location}
                             </span>
                             <span data-testid={`text-date-${bird.id}`}>
                               {bird.date}
@@ -308,50 +358,6 @@ export default function Explore() {
               </TabsContent>
             </Tabs>
 
-            {/* Weather Summary Card */}
-            {nearbyBirds.length > 0 && nearbyBirds[0].temperature && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Thermometer className="h-5 w-5 text-orange-500" />
-                    Weather at Your Location
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="flex items-center gap-3">
-                      <Thermometer className="h-8 w-8 text-orange-500" />
-                      <div>
-                        <p className="text-sm text-muted-foreground">Temperature</p>
-                        <p className="text-2xl font-bold" data-testid="text-weather-temp">
-                          {nearbyBirds[0].temperature}°C
-                        </p>
-                      </div>
-                    </div>
-                    {nearbyBirds[0].humidity && (
-                      <div className="flex items-center gap-3">
-                        <Droplets className="h-8 w-8 text-blue-500" />
-                        <div>
-                          <p className="text-sm text-muted-foreground">Humidity</p>
-                          <p className="text-2xl font-bold" data-testid="text-weather-humidity">
-                            {nearbyBirds[0].humidity}%
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                    <div className="flex items-center gap-3">
-                      <Wind className="h-8 w-8 text-blue-400" />
-                      <div>
-                        <p className="text-sm text-muted-foreground">Condition</p>
-                        <p className="text-lg font-bold" data-testid="text-weather-condition">
-                          {nearbyBirds[0].weatherCondition || "Clear"}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
           </>
         ) : null}
       </div>
