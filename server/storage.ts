@@ -343,7 +343,7 @@ export class DbStorage implements IStorage {
     }
   }
 
-  // Timeline by Year (UTC-based, per-sighting aggregation)
+  // Timeline by Year (UTC-based, per-sighting aggregation) - Jan to Nov only
   async getTimelineByYear(year: number): Promise<{
     year: number;
     monthly: number[];
@@ -351,7 +351,7 @@ export class DbStorage implements IStorage {
   }> {
     try {
       const allSightings = await this.getAllSightings();
-      const monthly = Array(12).fill(0);
+      const monthly = Array(11).fill(0);
       let total = 0;
       const yearCounts = new Map<number, number>();
 
@@ -362,7 +362,7 @@ export class DbStorage implements IStorage {
 
         yearCounts.set(sightingYear, (yearCounts.get(sightingYear) || 0) + 1);
 
-        if (sightingYear === year) {
+        if (sightingYear === year && sightingMonth < 11) {
           monthly[sightingMonth] += 1;
           total += 1;
         }
@@ -374,7 +374,7 @@ export class DbStorage implements IStorage {
     } catch (error) {
       console.error("Error fetching timeline by year:", error);
       
-      // Fallback: Demo 2025 data
+      // Fallback: Demo 2025 data (Jan-Nov only)
       if (year === 2025) {
         return {
           year: 2025,
@@ -389,14 +389,13 @@ export class DbStorage implements IStorage {
             150, // Aug
             0,   // Sep
             220, // Oct
-            350, // Nov
-            450  // Dec
+            350  // Nov
           ],
-          total: 2500
+          total: 1850
         };
       }
       
-      return { year, monthly: Array(12).fill(0), total: 0 };
+      return { year, monthly: Array(11).fill(0), total: 0 };
     }
   }
 

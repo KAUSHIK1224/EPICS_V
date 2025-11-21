@@ -200,7 +200,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const year = parseInt(req.query.year as string) || 2025;
       const timeline = await storage.getTimelineByYear(year);
-      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov"];
       const monthly = months.map((month, idx) => ({ month, count: timeline.monthly[idx] || 0 }));
       res.json({ year: timeline.year, monthly, total: timeline.total });
     } catch (error) {

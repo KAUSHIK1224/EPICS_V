@@ -281,7 +281,7 @@ export default function AnalyticsDashboard() {
                     data={(() => {
                       const months = timeline?.monthly || [];
                       return [
-                        { season: "Winter (Dec-Feb)", count: (months[11]?.count || 0) + (months[0]?.count || 0) + (months[1]?.count || 0) },
+                        { season: "Winter (Jan-Feb)", count: (months[0]?.count || 0) + (months[1]?.count || 0) },
                         { season: "Summer (Mar-May)", count: (months[2]?.count || 0) + (months[3]?.count || 0) + (months[4]?.count || 0) },
                         { season: "Monsoon (Jun-Sep)", count: (months[5]?.count || 0) + (months[6]?.count || 0) + (months[7]?.count || 0) + (months[8]?.count || 0) },
                         { season: "Post-monsoon (Oct-Nov)", count: (months[9]?.count || 0) + (months[10]?.count || 0) }
