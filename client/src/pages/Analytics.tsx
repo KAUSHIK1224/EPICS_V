@@ -319,9 +319,32 @@ export default function AnalyticsDashboard() {
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={analytics.topSpecies}>
+              <BarChart data={analytics.topSpecies} margin={{ bottom: 60 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} />
+                <XAxis 
+                  dataKey="name"
+                  tick={({ x, y, payload }) => {
+                    const label = payload.value;
+                    const words = label.split(/\s+/);
+                    return (
+                      <g transform={`translate(${x},${y})`}>
+                        {words.map((word, i) => (
+                          <text 
+                            key={i} 
+                            x={0} 
+                            y={i * 12} 
+                            textAnchor="middle" 
+                            fill="currentColor"
+                            fontSize={12}
+                          >
+                            {word}
+                          </text>
+                        ))}
+                      </g>
+                    );
+                  }}
+                  height={60}
+                />
                 <YAxis />
                 <Tooltip />
                 <Bar dataKey="count" fill="#3b82f6" />
