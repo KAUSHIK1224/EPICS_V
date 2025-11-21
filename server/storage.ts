@@ -73,6 +73,15 @@ export interface IStorage {
 
   // Hotspots
   getAllHotspots(): Promise<SanctuaryHotspot[]>;
+  
+  // Analytics
+  getAnalytics(): Promise<{
+    totalSpecies: number;
+    totalSightings: number;
+    topSpecies: Array<{ name: string; count: number; conservationStatus: string }>;
+    migrationData: Array<{ month: string; count: number }>;
+    seasonalData: Array<{ season: string; count: number }>;
+  }>;
   getNearbyHotspots(latitude: number, longitude: number, radiusKm: number): Promise<SanctuaryHotspot[]>;
   createHotspot(hotspotData: InsertHotspot): Promise<SanctuaryHotspot>;
 
@@ -323,6 +332,83 @@ export class DbStorage implements IStorage {
     } catch (error) {
       console.error("Error searching species:", error);
       return [];
+    }
+  }
+
+  // Analytics
+  async getAnalytics() {
+    try {
+      const allSightings = await this.getAllSightings();
+      const allSpecies = await this.getAllSpecies();
+      
+      // Total species and sightings
+      const totalSpecies = allSpecies.length;
+      const totalSightings = allSightings.length;
+      
+      // Top species by sightings
+      const speciesMap = new Map<string, number>();
+      allSightings.forEach(s => {
+        const name = s.identifiedSpecies || 'Unknown';
+        speciesMap.set(name, (speciesMap.get(name) || 0) + 1);
+      });
+      
+      const topSpecies = Array.from(speciesMap.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([name, count]) => ({
+          name,
+          count,
+          conservationStatus: 'Least Concern'
+        }));
+      
+      // Migration data by month
+      const monthMap = new Map<string, number>();
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      months.forEach(m => monthMap.set(m, 0));
+      
+      allSightings.forEach(s => {
+        const date = new Date(s.date);
+        const month = months[date.getMonth()];
+        monthMap.set(month, (monthMap.get(month) || 0) + 1);
+      });
+      
+      const migrationData = Array.from(monthMap.entries()).map(([month, count]) => ({ month, count }));
+      
+      // Seasonal data
+      const seasonalMap = new Map<string, number>([
+        ['Winter (Dec-Feb)', 0],
+        ['Summer (Mar-May)', 0],
+        ['Monsoon (Jun-Sep)', 0],
+        ['Post-monsoon (Oct-Nov)', 0]
+      ]);
+      
+      allSightings.forEach(s => {
+        const date = new Date(s.date);
+        const month = date.getMonth();
+        if ([11, 0, 1].includes(month)) seasonalMap.set('Winter (Dec-Feb)', (seasonalMap.get('Winter (Dec-Feb)') || 0) + 1);
+        else if ([2, 3, 4].includes(month)) seasonalMap.set('Summer (Mar-May)', (seasonalMap.get('Summer (Mar-May)') || 0) + 1);
+        else if ([5, 6, 7, 8].includes(month)) seasonalMap.set('Monsoon (Jun-Sep)', (seasonalMap.get('Monsoon (Jun-Sep)') || 0) + 1);
+        else seasonalMap.set('Post-monsoon (Oct-Nov)', (seasonalMap.get('Post-monsoon (Oct-Nov)') || 0) + 1);
+      });
+      
+      const seasonalData = Array.from(seasonalMap.entries()).map(([season, count]) => ({ season, count }));
+      
+      return {
+        totalSpecies,
+        totalSightings,
+        topSpecies,
+        migrationData,
+        seasonalData
+      };
+    } catch (error) {
+      console.error("Error fetching analytics:", error);
+      return {
+        totalSpecies: 0,
+        totalSightings: 0,
+        topSpecies: [],
+        migrationData: [],
+        seasonalData: []
+      };
     }
   }
 }

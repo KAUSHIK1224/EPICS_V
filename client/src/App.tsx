@@ -11,6 +11,7 @@ import Location from "@/pages/Location";
 import BookVisit from "@/pages/BookVisit";
 import Explore from "@/pages/Explore";
 import AwarenessHub from "@/pages/AwarenessHub";
+import Analytics from "@/pages/Analytics";
 import Admin from "@/pages/Admin";
 import NotFound from "@/pages/not-found";
 
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/book" component={BookVisit} />
       <Route path="/explore" component={Explore} />
       <Route path="/awareness" component={AwarenessHub} />
+      <Route path="/analytics" component={Analytics} />
       <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>

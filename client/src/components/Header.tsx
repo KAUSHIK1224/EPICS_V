@@ -15,9 +15,9 @@ export default function Header() {
     { label: "Home", path: "/" },
     { label: "Species", path: "/species" },
     { label: "Awareness", path: "/awareness" },
+    { label: "Analytics", path: "/analytics" },
     { label: "Explore", path: "/explore" },
     { label: "Gallery", path: "/gallery" },
-    { label: "Visit Info", path: "/visit" },
   ];
 
   return (
