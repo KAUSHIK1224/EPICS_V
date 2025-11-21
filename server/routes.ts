@@ -185,6 +185,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(safeUser);
   });
 
+  // ========== ANALYTICS API ==========
+  app.get("/api/analytics", async (req, res) => {
+    try {
+      const analyticsData = await storage.getAnalytics();
+      res.json(analyticsData);
+    } catch (error) {
+      console.error("Error fetching analytics:", error);
+      res.status(500).json({ error: "Failed to fetch analytics" });
+    }
+  });
+
   // ========== SEED DATA (for demo) ==========
   app.post("/api/seed-demo", async (req, res) => {
     try {
