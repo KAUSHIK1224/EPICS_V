@@ -18,6 +18,20 @@ interface Analytics {
 const COLORS = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6"];
 const STATUS_COLORS = ["#22c55e", "#f59e0b", "#ef4444"]; // green/orange/red for Resident/Migratory/Rare
 
+// Map status to semantic color
+const getStatusColor = (status?: string): string => {
+  switch (status) {
+    case "Resident":
+      return "#22c55e"; // green
+    case "Migratory":
+      return "#f59e0b"; // orange
+    case "Rare":
+      return "#ef4444"; // red
+    default:
+      return "#3b82f6"; // blue default
+  }
+};
+
 export default function AnalyticsDashboard() {
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [loading, setLoading] = useState(true);
@@ -67,34 +81,37 @@ export default function AnalyticsDashboard() {
         </div>
 
         {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground mb-1">Total Species Observed</p>
-                  <p className="text-4xl font-bold" data-testid="text-total-species">
-                    {analytics.totalSpecies}
-                  </p>
+        <div className="mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-2">
+            <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Total Species Observed</p>
+                    <p className="text-4xl font-bold" data-testid="text-total-species">
+                      {analytics.totalSpecies}
+                    </p>
+                  </div>
+                  <Bird className="h-16 w-16 text-blue-500 opacity-50" />
                 </div>
-                <Bird className="h-16 w-16 text-blue-500 opacity-50" />
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground mb-1">Total Sightings Recorded</p>
-                  <p className="text-4xl font-bold" data-testid="text-total-sightings">
-                    {analytics.totalSightings}
-                  </p>
+            <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Total Sightings Recorded</p>
+                    <p className="text-4xl font-bold" data-testid="text-total-sightings">
+                      {analytics.totalSightings}
+                    </p>
+                  </div>
+                  <Calendar className="h-16 w-16 text-green-500 opacity-50" />
                 </div>
-                <Calendar className="h-16 w-16 text-green-500 opacity-50" />
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
+          <p className="text-xs text-muted-foreground px-1">All-time totals (demo dataset / current dataset period)</p>
         </div>
 
         {/* Top Species */}
@@ -135,39 +152,50 @@ export default function AnalyticsDashboard() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Bird className="h-5 w-5 text-red-500" />
+                <Bird className="h-5 w-5" style={{ color: "#ef4444" }} />
                 Top 5 Rare & Migratory Birds
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                {analytics.rareSpecies && analytics.rareSpecies.length > 0 ? (
-                  analytics.rareSpecies.map((species, idx) => (
+              {analytics.rareSpecies && analytics.rareSpecies.length > 0 ? (
+                <div className="space-y-3">
+                  {analytics.rareSpecies.map((species, idx) => (
                     <div
                       key={idx}
                       className="flex items-center justify-between p-3 bg-muted rounded-lg"
                       data-testid={`rare-species-row-${idx}`}
                     >
                       <div className="flex items-center gap-3 flex-1">
-                        <div className="text-lg font-bold text-red-500 min-w-8">{idx + 1}.</div>
+                        <div className="text-lg font-bold min-w-8" style={{ color: getStatusColor(species.status) }}>
+                          {idx + 1}.
+                        </div>
                         <div className="flex-1">
                           <p className="font-semibold">{species.name}</p>
                           <p className="text-xs text-muted-foreground">{species.conservationStatus}</p>
                           {species.status && (
-                            <p className="text-xs font-medium text-amber-600">{species.status}</p>
+                            <Badge
+                              className="mt-1"
+                              style={{ backgroundColor: getStatusColor(species.status), color: "white" }}
+                            >
+                              {species.status}
+                            </Badge>
                           )}
                           {species.lastObserved && (
                             <p className="text-xs text-muted-foreground mt-1">Last observed: {species.lastObserved}</p>
                           )}
                         </div>
                       </div>
-                      <Badge className="bg-red-500">{species.count} sightings</Badge>
+                      <Badge style={{ backgroundColor: getStatusColor(species.status), color: "white" }}>
+                        {species.count} sightings
+                      </Badge>
                     </div>
-                  ))
-                ) : (
-                  <p className="text-sm text-muted-foreground">No rare species data available</p>
-                )}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground" data-testid="text-no-rare-species">
+                  No rare/migratory sightings recorded in the current dataset.
+                </p>
+              )}
             </CardContent>
           </Card>
         </div>
