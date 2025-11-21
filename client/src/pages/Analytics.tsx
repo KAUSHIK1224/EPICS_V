@@ -12,9 +12,11 @@ interface Analytics {
   rareSpecies?: Array<{ name: string; count: number; conservationStatus: string; lastObserved?: string; status?: string }>;
   migrationData: Array<{ month: string; count: number }>;
   seasonalData: Array<{ season: string; count: number }>;
+  statusDistribution?: Array<{ name: string; value: number }>;
 }
 
 const COLORS = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6"];
+const STATUS_COLORS = ["#22c55e", "#f59e0b", "#ef4444"]; // green/orange/red for Resident/Migratory/Rare
 
 export default function AnalyticsDashboard() {
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
@@ -217,18 +219,68 @@ export default function AnalyticsDashboard() {
                     cx="50%"
                     cy="50%"
                     outerRadius={80}
-                    label
+                    label={({ season, count }) => {
+                      const total = analytics.seasonalData.reduce((sum, s) => sum + s.count, 0);
+                      const percent = ((count / total) * 100).toFixed(1);
+                      return `${season}: ${percent}%`;
+                    }}
                   >
                     {analytics.seasonalData.map((_, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <Tooltip formatter={(value, name, props) => {
+                    const total = analytics.seasonalData.reduce((sum, s) => sum + s.count, 0);
+                    const percent = ((value / total) * 100).toFixed(1);
+                    return [`${value} sightings (${percent}%)`, props.payload.season];
+                  }} />
+                  <Legend />
                 </PieChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
         </div>
+
+        {/* Status Distribution Pie Chart */}
+        {analytics.statusDistribution && (
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Bird className="h-5 w-5 text-primary" />
+                Bird Status Distribution
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={350}>
+                <PieChart>
+                  <Pie
+                    data={analytics.statusDistribution}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={100}
+                    label={({ name, value }) => {
+                      const total = analytics.statusDistribution!.reduce((sum, s) => sum + s.value, 0);
+                      const percent = ((value / total) * 100).toFixed(1);
+                      return `${name}: ${percent}%`;
+                    }}
+                  >
+                    {analytics.statusDistribution.map((_, index) => (
+                      <Cell key={`status-cell-${index}`} fill={STATUS_COLORS[index]} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value, name, props) => {
+                    const total = analytics.statusDistribution!.reduce((sum, s) => sum + s.value, 0);
+                    const percent = ((value / total) * 100).toFixed(1);
+                    return [`${value} sightings (${percent}%)`, props.payload.name];
+                  }} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Species Bar Chart */}
         <Card>

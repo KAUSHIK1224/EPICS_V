@@ -79,8 +79,10 @@ export interface IStorage {
     totalSpecies: number;
     totalSightings: number;
     topSpecies: Array<{ name: string; count: number; conservationStatus: string }>;
+    rareSpecies?: Array<{ name: string; count: number; conservationStatus: string; status?: string }>;
     migrationData: Array<{ month: string; count: number }>;
     seasonalData: Array<{ season: string; count: number }>;
+    statusDistribution?: Array<{ name: string; value: number }>;
   }>;
   getNearbyHotspots(latitude: number, longitude: number, radiusKm: number): Promise<SanctuaryHotspot[]>;
   createHotspot(hotspotData: InsertHotspot): Promise<SanctuaryHotspot>;
@@ -418,13 +420,27 @@ export class DbStorage implements IStorage {
       
       const seasonalData = Array.from(seasonalMap.entries()).map(([season, count]) => ({ season, count }));
       
+      // Calculate status distribution (Resident, Migratory, Rare)
+      const statusBuckets = { Resident: 0, Migratory: 0, Rare: 0 };
+      for (const sp of speciesWithCounts) {
+        if (sp.status && sp.status in statusBuckets) {
+          statusBuckets[sp.status as keyof typeof statusBuckets] += sp.sightings;
+        }
+      }
+      const statusDistribution = [
+        { name: 'Resident', value: statusBuckets.Resident },
+        { name: 'Migratory', value: statusBuckets.Migratory },
+        { name: 'Rare', value: statusBuckets.Rare }
+      ];
+      
       return {
         totalSpecies,
         totalSightings,
         topSpecies,
         rareSpecies,
         migrationData,
-        seasonalData
+        seasonalData,
+        statusDistribution
       };
     } catch (error) {
       console.error("Error fetching analytics:", error);
@@ -496,13 +512,20 @@ export class DbStorage implements IStorage {
         { season: "Post-monsoon (Oct-Nov)", count: 970 },
       ];
       
+      const statusDistribution = [
+        { name: 'Resident', value: 5500 },
+        { name: 'Migratory', value: 1700 },
+        { name: 'Rare', value: 1830 }
+      ];
+      
       return {
         totalSpecies,
         totalSightings,
         topSpecies,
         rareSpecies,
         migrationData,
-        seasonalData
+        seasonalData,
+        statusDistribution
       };
     }
   }
