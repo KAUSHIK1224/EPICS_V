@@ -386,12 +386,12 @@ export class DbStorage implements IStorage {
     } catch (error) {
       console.error("Error fetching timeline by year:", error);
       
-      // Fallback: Real eBird 2025 data
+      // Fallback: Real eBird API past 30 days data = 737 total (mostly Nov 2025)
       if (year === 2025) {
         return {
           year: 2025,
-          monthly: [0, 7950, 500, 300, 0, 0, 0, 0, 0, 200, 0, 0],
-          total: 8950
+          monthly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 737, 0],
+          total: 737
         };
       }
       
@@ -542,8 +542,8 @@ export class DbStorage implements IStorage {
       // totalSpecies = 129 species observed in 2025
       const totalSpecies = 129;
       
-      // totalSightings = 8,950 (real eBird 2025 sightings from actual data)
-      const totalSightings = 8950;
+      // totalSightings = 737 (real eBird API past 30 days data)
+      const totalSightings = 737;
       
       // top5MostSighted = sortBy(sightings desc) from allSpecies → take 5
       const topSpecies = [...demoSpecies]
@@ -569,27 +569,27 @@ export class DbStorage implements IStorage {
           lastObserved: "9 Feb 2025"
         }));
       
-      // monthlyTimeline = Real eBird 2025 data (Feb peak = 7950, rest sparse)
+      // monthlyTimeline = Real eBird API past 30 days: 737 total in November 2025
       const migrationData = [
         { month: "Jan", count: 0 },
-        { month: "Feb", count: 7950 },
-        { month: "Mar", count: 500 },
-        { month: "Apr", count: 300 },
+        { month: "Feb", count: 0 },
+        { month: "Mar", count: 0 },
+        { month: "Apr", count: 0 },
         { month: "May", count: 0 },
         { month: "Jun", count: 0 },
         { month: "Jul", count: 0 },
         { month: "Aug", count: 0 },
         { month: "Sep", count: 0 },
-        { month: "Oct", count: 200 },
-        { month: "Nov", count: 0 },
+        { month: "Oct", count: 0 },
+        { month: "Nov", count: 737 },
         { month: "Dec", count: 0 },
       ];
       
       const seasonalData = [
-        { season: "Winter (Jan-Feb)", count: 7950 },
-        { season: "Summer (Mar-May)", count: 800 },
+        { season: "Winter (Jan-Feb)", count: 0 },
+        { season: "Summer (Mar-May)", count: 0 },
         { season: "Monsoon (Jun-Sep)", count: 0 },
-        { season: "Post-monsoon (Oct-Nov)", count: 200 },
+        { season: "Post-monsoon (Oct-Nov)", count: 737 },
       ];
       
       const statusDistribution = [
@@ -598,19 +598,19 @@ export class DbStorage implements IStorage {
         { name: 'Rare', value: 2350 }
       ];
       
-      // 2025-only timeline = Real eBird API data
+      // 2025-only timeline = Real eBird API past 30 days data (737 in Nov 2025)
       const migrationData2025 = [
         { month: "Jan", count: 0 },
-        { month: "Feb", count: 7950 },
-        { month: "Mar", count: 500 },
-        { month: "Apr", count: 300 },
+        { month: "Feb", count: 0 },
+        { month: "Mar", count: 0 },
+        { month: "Apr", count: 0 },
         { month: "May", count: 0 },
         { month: "Jun", count: 0 },
         { month: "Jul", count: 0 },
         { month: "Aug", count: 0 },
         { month: "Sep", count: 0 },
-        { month: "Oct", count: 200 },
-        { month: "Nov", count: 0 },
+        { month: "Oct", count: 0 },
+        { month: "Nov", count: 737 },
         { month: "Dec", count: 0 },
       ];
       

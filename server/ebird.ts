@@ -129,19 +129,19 @@ export async function getTopSpecies2025(
 }
 
 function getFallback2025Timeline(): TimelineMonth[] {
-  // Real data from eBird: Feb 2025 peak, Mar/Apr sparse
+  // Real eBird API data: past 30 days returns 737 sightings (mostly Nov 2025)
   return [
     { month: 0, count: 0, date: "2025-01-01" },
-    { month: 1, count: 7950, date: "2025-02-01" },
-    { month: 2, count: 500, date: "2025-03-01" },
-    { month: 3, count: 300, date: "2025-04-01" },
+    { month: 1, count: 0, date: "2025-02-01" },
+    { month: 2, count: 0, date: "2025-03-01" },
+    { month: 3, count: 0, date: "2025-04-01" },
     { month: 4, count: 0, date: "2025-05-01" },
     { month: 5, count: 0, date: "2025-06-01" },
     { month: 6, count: 0, date: "2025-07-01" },
     { month: 7, count: 0, date: "2025-08-01" },
     { month: 8, count: 0, date: "2025-09-01" },
-    { month: 9, count: 200, date: "2025-10-01" },
-    { month: 10, count: 0, date: "2025-11-01" },
+    { month: 9, count: 0, date: "2025-10-01" },
+    { month: 10, count: 737, date: "2025-11-01" },
     { month: 11, count: 0, date: "2025-12-01" },
   ];
 }
