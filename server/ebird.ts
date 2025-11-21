@@ -21,6 +21,8 @@ export interface TimelineMonth {
 
 async function fetchEbirdData(url: string): Promise<any> {
   const apiKey = process.env.EBIRD_API_KEY;
+  console.log(`DEBUG: API Key set? ${!!apiKey}, URL: ${url}`);
+  
   if (!apiKey) {
     console.warn("EBIRD_API_KEY not set, using fallback data");
     return null;
@@ -33,12 +35,16 @@ async function fetchEbirdData(url: string): Promise<any> {
       },
     });
 
+    console.log(`DEBUG: API response status: ${response.status}`);
+    const text = await response.text();
+    console.log(`DEBUG: API response text: ${text.substring(0, 200)}`);
+
     if (!response.ok) {
-      console.error(`eBird API error: ${response.status}`);
+      console.error(`eBird API error: ${response.status} - ${text}`);
       return null;
     }
 
-    return response.json();
+    return JSON.parse(text);
   } catch (error) {
     console.error("Error fetching from eBird API:", error);
     return null;
@@ -47,8 +53,8 @@ async function fetchEbirdData(url: string): Promise<any> {
 
 export async function get2025Timeline(): Promise<TimelineMonth[]> {
   try {
-    // Fetch recent observations (past 90 days covers current 2025 data)
-    const url = `${EBIRD_API_BASE}/data/obs/${VEDANTHANGAL_HOTSPOT}/recent?back=90`;
+    // Fetch recent observations (past 30 days is max allowed by eBird API)
+    const url = `${EBIRD_API_BASE}/data/obs/${VEDANTHANGAL_HOTSPOT}/recent?back=30`;
     const data = (await fetchEbirdData(url)) as EbirdObservation[] | null;
 
     if (!data || !Array.isArray(data)) {
@@ -89,7 +95,7 @@ export async function getTopSpecies2025(
   limit: number = 5
 ): Promise<Array<{ name: string; count: number; status: string }>> {
   try {
-    const url = `${EBIRD_API_BASE}/data/obs/${VEDANTHANGAL_HOTSPOT}/recent?back=90`;
+    const url = `${EBIRD_API_BASE}/data/obs/${VEDANTHANGAL_HOTSPOT}/recent?back=30`;
     const data = (await fetchEbirdData(url)) as EbirdObservation[] | null;
 
     if (!data || !Array.isArray(data)) {
