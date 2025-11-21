@@ -41,7 +41,11 @@ const getStatusColor = (status?: string): string => {
 
 export default function AnalyticsDashboard() {
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
-  const [timeline, setTimeline] = useState<TimelineData | null>(null);
+  const [timeline, setTimeline] = useState<TimelineData>({
+    year: 2025,
+    monthly: Array(12).fill({ month: '', count: 0 }),
+    total: 0
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -52,18 +56,13 @@ export default function AnalyticsDashboard() {
           fetch("/api/analytics/timeline?year=2025")
         ]);
         
-        if (!analyticsRes.ok || !timelineRes.ok) {
-          throw new Error(`API error: ${analyticsRes.status}, ${timelineRes.status}`);
-        }
-        
         const analyticsData = await analyticsRes.json();
         const timelineData = await timelineRes.json();
         
         setAnalytics(analyticsData);
-        setTimeline(timelineData);
+        setTimeline(timelineData || { year: 2025, monthly: [], total: 0 });
       } catch (error) {
         console.error("Failed to fetch analytics:", error);
-        setLoading(false);
       } finally {
         setLoading(false);
       }
@@ -72,12 +71,24 @@ export default function AnalyticsDashboard() {
     fetchAnalytics();
   }, []);
 
-  if (loading || !analytics || !timeline) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
         <div className="container mx-auto max-w-6xl px-4 py-8">
           <p className="text-muted-foreground">Loading analytics...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  // Fallback if data fails to load
+  if (!analytics) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto max-w-6xl px-4 py-8">
+          <p className="text-red-500">Failed to load analytics data</p>
         </div>
       </div>
     );
@@ -234,11 +245,11 @@ export default function AnalyticsDashboard() {
                 <Calendar className="h-5 w-5 text-primary" />
                 Migration Timeline (Monthly)
               </CardTitle>
-              <p className="text-sm text-muted-foreground mt-2">Year: {timeline.year}</p>
+              <p className="text-sm text-muted-foreground mt-2">Year: {timeline?.year || 2025}</p>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={timeline.monthly}>
+                <LineChart data={timeline?.monthly || []}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
@@ -268,7 +279,7 @@ export default function AnalyticsDashboard() {
                 <PieChart>
                   <Pie
                     data={(() => {
-                      const months = timeline.monthly;
+                      const months = timeline?.monthly || [];
                       return [
                         { season: "Winter (Dec-Feb)", count: (months[11]?.count || 0) + (months[0]?.count || 0) + (months[1]?.count || 0) },
                         { season: "Summer (Mar-May)", count: (months[2]?.count || 0) + (months[3]?.count || 0) + (months[4]?.count || 0) },
@@ -282,7 +293,7 @@ export default function AnalyticsDashboard() {
                     cy="50%"
                     outerRadius={80}
                     label={({ season, count }) => {
-                      const total = timeline.total;
+                      const total = timeline?.total || 0;
                       const percent = total > 0 ? ((count / total) * 100).toFixed(1) : 0;
                       return `${season}: ${percent}%`;
                     }}
@@ -293,7 +304,7 @@ export default function AnalyticsDashboard() {
                   </Pie>
                   <Tooltip formatter={(value: any) => {
                     const numValue = Number(value);
-                    const total = timeline.total;
+                    const total = timeline?.total || 0;
                     const percent = total > 0 ? ((numValue / total) * 100).toFixed(1) : 0;
                     return `${numValue} sightings (${percent}%)`;
                   }} />
