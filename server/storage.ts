@@ -234,6 +234,84 @@ export class DbStorage implements IStorage {
       });
     }
   }
+
+  // Community Features
+  async getAllCommunityPosts(): Promise<CommunityPost[]> {
+    return await db.select().from(communityPosts).orderBy(sql`${communityPosts.createdAt} DESC`);
+  }
+
+  async getUserPosts(userId: string): Promise<CommunityPost[]> {
+    return await db.select().from(communityPosts).where(eq(communityPosts.userId, userId)).orderBy(sql`${communityPosts.createdAt} DESC`);
+  }
+
+  async getCommunityPost(id: string): Promise<CommunityPost | undefined> {
+    const [post] = await db.select().from(communityPosts).where(eq(communityPosts.id, id));
+    return post;
+  }
+
+  async createCommunityPost(postData: InsertCommunityPost): Promise<CommunityPost> {
+    const [newPost] = await db.insert(communityPosts).values(postData).returning();
+    return newPost;
+  }
+
+  async likePost(postId: string): Promise<void> {
+    const [post] = await db.select().from(communityPosts).where(eq(communityPosts.id, postId));
+    if (post) {
+      await db.update(communityPosts).set({ likes: post.likes + 1 }).where(eq(communityPosts.id, postId));
+    }
+  }
+
+  // Hotspots
+  async getAllHotspots(): Promise<SanctuaryHotspot[]> {
+    return await db.select().from(sanctuaryHotspots);
+  }
+
+  async getNearbyHotspots(latitude: number, longitude: number, radiusKm: number): Promise<SanctuaryHotspot[]> {
+    const radiusInDegrees = radiusKm / 111;
+    return await db
+      .select()
+      .from(sanctuaryHotspots)
+      .where(
+        and(
+          gte(sanctuaryHotspots.latitude, latitude - radiusInDegrees),
+          lte(sanctuaryHotspots.latitude, latitude + radiusInDegrees),
+          gte(sanctuaryHotspots.longitude, longitude - radiusInDegrees),
+          lte(sanctuaryHotspots.longitude, longitude + radiusInDegrees)
+        )
+      );
+  }
+
+  async createHotspot(hotspotData: InsertHotspot): Promise<SanctuaryHotspot> {
+    const [newHotspot] = await db.insert(sanctuaryHotspots).values(hotspotData).returning();
+    return newHotspot;
+  }
+
+  // Observations (Geo-location based)
+  async getNearbyObservations(latitude: number, longitude: number, radiusKm: number): Promise<Sighting[]> {
+    const radiusInDegrees = radiusKm / 111;
+    return await db
+      .select()
+      .from(sightings)
+      .where(
+        and(
+          gte(sightings.latitude, latitude - radiusInDegrees),
+          lte(sightings.latitude, latitude + radiusInDegrees),
+          gte(sightings.longitude, longitude - radiusInDegrees),
+          lte(sightings.longitude, longitude + radiusInDegrees)
+        )
+      )
+      .orderBy(sql`${sightings.date} DESC`);
+  }
+
+  // Search
+  async searchSpecies(query: string): Promise<Species[]> {
+    return await db
+      .select()
+      .from(species)
+      .where(
+        sql`${species.commonName} ILIKE ${'%' + query + '%'} OR ${species.scientificName} ILIKE ${'%' + query + '%'} OR ${species.tamilName} ILIKE ${'%' + query + '%'}`
+      );
+  }
 }
 
 export const storage = new DbStorage();
