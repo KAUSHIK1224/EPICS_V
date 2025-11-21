@@ -42,7 +42,7 @@ const allBirds: BirdCardProps[] = [
     weight: "2-3.5 kg",
     habitat: "Year-round",
     season: "Year-round",
-    arModelUrl: "https://example.com/ar/painted-stork.glb",
+    arModelUrl: "https://mywebar.com/qr/812728",
     onARView: () => {},
     onDetails: () => {},
   },
