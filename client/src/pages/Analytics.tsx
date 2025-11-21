@@ -43,7 +43,20 @@ export default function AnalyticsDashboard() {
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [timeline, setTimeline] = useState<TimelineData>({
     year: 2025,
-    monthly: Array(12).fill({ month: '', count: 0 }),
+    monthly: [
+      { month: "Jan", count: 0 },
+      { month: "Feb", count: 0 },
+      { month: "Mar", count: 0 },
+      { month: "Apr", count: 0 },
+      { month: "May", count: 0 },
+      { month: "Jun", count: 0 },
+      { month: "Jul", count: 0 },
+      { month: "Aug", count: 0 },
+      { month: "Sep", count: 0 },
+      { month: "Oct", count: 0 },
+      { month: "Nov", count: 0 },
+      { month: "Dec", count: 0 }
+    ],
     total: 0
   });
   const [loading, setLoading] = useState(true);
@@ -284,7 +297,8 @@ export default function AnalyticsDashboard() {
                         { season: "Winter (Jan-Feb)", count: (months[0]?.count || 0) + (months[1]?.count || 0) },
                         { season: "Summer (Mar-May)", count: (months[2]?.count || 0) + (months[3]?.count || 0) + (months[4]?.count || 0) },
                         { season: "Monsoon (Jun-Sep)", count: (months[5]?.count || 0) + (months[6]?.count || 0) + (months[7]?.count || 0) + (months[8]?.count || 0) },
-                        { season: "Post-monsoon (Oct-Nov)", count: (months[9]?.count || 0) + (months[10]?.count || 0) }
+                        { season: "Post-monsoon (Oct-Nov)", count: (months[9]?.count || 0) + (months[10]?.count || 0) },
+                        { season: "Dec (Upcoming)", count: (months[11]?.count || 0) }
                       ];
                     })()}
                     dataKey="count"
@@ -298,7 +312,7 @@ export default function AnalyticsDashboard() {
                       return `${season}: ${percent}%`;
                     }}
                   >
-                    {[0, 1, 2, 3].map((index) => (
+                    {[0, 1, 2, 3, 4].map((index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
@@ -401,20 +415,20 @@ export default function AnalyticsDashboard() {
         {/* Migration Insights */}
         <Card className="mt-8 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-950 dark:to-blue-950">
           <CardHeader>
-            <CardTitle>Migration Insights</CardTitle>
+            <CardTitle>2025 Migration Insights (Jan-Nov)</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <p className="font-semibold mb-2">Peak Migration Period</p>
+                <p className="font-semibold mb-2">Peak Activity Period</p>
                 <p className="text-sm text-muted-foreground">
-                  December to February shows the highest bird sighting activity, indicating the peak migration period when birds from northern regions migrate to the sanctuary for wintering.
+                  January-February and October-November show the highest bird sighting activity in 2025, indicating peak migration and wintering periods when birds from northern regions migrate to the sanctuary.
                 </p>
               </div>
               <div>
                 <p className="font-semibold mb-2">Conservation Focus</p>
                 <p className="text-sm text-muted-foreground">
-                  The data shows Painted Storks and Spot-billed Pelicans as vulnerable species requiring special conservation attention. Continued monitoring and habitat protection are essential.
+                  The data highlights Spot-billed Pelicans, Painted Storks, and Eurasian Spoonbills as vulnerable species requiring special conservation attention. Continued monitoring and habitat protection are essential throughout 2025.
                 </p>
               </div>
             </div>
