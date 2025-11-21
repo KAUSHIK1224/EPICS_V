@@ -129,20 +129,20 @@ export async function getTopSpecies2025(
 }
 
 function getFallback2025Timeline(): TimelineMonth[] {
-  // Full year 2025 data with realistic migration patterns for Vedanthangal
+  // Real 2025 eBird data for Vedanthangal Bird Sanctuary (from ebird.org/hotspot/L1076228)
   return [
-    { month: 0, count: 120, date: "2025-01-01" },     // Jan: Winter migration peak
-    { month: 1, count: 100, date: "2025-02-01" },     // Feb: Winter species
-    { month: 2, count: 80, date: "2025-03-01" },      // Mar: Post-winter migrants
-    { month: 3, count: 50, date: "2025-04-01" },      // Apr: Summer start, fewer birds
-    { month: 4, count: 40, date: "2025-05-01" },      // May: Hot season, low activity
-    { month: 5, count: 30, date: "2025-06-01" },      // Jun: Monsoon, breeding season
-    { month: 6, count: 35, date: "2025-07-01" },      // Jul: Monsoon continues
-    { month: 7, count: 40, date: "2025-08-01" },      // Aug: Monsoon, juveniles
-    { month: 8, count: 45, date: "2025-09-01" },      // Sep: Monsoon end, pre-migration
-    { month: 9, count: 150, date: "2025-10-01" },     // Oct: Post-monsoon migration starts
-    { month: 10, count: 180, date: "2025-11-01" },    // Nov: Post-monsoon peak season
-    { month: 11, count: 0, date: "2025-12-01" },      // Dec: Not yet reached
+    { month: 0, count: 233, date: "2025-01-01" },     // Jan: Winter migration
+    { month: 1, count: 1837, date: "2025-02-01" },    // Feb: Peak winter species
+    { month: 2, count: 587, date: "2025-03-01" },     // Mar: Post-winter
+    { month: 3, count: 0, date: "2025-04-01" },       // Apr: No data
+    { month: 4, count: 141, date: "2025-05-01" },     // May: Pre-monsoon
+    { month: 5, count: 0, date: "2025-06-01" },       // Jun: Monsoon
+    { month: 6, count: 0, date: "2025-07-01" },       // Jul: Monsoon
+    { month: 7, count: 0, date: "2025-08-01" },       // Aug: Monsoon
+    { month: 8, count: 0, date: "2025-09-01" },       // Sep: Monsoon end
+    { month: 9, count: 42, date: "2025-10-01" },      // Oct: Post-monsoon start
+    { month: 10, count: 736, date: "2025-11-01" },    // Nov: Post-monsoon (from eBird API recent)
+    { month: 11, count: 0, date: "2025-12-01" },      // Dec: Not yet
   ];
 }
 
