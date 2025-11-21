@@ -241,50 +241,97 @@ export class DbStorage implements IStorage {
     }
   }
 
-  // Analytics - Use real eBird API data ONLY
+  // Analytics - Query database for full year 2025 sightings (Jan-Nov)
   async getAnalytics() {
     try {
-      // Get real eBird API data
-      const ebirdTimeline = await get2025Timeline();
-      const ebirdTopSpecies = await getTopSpecies2025(5);
+      // Get all sightings from database
+      const allSightings = await this.getAllSightings();
+      const allSpecies = await this.getAllSpecies();
       
-      // Count total sightings from eBird data
-      const totalSightings = calculateTotal2025(ebirdTimeline);
+      // Filter 2025 sightings only
+      const sightings2025 = allSightings.filter(s => {
+        const date = new Date(s.date);
+        return date.getUTCFullYear() === 2025;
+      });
       
-      // Get unique species count from eBird top species
-      const totalSpecies = ebirdTopSpecies.length;
+      // Calculate monthly timeline for 2025
+      const monthlyData = Array(12).fill(0);
+      const speciesCountMap = new Map<string, number>();
       
-      // Format eBird top species for response
-      const topSpecies = ebirdTopSpecies.map(sp => ({
-        name: sp.name,
-        count: sp.count,
-        conservationStatus: 'Least Concern',
-        lastObserved: new Date().toLocaleDateString()
-      }));
+      sightings2025.forEach(s => {
+        const date = new Date(s.date);
+        const month = date.getUTCMonth();
+        monthlyData[month] += 1;
+        
+        // Count species
+        if (s.speciesId) {
+          speciesCountMap.set(s.speciesId, (speciesCountMap.get(s.speciesId) || 0) + 1);
+        }
+      });
       
-      // No rare/migratory data from basic eBird API (to be added later)
-      const rareSpecies: any[] = [];
+      // Total sightings in 2025
+      const totalSightings = sightings2025.length;
       
-      // Convert eBird timeline to monthly format
-      const migrationData = ebirdTimeline.map(m => ({
-        month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][m.month],
-        count: m.count
-      }));
+      // Total species observed in 2025
+      const totalSpecies = speciesCountMap.size;
+      
+      // Get top species from database
+      const topSpecies = allSpecies
+        .filter(sp => speciesCountMap.has(sp.id))
+        .map(sp => ({
+          name: sp.commonName,
+          count: speciesCountMap.get(sp.id) || 0,
+          conservationStatus: sp.conservationStatus || 'Least Concern',
+          lastObserved: new Date().toLocaleDateString()
+        }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5);
+      
+      // Get rare & migratory species
+      const rareSpecies = allSpecies
+        .filter(sp => speciesCountMap.has(sp.id) && (sp.status === 'Rare' || sp.status === 'Migratory'))
+        .map(sp => ({
+          name: sp.commonName,
+          count: speciesCountMap.get(sp.id) || 0,
+          conservationStatus: sp.conservationStatus || 'Least Concern',
+          status: sp.status,
+          lastObserved: new Date().toLocaleDateString()
+        }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5);
+      
+      // Format monthly data
+      const migrationData = [
+        { month: "Jan", count: monthlyData[0] },
+        { month: "Feb", count: monthlyData[1] },
+        { month: "Mar", count: monthlyData[2] },
+        { month: "Apr", count: monthlyData[3] },
+        { month: "May", count: monthlyData[4] },
+        { month: "Jun", count: monthlyData[5] },
+        { month: "Jul", count: monthlyData[6] },
+        { month: "Aug", count: monthlyData[7] },
+        { month: "Sep", count: monthlyData[8] },
+        { month: "Oct", count: monthlyData[9] },
+        { month: "Nov", count: monthlyData[10] },
+        { month: "Dec", count: monthlyData[11] },
+      ];
       
       const migrationData2025 = migrationData;
       
-      // Calculate seasonal distribution from timeline
+      // Calculate seasonal distribution
       const seasonalData = [
-        { season: "Winter (Jan-Feb)", count: (ebirdTimeline[0]?.count || 0) + (ebirdTimeline[1]?.count || 0) },
-        { season: "Summer (Mar-May)", count: (ebirdTimeline[2]?.count || 0) + (ebirdTimeline[3]?.count || 0) + (ebirdTimeline[4]?.count || 0) },
-        { season: "Monsoon (Jun-Sep)", count: (ebirdTimeline[5]?.count || 0) + (ebirdTimeline[6]?.count || 0) + (ebirdTimeline[7]?.count || 0) + (ebirdTimeline[8]?.count || 0) },
-        { season: "Post-monsoon (Oct-Nov)", count: (ebirdTimeline[9]?.count || 0) + (ebirdTimeline[10]?.count || 0) },
+        { season: "Winter (Jan-Feb)", count: monthlyData[0] + monthlyData[1] },
+        { season: "Summer (Mar-May)", count: monthlyData[2] + monthlyData[3] + monthlyData[4] },
+        { season: "Monsoon (Jun-Sep)", count: monthlyData[5] + monthlyData[6] + monthlyData[7] + monthlyData[8] },
+        { season: "Post-monsoon (Oct-Nov)", count: monthlyData[9] + monthlyData[10] },
       ];
+      
+      console.log(`Analytics: Total 2025 Sightings = ${totalSightings}, Species = ${totalSpecies}, Timeline: Jan=${monthlyData[0]}, Feb=${monthlyData[1]}, ..., Nov=${monthlyData[10]}`);
       
       return {
         totalSpecies,
         totalSightings,
-        topSpecies,
+        topSpecies: topSpecies.length > 0 ? topSpecies : await getTopSpecies2025(5).then(sp => sp.map(s => ({ ...s, conservationStatus: 'Least Concern', lastObserved: new Date().toLocaleDateString() }))),
         rareSpecies,
         migrationData,
         migrationData2025,
@@ -293,51 +340,29 @@ export class DbStorage implements IStorage {
     } catch (error) {
       console.error("Error fetching analytics:", error);
       
-      // Fallback: Real eBird API data ONLY (737 sightings, Nov 2025)
+      // Fallback: Get from eBird API recent data
+      const ebirdTimeline = await get2025Timeline();
+      const ebirdTopSpecies = await getTopSpecies2025(5);
+      const totalSightings = calculateTotal2025(ebirdTimeline);
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      
+      const migrationData = ebirdTimeline.map(m => ({
+        month: months[m.month],
+        count: m.count
+      }));
+      
       return {
-        totalSpecies: 5,
-        totalSightings: 737,
-        topSpecies: [
-          { name: "Rock Pigeon", count: 20, conservationStatus: "Least Concern", lastObserved: new Date().toLocaleDateString() },
-          { name: "Asian Openbill", count: 50, conservationStatus: "Least Concern", lastObserved: new Date().toLocaleDateString() },
-          { name: "Oriental Darter", count: 50, conservationStatus: "Least Concern", lastObserved: new Date().toLocaleDateString() },
-          { name: "Little Cormorant", count: 50, conservationStatus: "Least Concern", lastObserved: new Date().toLocaleDateString() },
-          { name: "Indian Spot-billed Duck", count: 2, conservationStatus: "Least Concern", lastObserved: new Date().toLocaleDateString() }
-        ],
+        totalSpecies: ebirdTopSpecies.length,
+        totalSightings,
+        topSpecies: ebirdTopSpecies.map(sp => ({ name: sp.name, count: sp.count, conservationStatus: 'Least Concern', lastObserved: new Date().toLocaleDateString() })),
         rareSpecies: [],
-        migrationData: [
-          { month: "Jan", count: 0 },
-          { month: "Feb", count: 0 },
-          { month: "Mar", count: 0 },
-          { month: "Apr", count: 0 },
-          { month: "May", count: 0 },
-          { month: "Jun", count: 0 },
-          { month: "Jul", count: 0 },
-          { month: "Aug", count: 0 },
-          { month: "Sep", count: 0 },
-          { month: "Oct", count: 0 },
-          { month: "Nov", count: 737 },
-          { month: "Dec", count: 0 },
-        ],
-        migrationData2025: [
-          { month: "Jan", count: 0 },
-          { month: "Feb", count: 0 },
-          { month: "Mar", count: 0 },
-          { month: "Apr", count: 0 },
-          { month: "May", count: 0 },
-          { month: "Jun", count: 0 },
-          { month: "Jul", count: 0 },
-          { month: "Aug", count: 0 },
-          { month: "Sep", count: 0 },
-          { month: "Oct", count: 0 },
-          { month: "Nov", count: 737 },
-          { month: "Dec", count: 0 },
-        ],
+        migrationData,
+        migrationData2025: migrationData,
         seasonalData: [
-          { season: "Winter (Jan-Feb)", count: 0 },
-          { season: "Summer (Mar-May)", count: 0 },
-          { season: "Monsoon (Jun-Sep)", count: 0 },
-          { season: "Post-monsoon (Oct-Nov)", count: 737 },
+          { season: "Winter (Jan-Feb)", count: (ebirdTimeline[0]?.count || 0) + (ebirdTimeline[1]?.count || 0) },
+          { season: "Summer (Mar-May)", count: (ebirdTimeline[2]?.count || 0) + (ebirdTimeline[3]?.count || 0) + (ebirdTimeline[4]?.count || 0) },
+          { season: "Monsoon (Jun-Sep)", count: (ebirdTimeline[5]?.count || 0) + (ebirdTimeline[6]?.count || 0) + (ebirdTimeline[7]?.count || 0) + (ebirdTimeline[8]?.count || 0) },
+          { season: "Post-monsoon (Oct-Nov)", count: (ebirdTimeline[9]?.count || 0) + (ebirdTimeline[10]?.count || 0) },
         ]
       };
     }
