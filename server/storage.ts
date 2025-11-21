@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql, lt, gt, lte, gte } from "drizzle-orm";
 import * as bcrypt from "bcryptjs";
 import {
   type User,
@@ -13,6 +13,10 @@ import {
   type LearningModule,
   type InsertLearningModule,
   type UserProgress,
+  type CommunityPost,
+  type InsertCommunityPost,
+  type SanctuaryHotspot,
+  type InsertHotspot,
   users,
   species,
   sightings,
@@ -20,6 +24,8 @@ import {
   userAchievements,
   learningModules,
   userProgress,
+  communityPosts,
+  sanctuaryHotspots,
 } from "@shared/schema";
 
 export interface IStorage {
@@ -57,6 +63,24 @@ export interface IStorage {
   createLearningModule(moduleData: InsertLearningModule): Promise<LearningModule>;
   getUserProgress(userId: string): Promise<UserProgress[]>;
   updateUserProgress(userId: string, moduleId: string, completed: boolean): Promise<void>;
+
+  // Community Features
+  getAllCommunityPosts(): Promise<CommunityPost[]>;
+  getUserPosts(userId: string): Promise<CommunityPost[]>;
+  getCommunityPost(id: string): Promise<CommunityPost | undefined>;
+  createCommunityPost(postData: InsertCommunityPost): Promise<CommunityPost>;
+  likePost(postId: string): Promise<void>;
+
+  // Hotspots
+  getAllHotspots(): Promise<SanctuaryHotspot[]>;
+  getNearbyHotspots(latitude: number, longitude: number, radiusKm: number): Promise<SanctuaryHotspot[]>;
+  createHotspot(hotspotData: InsertHotspot): Promise<SanctuaryHotspot>;
+
+  // Observations (Geo-location based)
+  getNearbyObservations(latitude: number, longitude: number, radiusKm: number): Promise<Sighting[]>;
+
+  // Search
+  searchSpecies(query: string): Promise<Species[]>;
 }
 
 export class DbStorage implements IStorage {

@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, timestamp, boolean, real } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, timestamp, boolean, real, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -27,6 +27,10 @@ export const species = pgTable("species", {
   imageUrl: text("image_url"),
   arModelUrl: text("ar_model_url"),
   conservationStatus: text("conservation_status"),
+  eBirdCode: text("ebird_code"),
+  birdwatchingTips: text("birdwatching_tips"),
+  callDescription: text("call_description"),
+  dietaryHabits: text("dietary_habits"),
 });
 
 export const sightings = pgTable("sightings", {
@@ -42,7 +46,17 @@ export const sightings = pgTable("sightings", {
   verified: boolean("verified").notNull().default(false),
   confidence: real("confidence"),
   identifiedSpecies: text("identified_species"),
-});
+  temperature: real("temperature"),
+  weatherCondition: text("weather_condition"),
+  humidity: real("humidity"),
+  windSpeed: real("wind_speed"),
+  isPublic: boolean("is_public").notNull().default(true),
+  likes: integer("likes").notNull().default(0),
+}, (table) => ({
+  userIdx: index("sightings_user_idx").on(table.userId),
+  locationIdx: index("sightings_location_idx").on(table.latitude, table.longitude),
+  dateIdx: index("sightings_date_idx").on(table.date),
+}));
 
 export const achievements = pgTable("achievements", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -81,6 +95,33 @@ export const userProgress = pgTable("user_progress", {
   completedAt: timestamp("completed_at"),
 }, (table) => ({
   userModuleUnique: sql`UNIQUE (${table.userId}, ${table.moduleId})`,
+}));
+
+export const communityPosts = pgTable("community_posts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  sightingId: varchar("sighting_id").references(() => sightings.id, { onDelete: "cascade" }),
+  caption: text("caption").notNull(),
+  imageUrl: text("image_url"),
+  likes: integer("likes").notNull().default(0),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+}, (table) => ({
+  userIdx: index("posts_user_idx").on(table.userId),
+  createdAtIdx: index("posts_created_at_idx").on(table.createdAt),
+}));
+
+export const sanctuaryHotspots = pgTable("sanctuary_hotspots", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  description: text("description"),
+  latitude: real("latitude").notNull(),
+  longitude: real("longitude").notNull(),
+  commonSpecies: text("common_species"),
+  bestVisitTime: text("best_visit_time"),
+  difficulty: text("difficulty"),
+  imageUrl: text("image_url"),
+}, (table) => ({
+  locationIdx: index("hotspots_location_idx").on(table.latitude, table.longitude),
 }));
 
 export const insertUserSchema = createInsertSchema(users).omit({
@@ -125,3 +166,19 @@ export type InsertLearningModule = z.infer<typeof insertLearningModuleSchema>;
 export type LearningModule = typeof learningModules.$inferSelect;
 
 export type UserProgress = typeof userProgress.$inferSelect;
+
+export type CommunityPost = typeof communityPosts.$inferSelect;
+export type SanctuaryHotspot = typeof sanctuaryHotspots.$inferSelect;
+
+export const insertCommunityPostSchema = createInsertSchema(communityPosts).omit({
+  id: true,
+  likes: true,
+  createdAt: true,
+});
+
+export const insertHotspotSchema = createInsertSchema(sanctuaryHotspots).omit({
+  id: true,
+});
+
+export type InsertCommunityPost = z.infer<typeof insertCommunityPostSchema>;
+export type InsertHotspot = z.infer<typeof insertHotspotSchema>;
