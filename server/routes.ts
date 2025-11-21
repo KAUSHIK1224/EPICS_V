@@ -196,11 +196,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           totalSpecies: 129,
           totalSightings: 1316,
           topSpecies: [
-            { name: "Black-headed Ibis", count: 2000, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
-            { name: "Glossy Ibis", count: 1500, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
-            { name: "Little Egret", count: 1500, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
-            { name: "Little Cormorant", count: 1200, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
-            { name: "Asian Openbill", count: 1000, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
+            { name: "Spot-billed Pelican", count: 500, conservationStatus: "Least Concern", lastObserved: "15 Mar 2025" },
+            { name: "Eastern Cattle-Egret", count: 500, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
+            { name: "Painted Stork", count: 300, conservationStatus: "Least Concern", lastObserved: "15 Apr 2025" },
+            { name: "Eurasian Spoonbill", count: 250, conservationStatus: "Vulnerable", lastObserved: "9 Feb 2025" },
+            { name: "Indian Cormorant", count: 200, conservationStatus: "Least Concern", lastObserved: "25 Oct 2025" },
           ],
           migrationData: [
             { month: "Jan", count: 156 },
