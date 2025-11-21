@@ -374,25 +374,25 @@ export class DbStorage implements IStorage {
     } catch (error) {
       console.error("Error fetching timeline by year:", error);
       
-      // Fallback: Demo 2025 data (Jan-Dec, Dec = 0 for now)
+      // Fallback: Demo 2025 data with realistic migration patterns (Jan-Dec, Dec = 0 for now)
       if (year === 2025) {
         return {
           year: 2025,
           monthly: [
-            150, // Jan
-            320, // Feb
-            280, // Mar
-            200, // Apr
-            180, // May
-            0,   // Jun
-            0,   // Jul
-            150, // Aug
-            0,   // Sep
-            220, // Oct
-            350, // Nov
-            0    // Dec (0 until data available)
+            4500, // Jan - Winter migration begins
+            5200, // Feb - Peak winter migration
+            1200, // Mar - Spring arrival begins
+            600,  // Apr - Spring migration
+            400,  // May - Late spring migrants
+            100,  // Jun - Monsoon, fewer sightings
+            50,   // Jul - Deep monsoon
+            200,  // Aug - Monsoon winding down
+            100,  // Sep - Post-monsoon transition
+            900,  // Oct - Early post-monsoon migration
+            1300, // Nov - Post-monsoon migration peak
+            0     // Dec (0 until data available)
           ],
-          total: 1850
+          total: 14550
         };
       }
       
