@@ -537,12 +537,29 @@ export class DbStorage implements IStorage {
         { name: 'Rare', value: 1830 }
       ];
       
+      // 2025-only timeline for demo fallback
+      const migrationData2025 = [
+        { month: "Jan", count: 0 },
+        { month: "Feb", count: 6200 },
+        { month: "Mar", count: 500 },
+        { month: "Apr", count: 300 },
+        { month: "May", count: 0 },
+        { month: "Jun", count: 0 },
+        { month: "Jul", count: 0 },
+        { month: "Aug", count: 80 },
+        { month: "Sep", count: 0 },
+        { month: "Oct", count: 200 },
+        { month: "Nov", count: 770 },
+        { month: "Dec", count: 0 },
+      ];
+      
       return {
         totalSpecies,
         totalSightings,
         topSpecies,
         rareSpecies,
         migrationData,
+        migrationData2025,
         seasonalData,
         statusDistribution
       };

@@ -11,6 +11,7 @@ interface Analytics {
   topSpecies: Array<{ name: string; count: number; conservationStatus: string; lastObserved?: string }>;
   rareSpecies?: Array<{ name: string; count: number; conservationStatus: string; lastObserved?: string; status?: string }>;
   migrationData: Array<{ month: string; count: number }>;
+  migrationData2025: Array<{ month: string; count: number }>;
   seasonalData: Array<{ season: string; count: number }>;
   statusDistribution?: Array<{ name: string; value: number }>;
 }
@@ -84,10 +85,13 @@ export default function AnalyticsDashboard() {
         <div className="mb-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-2">
             <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900">
-              <CardContent className="pt-6">
+              <CardHeader>
+                <CardTitle className="text-sm">Total Species Observed</CardTitle>
+                <p className="text-xs text-muted-foreground mt-1">All-time totals (current dataset)</p>
+              </CardHeader>
+              <CardContent className="pt-0">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Total Species Observed</p>
                     <p className="text-4xl font-bold" data-testid="text-total-species">
                       {analytics.totalSpecies}
                     </p>
@@ -98,10 +102,13 @@ export default function AnalyticsDashboard() {
             </Card>
 
             <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900">
-              <CardContent className="pt-6">
+              <CardHeader>
+                <CardTitle className="text-sm">Total Sightings Recorded</CardTitle>
+                <p className="text-xs text-muted-foreground mt-1">All-time totals (current dataset)</p>
+              </CardHeader>
+              <CardContent className="pt-0">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Total Sightings Recorded</p>
                     <p className="text-4xl font-bold" data-testid="text-total-sightings">
                       {analytics.totalSightings}
                     </p>
@@ -111,7 +118,6 @@ export default function AnalyticsDashboard() {
               </CardContent>
             </Card>
           </div>
-          <p className="text-xs text-muted-foreground px-1">All-time totals (demo dataset / current dataset period)</p>
         </div>
 
         {/* Top Species */}
