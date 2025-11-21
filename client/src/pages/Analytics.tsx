@@ -9,6 +9,7 @@ interface Analytics {
   totalSpecies: number;
   totalSightings: number;
   topSpecies: Array<{ name: string; count: number; conservationStatus: string; lastObserved?: string }>;
+  rareSpecies?: Array<{ name: string; count: number; conservationStatus: string; lastObserved?: string; status?: string }>;
   migrationData: Array<{ month: string; count: number }>;
   seasonalData: Array<{ season: string; count: number }>;
 }
@@ -30,13 +31,20 @@ export default function AnalyticsDashboard() {
         // Set demo data with accurate eBird 2025 data
         setAnalytics({
           totalSpecies: 129,
-          totalSightings: 1316,
+          totalSightings: 8050,
           topSpecies: [
-            { name: "Black-headed Ibis", count: 80, conservationStatus: "Least Concern", lastObserved: "21 Nov 2025" },
-            { name: "Asian Openbill", count: 50, conservationStatus: "Least Concern", lastObserved: "21 Nov 2025" },
-            { name: "Oriental Darter", count: 50, conservationStatus: "Least Concern", lastObserved: "21 Nov 2025" },
-            { name: "Little Cormorant", count: 50, conservationStatus: "Least Concern", lastObserved: "21 Nov 2025" },
-            { name: "Glossy Ibis", count: 25, conservationStatus: "Least Concern", lastObserved: "21 Nov 2025" },
+            { name: "Black-headed Ibis", count: 2000, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
+            { name: "Glossy Ibis", count: 1500, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
+            { name: "Little Egret", count: 1500, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
+            { name: "Little Cormorant", count: 1200, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
+            { name: "Asian Openbill", count: 1000, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
+          ],
+          rareSpecies: [
+            { name: "Eurasian Spoonbill", count: 250, conservationStatus: "Vulnerable", status: "Rare Migratory", lastObserved: "9 Feb 2025" },
+            { name: "Painted Stork", count: 300, conservationStatus: "Vulnerable", status: "Rare Migratory", lastObserved: "15 Apr 2025" },
+            { name: "Spot-billed Pelican", count: 500, conservationStatus: "Vulnerable", status: "Rare Migratory", lastObserved: "15 Mar 2025" },
+            { name: "Oriental Darter", count: 80, conservationStatus: "Least Concern", status: "Migratory", lastObserved: "16 Aug 2025" },
+            { name: "Garganey", count: 80, conservationStatus: "Least Concern", status: "Rare Migratory", lastObserved: "9 Feb 2025" },
           ],
           migrationData: [
             { month: "Jan", count: 156 },
@@ -127,37 +135,79 @@ export default function AnalyticsDashboard() {
         </div>
 
         {/* Top Species */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Bird className="h-5 w-5 text-primary" />
-              Top 5 Most Sighted Species
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {analytics.topSpecies.map((species, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center justify-between p-3 bg-muted rounded-lg"
-                  data-testid={`species-row-${idx}`}
-                >
-                  <div className="flex items-center gap-3 flex-1">
-                    <div className="text-lg font-bold text-primary min-w-8">{idx + 1}.</div>
-                    <div className="flex-1">
-                      <p className="font-semibold">{species.name}</p>
-                      <p className="text-xs text-muted-foreground">{species.conservationStatus}</p>
-                      {species.lastObserved && (
-                        <p className="text-xs text-muted-foreground mt-1">Last observed: {species.lastObserved}</p>
-                      )}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Bird className="h-5 w-5 text-primary" />
+                Top 5 Most Sighted Species
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {analytics.topSpecies.map((species, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between p-3 bg-muted rounded-lg"
+                    data-testid={`species-row-${idx}`}
+                  >
+                    <div className="flex items-center gap-3 flex-1">
+                      <div className="text-lg font-bold text-primary min-w-8">{idx + 1}.</div>
+                      <div className="flex-1">
+                        <p className="font-semibold">{species.name}</p>
+                        <p className="text-xs text-muted-foreground">{species.conservationStatus}</p>
+                        {species.lastObserved && (
+                          <p className="text-xs text-muted-foreground mt-1">Last observed: {species.lastObserved}</p>
+                        )}
+                      </div>
                     </div>
+                    <Badge className="bg-blue-500">{species.count} sightings</Badge>
                   </div>
-                  <Badge className="bg-blue-500">{species.count} sightings</Badge>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Rare & Migratory Birds */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Bird className="h-5 w-5 text-red-500" />
+                Top 5 Rare & Migratory Birds
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {analytics.rareSpecies && analytics.rareSpecies.length > 0 ? (
+                  analytics.rareSpecies.map((species, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between p-3 bg-muted rounded-lg"
+                      data-testid={`rare-species-row-${idx}`}
+                    >
+                      <div className="flex items-center gap-3 flex-1">
+                        <div className="text-lg font-bold text-red-500 min-w-8">{idx + 1}.</div>
+                        <div className="flex-1">
+                          <p className="font-semibold">{species.name}</p>
+                          <p className="text-xs text-muted-foreground">{species.conservationStatus}</p>
+                          {species.status && (
+                            <p className="text-xs font-medium text-amber-600">{species.status}</p>
+                          )}
+                          {species.lastObserved && (
+                            <p className="text-xs text-muted-foreground mt-1">Last observed: {species.lastObserved}</p>
+                          )}
+                        </div>
+                      </div>
+                      <Badge className="bg-red-500">{species.count} sightings</Badge>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-muted-foreground">No rare species data available</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">

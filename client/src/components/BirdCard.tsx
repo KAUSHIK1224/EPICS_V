@@ -14,6 +14,9 @@ export interface BirdCardProps {
   weight: string;
   habitat: string;
   season: string;
+  conservationStatus?: string;
+  dietaryHabits?: string;
+  birdwatchingTips?: string;
   arModelUrl?: string;
   onARView: () => void;
   onDetails: () => void;
