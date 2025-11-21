@@ -229,10 +229,11 @@ export default function AnalyticsDashboard() {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value, name, props) => {
+                  <Tooltip formatter={(value: any) => {
+                    const numValue = Number(value);
                     const total = analytics.seasonalData.reduce((sum, s) => sum + s.count, 0);
-                    const percent = ((value / total) * 100).toFixed(1);
-                    return [`${value} sightings (${percent}%)`, props.payload.season];
+                    const percent = ((numValue / total) * 100).toFixed(1);
+                    return `${numValue} sightings (${percent}%)`;
                   }} />
                   <Legend />
                 </PieChart>
@@ -270,10 +271,11 @@ export default function AnalyticsDashboard() {
                       <Cell key={`status-cell-${index}`} fill={STATUS_COLORS[index]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value, name, props) => {
+                  <Tooltip formatter={(value: any) => {
+                    const numValue = Number(value);
                     const total = analytics.statusDistribution!.reduce((sum, s) => sum + s.value, 0);
-                    const percent = ((value / total) * 100).toFixed(1);
-                    return [`${value} sightings (${percent}%)`, props.payload.name];
+                    const percent = ((numValue / total) * 100).toFixed(1);
+                    return `${numValue} sightings (${percent}%)`;
                   }} />
                   <Legend />
                 </PieChart>
