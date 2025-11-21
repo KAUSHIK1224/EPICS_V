@@ -28,45 +28,6 @@ export default function AnalyticsDashboard() {
         setAnalytics(data);
       } catch (error) {
         console.error("Failed to fetch analytics:", error);
-        // Set demo data with accurate eBird 2025 data
-        setAnalytics({
-          totalSpecies: 129,
-          totalSightings: 8050,
-          topSpecies: [
-            { name: "Black-headed Ibis", count: 2000, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
-            { name: "Glossy Ibis", count: 1500, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
-            { name: "Little Egret", count: 1500, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
-            { name: "Little Cormorant", count: 1200, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
-            { name: "Asian Openbill", count: 1000, conservationStatus: "Least Concern", lastObserved: "9 Feb 2025" },
-          ],
-          rareSpecies: [
-            { name: "Eurasian Spoonbill", count: 250, conservationStatus: "Vulnerable", status: "Rare Migratory", lastObserved: "9 Feb 2025" },
-            { name: "Painted Stork", count: 300, conservationStatus: "Vulnerable", status: "Rare Migratory", lastObserved: "15 Apr 2025" },
-            { name: "Spot-billed Pelican", count: 500, conservationStatus: "Vulnerable", status: "Rare Migratory", lastObserved: "15 Mar 2025" },
-            { name: "Oriental Darter", count: 80, conservationStatus: "Least Concern", status: "Migratory", lastObserved: "16 Aug 2025" },
-            { name: "Garganey", count: 80, conservationStatus: "Least Concern", status: "Rare Migratory", lastObserved: "9 Feb 2025" },
-          ],
-          migrationData: [
-            { month: "Jan", count: 156 },
-            { month: "Feb", count: 142 },
-            { month: "Mar", count: 89 },
-            { month: "Apr", count: 67 },
-            { month: "May", count: 45 },
-            { month: "Jun", count: 78 },
-            { month: "Jul", count: 92 },
-            { month: "Aug", count: 108 },
-            { month: "Sep", count: 134 },
-            { month: "Oct", count: 168 },
-            { month: "Nov", count: 138 },
-            { month: "Dec", count: 0 },
-          ],
-          seasonalData: [
-            { season: "Winter (Dec-Feb)", count: 298 },
-            { season: "Summer (Mar-May)", count: 201 },
-            { season: "Monsoon (Jun-Sep)", count: 412 },
-            { season: "Post-monsoon (Oct-Nov)", count: 405 },
-          ],
-        });
       } finally {
         setLoading(false);
       }
