@@ -24,24 +24,6 @@ export default function Admin() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6 mb-8">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base" data-testid="text-stat-total">Total Species</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold" data-testid="text-stat-total-value">156</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base" data-testid="text-stat-pending">Pending Review</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold" data-testid="text-stat-pending-value">3</div>
-            </CardContent>
-          </Card>
-        </div>
 
         <AdminForm />
       </div>
