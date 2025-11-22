@@ -1,47 +1,8 @@
-import { useEffect, useRef } from "react";
 import Header from "@/components/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-
-// Fix default marker icons
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
-  iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
-  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-});
 
 export default function Location() {
-  const mapRef = useRef<L.Map | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!containerRef.current || mapRef.current) return;
-
-    // Initialize map
-    const map = L.map(containerRef.current).setView([12.6397, 79.8619], 15);
-
-    // Add OpenStreetMap tiles
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '© OpenStreetMap contributors',
-      maxZoom: 19,
-    }).addTo(map);
-
-    // Add marker
-    L.marker([12.6397, 79.8619])
-      .bindPopup("<b>Vedanthangal Bird Sanctuary</b><br/>Tamil Nadu, India")
-      .addTo(map);
-
-    mapRef.current = map;
-
-    return () => {
-      map.remove();
-      mapRef.current = null;
-    };
-  }, []);
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -71,12 +32,17 @@ export default function Location() {
                 Chengalpattu District,<br />
                 Tamil Nadu 603313, India
               </p>
-              <div 
-                ref={containerRef}
-                className="h-96 bg-muted rounded-lg overflow-hidden border border-border" 
-                data-testid="map-container"
-                style={{ zIndex: 1 }}
-              />
+              <div className="h-96 bg-muted rounded-lg overflow-hidden border border-border" data-testid="map-container">
+                <iframe
+                  title="Vedanthangal Bird Sanctuary Location Map"
+                  width="100%"
+                  height="100%"
+                  frameBorder="0"
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=79.8419%2C12.6197%2C79.8819%2C12.6597&layer=mapnik&marker=12.6397%2C79.8619"
+                  style={{ border: 0 }}
+                  data-testid="map-iframe"
+                />
+              </div>
             </CardContent>
           </Card>
 
