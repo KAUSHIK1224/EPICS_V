@@ -51,18 +51,14 @@ export default function Hero() {
           </Button>
         </div>
 
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-3 gap-6 text-white">
+        <div className="mt-12 grid grid-cols-2 gap-6 text-white max-w-md mx-auto">
           <div className="backdrop-blur-md bg-white/10 rounded-lg p-4 border border-white/20">
-            <div className="text-3xl font-bold mb-1" data-testid="text-stat-species">150+</div>
+            <div className="text-3xl font-bold mb-1" data-testid="text-stat-species">129</div>
             <div className="text-sm text-white/80" data-testid="text-stat-species-label">Species</div>
           </div>
           <div className="backdrop-blur-md bg-white/10 rounded-lg p-4 border border-white/20">
-            <div className="text-3xl font-bold mb-1" data-testid="text-stat-migratory">80%</div>
+            <div className="text-3xl font-bold mb-1" data-testid="text-stat-migratory">32.6%</div>
             <div className="text-sm text-white/80" data-testid="text-stat-migratory-label">Migratory</div>
-          </div>
-          <div className="backdrop-blur-md bg-white/10 rounded-lg p-4 border border-white/20">
-            <div className="text-3xl font-bold mb-1" data-testid="text-stat-visitors">50K+</div>
-            <div className="text-sm text-white/80" data-testid="text-stat-visitors-label">Visitors</div>
           </div>
         </div>
       </div>
