@@ -279,7 +279,51 @@ export default function AnalyticsDashboard() {
             </CardContent>
           </Card>
 
-          {/* Seasonal Distribution */}
+          {/* Bird Distribution by Type */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Bird className="h-5 w-5 text-primary" />
+                Bird Species Distribution
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={[
+                      { name: "Resident", value: 87 },
+                      { name: "Migratory", value: 42 }
+                    ]}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    label={({ name, value }) => {
+                      const total = 129;
+                      const percent = ((value / total) * 100).toFixed(1);
+                      return `${name}: ${percent}%`;
+                    }}
+                  >
+                    <Cell fill="#22c55e" />
+                    <Cell fill="#f59e0b" />
+                  </Pie>
+                  <Tooltip formatter={(value: any) => {
+                    const numValue = Number(value);
+                    const total = 129;
+                    const percent = ((numValue / total) * 100).toFixed(1);
+                    return `${numValue} species (${percent}%)`;
+                  }} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Seasonal Distribution */}
+        <div className="mb-8">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
