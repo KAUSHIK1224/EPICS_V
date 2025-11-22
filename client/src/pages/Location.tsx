@@ -32,18 +32,20 @@ export default function Location() {
                 Chengalpattu District,<br />
                 Tamil Nadu 603313, India
               </p>
-              <div className="h-96 bg-muted rounded-lg overflow-hidden border border-border flex items-center justify-center" data-testid="map-container">
-                <iframe
-                  title="Vedanthangal Bird Sanctuary Location Map"
-                  width="100%"
-                  height="100%"
-                  frameBorder="0"
-                  allowFullScreen
-                  loading="lazy"
-                  src="https://maps.google.com/maps?q=12.6397,79.8619&z=15&output=embed"
-                  style={{ border: "none" }}
-                  data-testid="map-iframe"
-                />
+              <div className="h-96 bg-gradient-to-br from-blue-100 to-green-100 dark:from-blue-900 dark:to-green-900 rounded-lg overflow-hidden border border-border flex flex-col items-center justify-center p-6" data-testid="map-container">
+                <MapPin className="h-12 w-12 text-primary mb-3" data-testid="map-icon" />
+                <h3 className="text-lg font-semibold mb-2 text-center">Vedanthangal Bird Sanctuary</h3>
+                <p className="text-sm text-muted-foreground text-center mb-4">12.6397° N, 79.8619° E</p>
+                <a
+                  href="https://www.google.com/maps/place/Vedanthangal+Bird+Sanctuary/@12.6397,79.8619,15z"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-medium"
+                  data-testid="button-open-map"
+                >
+                  <MapPin className="h-4 w-4" />
+                  Open in Google Maps
+                </a>
               </div>
             </CardContent>
           </Card>
