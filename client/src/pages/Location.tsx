@@ -32,20 +32,17 @@ export default function Location() {
                 Chengalpattu District,<br />
                 Tamil Nadu 603313, India
               </p>
-              <div className="h-96 bg-gradient-to-br from-blue-100 to-green-100 dark:from-blue-900 dark:to-green-900 rounded-lg overflow-hidden border border-border flex flex-col items-center justify-center p-6" data-testid="map-container">
-                <MapPin className="h-12 w-12 text-primary mb-3" data-testid="map-icon" />
-                <h3 className="text-lg font-semibold mb-2 text-center">Vedanthangal Bird Sanctuary</h3>
-                <p className="text-sm text-muted-foreground text-center mb-4">12.6397° N, 79.8619° E</p>
-                <a
-                  href="https://www.google.com/maps/place/Vedanthangal+Bird+Sanctuary/@12.6397,79.8619,15z"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-medium"
-                  data-testid="button-open-map"
-                >
-                  <MapPin className="h-4 w-4" />
-                  Open in Google Maps
-                </a>
+              <div className="rounded-lg overflow-hidden border border-border" data-testid="map-container" style={{ height: "400px" }}>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.044999999999!2d79.8619!3d12.6397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a526f7e0000001d%3A0x1234567890!2sVedanthangal%20Bird%20Sanctuary!5e0!3m2!1sen!2sin!4v1700648400"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Vedanthangal Bird Sanctuary Map"
+                />
               </div>
             </CardContent>
           </Card>
