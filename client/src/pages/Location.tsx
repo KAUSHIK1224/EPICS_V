@@ -32,14 +32,16 @@ export default function Location() {
                 Chengalpattu District,<br />
                 Tamil Nadu 603313, India
               </p>
-              <div className="h-96 bg-muted rounded-lg overflow-hidden border border-border" data-testid="map-container">
+              <div className="h-96 bg-muted rounded-lg overflow-hidden border border-border flex items-center justify-center" data-testid="map-container">
                 <iframe
                   title="Vedanthangal Bird Sanctuary Location Map"
                   width="100%"
                   height="100%"
                   frameBorder="0"
-                  src="https://www.openstreetmap.org/export/embed.html?bbox=79.8419%2C12.6197%2C79.8819%2C12.6597&layer=mapnik&marker=12.6397%2C79.8619"
-                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  src="https://maps.google.com/maps?q=12.6397,79.8619&z=15&output=embed"
+                  style={{ border: "none" }}
                   data-testid="map-iframe"
                 />
               </div>
