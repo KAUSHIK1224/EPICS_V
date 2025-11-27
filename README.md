@@ -183,7 +183,4 @@ This project is for educational and portfolio use.
 If you like this project, consider giving it a ⭐ star —
 your support motivates more open-source work!
 
-<p align="center">✨ Built with love for wildlife & community ✨</p> ```
-
-## 🏗️ Architecture Diagram
 
