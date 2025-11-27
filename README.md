@@ -1,158 +1,200 @@
-🐦 BirdLink – Bird Migration & Sanctuary Intelligence Platform
-EPICS Project • Realtime Bird Catalog • Interactive Maps • Migration Insights
-<p align="center"> <img src="attached_assets/banner.png" alt="BirdLink Banner" /> </p>
-🚀 Overview
+.
 
-BirdLink is a full-stack, production-ready platform built for the EPICS (Engineering Projects in Community Service) initiative.
-It helps users:
+🐦 BirdLink – EPICS Community Wildlife Tracking Platform
 
-Track bird species across regions
+A full-stack bird tracking and sanctuary exploration system built for the EPICS (Engineering Projects in Community Service) initiative.
+
+✨ Overview
+
+BirdLink helps users:
+
+Track bird species across different regions
 
 Access migration insights
 
-Explore bird sanctuaries through an interactive map
+Explore bird sanctuaries on an interactive live map
 
-Submit and view real-time bird sightings
+Submit & review real-time bird sightings
 
 Receive push notifications for rare & migratory species
 
-Use eBird API + custom analysis
+Use eBird API data + custom analysis
 
-This project combines a React + Vite client, Node.js Express server, and a PostgreSQL/NeonDB database with Drizzle ORM.
+Contribute to wildlife monitoring for community conservation
+
+This platform combines:
+
+React + Vite frontend
+
+Node.js + Express backend
+
+NeonDB (PostgreSQL) database
+
+Drizzle ORM
+
+Leaflet Maps, WebSockets, ShadCN UI, TailwindCSS, Radix UI
+
+Secure auth with Express-Session + Passport
 
 🧠 Tech Stack
 Layer	Technology
-Frontend	React, TypeScript, Vite
-Styling	TailwindCSS, ShadCN UI, Radix UI
-Backend	Node.js (Express)
+Frontend	React, TypeScript, Vite, TailwindCSS, ShadCN UI, Radix UI
+Backend	Node.js (Express), Drizzle ORM
 Database	NeonDB (PostgreSQL)
-ORM	Drizzle ORM
-Auth	Express-Session, Passport Local
-APIs	eBird API
-Realtime	WebSockets
-Maps	Leaflet Map
+API Layer	eBird API
+Real-time	WebSockets
+Mapping	Leaflet Map
+Auth	Express-Session + Passport Local
+Deployment	Render (Web Service) + NeonDB Cloud
 🏗️ Architecture Diagram
-          Client (React + Vite)
-                    │
-                    ▼
-             Express Backend
-                    │
-     ┌──────────────┼──────────────┐
-     ▼              ▼              ▼
- eBird API     NeonDB (Postgres)  WebSockets
-                    │
-                    ▼
-        Species Catalog + User Data
+User
+  │
+  ▼
+React + Vite Client (UI, Maps, Bird Catalog)
+  │
+  ▼
+Express Backend (Auth, Bird Data, Observations)
+  │
+  ├── WebSockets (Live sighting updates)
+  ├── eBird API Integration
+  └── Drizzle ORM
+        │
+        ▼
+      NeonDB (Postgres)
 
-✨ Features
-🐦 Bird Catalog
+🌟 Features
+🐤 Bird Catalog
 
 View rare, endangered, and migratory species
 
-Admin controls for adding/removing birds
+Admin panel for adding/removing species
 
-Bird profiles with images, maps, and descriptions
+Detailed bird profiles: images, maps & descriptions
 
 🗺️ Interactive Bird Sanctuary Map
 
 Leaflet-powered live map
 
-Shows sanctuary boundaries, coordinates & descriptions
+Shows sanctuary boundaries & coordinates
 
 Clickable pins with detailed info
 
+Migration hotspots & overlays
+
 🔔 Push Notifications
 
-Real-time alerts for:
+Real-time alerts for migratory & rare birds
 
-New sightings
+WebSocket-powered updates
 
-Rare species
+Admin & user-role-based updates
 
-Migration patterns
+👤 User System
 
-📍 Bird Sightings Module
+Local authentication
 
-Add sightings with location, species, and notes
+Session-based login
 
-View all sightings on the map
+User dashboard & submitted sightings
 
 Admin moderation panel
 
-📊 Migration Insights
+📡 API Integrations
 
-eBird API integration
+eBird API for real-world species & migration data
 
-Region-wise analysis
+Custom analysis layer
 
-Seasonal patterns
+Secure server-side API key handling
 
-🧩 Project Structure
-EPICS_V
-│── client/        # React + Vite frontend
-│── server/        # Node.js backend
-│── shared/        # Shared types & utilities
-│── drizzle.config.ts
-│── package.json
-│── tsconfig.json
-│── attached_assets/
-└── README.md
+🛠️ Local Development Setup
 
-🔧 Installation & Setup
-1️⃣ Clone the Repository
-git clone https://github.com/KAUSHIK1224/EPICS_V
-cd EPICS_V
+This project supports local development with a very simple workflow.
 
-2️⃣ Install Client Dependencies
-cd client
-npm install
-npm run dev
+1. Clone the repository
+git clone <repo-url>
 
-3️⃣ Install Server Dependencies
-cd ../server
-npm install
-npm run dev
+2. Install dependencies
 
-4️⃣ Environment Variables
+Install frontend dependencies inside /client
 
-Create a .env in /server:
+Install backend dependencies inside /server
 
-DATABASE_URL=postgresql://...
-EBIRD_API_KEY=your_key_here
-SESSION_SECRET=some_random_secret
+3. Configure Environment Variables
 
-🌐 Deployment
+Create a .env file in the server directory with:
 
-This project supports Render Web Services + NeonDB:
+Database URL
 
-Frontend → Render (Static site or Node)
+eBird API key
 
-Backend → Render (Node Web Service)
+Session secret
 
-Database → NeonDB PostgreSQL
+(Use .env.example as reference)
 
-🏅 Status
+4. Start development servers
 
-This project is actively developed as part of the EPICS Program.
-Current milestone: Phase-2 Migration Insights + Notifications ✔️
+Run the client in dev mode
+
+Run the server in dev mode
+
+Both will auto-reload on changes
+
+5. Connect to your NeonDB instance
+
+Add your database URL to your .env (not committed).
+
+🚀 Deployment
+
+BirdLink is deployed using:
+
+Render Web Service
+
+Builds client
+
+Builds server
+
+Serves frontend + backend on one port
+
+Reads env variables securely
+
+NeonDB
+
+Serverless PostgreSQL
+
+Autoscaling
+
+Free tier supported
+
+SSL-secured connections
+
+📌 Project Status
+
+This project is fully functional, deployed, and ready for community use under the EPICS initiative.
 
 🔮 Future Enhancements
 
-Machine-learning based bird classification
+Global migration heatmaps
 
-Mobile PWA version
+Admin analytics dashboard
 
-Predictive migration modeling
+AI-powered species recognition
 
-User–generated bird trail heatmaps
+Offline mode for field researchers
 
-Gamification (XP, badges, streaks)
+Mobile PWA support
 
 📄 License
 
-This repository is for educational + portfolio use.
+This project is for educational and community service purposes.
 
-⭐ Show Support
+⭐ Show Your Support
 
-If this project helped you, please consider giving it a star ⭐
-Your support motivates more open-source contributions
+If BirdLink helped you or inspired you, consider giving the repo a star ⭐
+Your support encourages more open-source community projects!
+
+If you want, I can also:
+✅ Add badges (build, tech stack, contributors)
+✅ Add screenshots & GIF demos
+✅ Add a banner like the example repo
+Just tell me!
